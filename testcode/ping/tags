@@ -1,0 +1,118 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+A	ping.c	132;"	d	file:
+B	ping.c	133;"	d	file:
+BSPACE	ping.c	/^char BSPACE = '\\b';		\/* characters written for flood *\/$/;"	v
+CLR	ping.c	135;"	d	file:
+DEFDATALEN	ping.c	125;"	d	file:
+DOT	ping.c	/^char DOT = '.';$/;"	v
+ECFLAGS	Makefile	/^ECFLAGS = -g -O0  -I. #-Werror$/;"	m
+ELDFLAGS	Makefile	/^ELDFLAGS = -L $/;"	m
+F_FLOOD	ping.c	140;"	d	file:
+F_INTERVAL	ping.c	141;"	d	file:
+F_NUMERIC	ping.c	142;"	d	file:
+F_PINGFILLED	ping.c	143;"	d	file:
+F_QUIET	ping.c	144;"	d	file:
+F_RROUTE	ping.c	145;"	d	file:
+F_SO_DEBUG	ping.c	146;"	d	file:
+F_SO_DONTROUTE	ping.c	147;"	d	file:
+F_VERBOSE	ping.c	148;"	d	file:
+ICMP_DEST_UNREACH	ping.c	94;"	d	file:
+ICMP_EXC_FRAGTIME	ping.c	113;"	d	file:
+ICMP_EXC_TTL	ping.c	112;"	d	file:
+ICMP_FRAG_NEEDED	ping.c	99;"	d	file:
+ICMP_HOST_ISOLATED	ping.c	103;"	d	file:
+ICMP_HOST_UNKNOWN	ping.c	102;"	d	file:
+ICMP_HOST_UNREACH	ping.c	96;"	d	file:
+ICMP_HOST_UNR_TOS	ping.c	105;"	d	file:
+ICMP_INFO_REPLY	ping.c	118;"	d	file:
+ICMP_INFO_REQUEST	ping.c	117;"	d	file:
+ICMP_MINLEN	ping.c	120;"	d	file:
+ICMP_NET_UNKNOWN	ping.c	101;"	d	file:
+ICMP_NET_UNREACH	ping.c	95;"	d	file:
+ICMP_NET_UNR_TOS	ping.c	104;"	d	file:
+ICMP_PARAMETERPROB	ping.c	114;"	d	file:
+ICMP_PORT_UNREACH	ping.c	97;"	d	file:
+ICMP_PROT_UNREACH	ping.c	98;"	d	file:
+ICMP_REDIR_HOST	ping.c	108;"	d	file:
+ICMP_REDIR_HOSTTOS	ping.c	110;"	d	file:
+ICMP_REDIR_NET	ping.c	107;"	d	file:
+ICMP_REDIR_NETTOS	ping.c	109;"	d	file:
+ICMP_SOURCE_QUENCH	ping.c	106;"	d	file:
+ICMP_SR_FAILED	ping.c	100;"	d	file:
+ICMP_TIMESTAMP	ping.c	115;"	d	file:
+ICMP_TIMESTAMPREPLY	ping.c	116;"	d	file:
+ICMP_TIME_EXCEEDED	ping.c	111;"	d	file:
+LDLIBS	Makefile	/^LDLIBS  =  -Wl$/;"	m
+MAXICMPLEN	ping.c	127;"	d	file:
+MAXIPLEN	ping.c	126;"	d	file:
+MAXPACKET	ping.c	128;"	d	file:
+MAXWAIT	ping.c	129;"	d	file:
+MAX_DUP_CHK	ping.c	161;"	d	file:
+MULTICAST_IF	ping.c	154;"	d	file:
+MULTICAST_NOLOOP	ping.c	152;"	d	file:
+MULTICAST_TTL	ping.c	153;"	d	file:
+NROUTES	ping.c	130;"	d	file:
+PROG	Makefile	/^PROG    = ping$/;"	m
+SAFE_TO_DROP_ROOT	ping.c	89;"	d	file:
+SET	ping.c	134;"	d	file:
+TST	ping.c	136;"	d	file:
+catcher	ping.c	/^catcher(int ignore)$/;"	f	file:
+copyright	ping.c	/^char copyright[] =$/;"	v
+datalen	ping.c	/^int datalen = DEFDATALEN;$/;"	v
+fill	ping.c	/^fill(void *bp1, char *patp)$/;"	f	file:
+finish	ping.c	/^finish(int ignore)$/;"	f	file:
+hostname	ping.c	/^static char *hostname;$/;"	v	file:
+icmp_cksum	ping.c	550;"	d	file:
+icmp_code	ping.c	549;"	d	file:
+icmp_gwaddr	ping.c	553;"	d	file:
+icmp_id	ping.c	551;"	d	file:
+icmp_seq	ping.c	552;"	d	file:
+icmp_type	ping.c	548;"	d	file:
+icmphdr	ping.c	93;"	d	file:
+ident	ping.c	/^static int ident;		\/* process id to identify our packets *\/$/;"	v	file:
+in_cksum	ping.c	/^in_cksum(u_short *addr, int len)$/;"	f	file:
+inet_ntoa	ping.c	121;"	d	file:
+interval	ping.c	/^static int interval = 1;	\/* interval between packets *\/$/;"	v	file:
+ip_dst	ping.c	566;"	d	file:
+ip_hl	ping.c	556;"	d	file:
+ip_id	ping.c	560;"	d	file:
+ip_len	ping.c	559;"	d	file:
+ip_off	ping.c	561;"	d	file:
+ip_p	ping.c	563;"	d	file:
+ip_src	ping.c	565;"	d	file:
+ip_sum	ping.c	564;"	d	file:
+ip_tos	ping.c	558;"	d	file:
+ip_ttl	ping.c	562;"	d	file:
+ip_v	ping.c	557;"	d	file:
+main	ping.c	/^main(int argc, char *argv[])$/;"	f
+moptions	ping.c	/^int moptions;$/;"	v
+mx_dup_ck	ping.c	/^int mx_dup_ck = MAX_DUP_CHK;$/;"	v
+npackets	ping.c	/^static long npackets;		\/* max packets to transmit *\/$/;"	v	file:
+nreceived	ping.c	/^static long nreceived;		\/* # of packets we got back *\/$/;"	v	file:
+nrepeats	ping.c	/^static long nrepeats;		\/* number of duplicates *\/$/;"	v	file:
+ntransmitted	ping.c	/^static long ntransmitted;	\/* sequence # for outbound packets = #sent *\/$/;"	v	file:
+options	ping.c	/^int options;$/;"	v
+outpack	ping.c	/^u_char outpack[MAXPACKET];$/;"	v
+pinger	ping.c	/^pinger(void)$/;"	f	file:
+pkg	ping.c	/^char pkg[] = "netkit-base-0.10";$/;"	v
+pr_addr	ping.c	/^pr_addr(u_long l)$/;"	f	file:
+pr_icmph	ping.c	/^pr_icmph(struct icmphdr *icp)$/;"	f	file:
+pr_iph	ping.c	/^pr_iph(struct iphdr *ip)$/;"	f	file:
+pr_pack	ping.c	/^pr_pack(char *buf, int cc, struct sockaddr_in *from)$/;"	f
+pr_retip	ping.c	/^pr_retip(struct iphdr *ip)$/;"	f	file:
+rcsid	ping.c	/^char rcsid[] = "$Id: ping.c,v 1.22 1997\/06\/08 19:39:47 dholland Exp $";$/;"	v
+rcvd_tbl	ping.c	/^char rcvd_tbl[MAX_DUP_CHK \/ 8];$/;"	v
+s	ping.c	/^int s;				\/* socket file descriptor *\/$/;"	v
+timing	ping.c	/^static int timing;		\/* flag to do timing *\/$/;"	v	file:
+tmax	ping.c	/^static long tmax = 0;		\/* maximum round trip time *\/$/;"	v	file:
+tmin	ping.c	/^static long tmin = LONG_MAX;	\/* minimum round trip time *\/$/;"	v	file:
+tsum	ping.c	/^static u_long tsum;		\/* sum of all times, for doing average *\/$/;"	v	file:
+ttab	ping.c	/^static char *ttab[] = {$/;"	v	file:
+tvsub	ping.c	/^tvsub(register struct timeval *out, register struct timeval *in)$/;"	f	file:
+usage	ping.c	/^usage(void)$/;"	f	file:
+whereto	ping.c	/^struct sockaddr whereto;	\/* who to ping *\/$/;"	v	typeref:struct:sockaddr

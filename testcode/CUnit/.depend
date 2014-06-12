@@ -1,0 +1,127 @@
+Automated.o Automated.po Automated.so Automated.ln: Sources/Automated/Automated.c /usr/include/stdio.h \
+  /usr/include/sys/cdefs.h /usr/include/machine/cdefs.h \
+  /usr/include/sys/cdefs_elf.h /usr/include/sys/featuretest.h \
+  /usr/include/sys/ansi.h /usr/include/machine/int_types.h \
+  /usr/include/machine/ansi.h /usr/include/sys/null.h \
+  /usr/include/stdlib.h /usr/include/sys/types.h \
+  /usr/include/machine/types.h /usr/include/machine/endian.h \
+  /usr/include/sys/endian.h /usr/include/machine/endian_machdep.h \
+  /usr/include/machine/byte_swap.h /usr/include/machine/bswap.h \
+  /usr/include/sys/bswap.h /usr/include/pthread_types.h \
+  /usr/include/ctype.h /usr/include/assert.h /usr/include/string.h \
+  /usr/include/strings.h /usr/include/limits.h \
+  /usr/include/machine/limits.h /usr/include/sys/syslimits.h \
+  /usr/include/time.h /usr/include/sys/time.h Headers/CUnit.h \
+  /usr/include/math.h /usr/include/machine/math.h /usr/include/x86/math.h \
+  Headers/CUError.h /usr/include/errno.h /usr/include/sys/errno.h \
+  Headers/TestDB.h /usr/include/setjmp.h /usr/include/machine/setjmp.h \
+  Headers/TestRun.h Headers/Util.h Headers/Automated.h
+Basic.o Basic.po Basic.so Basic.ln: Sources/Basic/Basic.c /usr/include/stdio.h \
+  /usr/include/sys/cdefs.h /usr/include/machine/cdefs.h \
+  /usr/include/sys/cdefs_elf.h /usr/include/sys/featuretest.h \
+  /usr/include/sys/ansi.h /usr/include/machine/int_types.h \
+  /usr/include/machine/ansi.h /usr/include/sys/null.h \
+  /usr/include/stdlib.h /usr/include/sys/types.h \
+  /usr/include/machine/types.h /usr/include/machine/endian.h \
+  /usr/include/sys/endian.h /usr/include/machine/endian_machdep.h \
+  /usr/include/machine/byte_swap.h /usr/include/machine/bswap.h \
+  /usr/include/sys/bswap.h /usr/include/pthread_types.h \
+  /usr/include/ctype.h /usr/include/assert.h /usr/include/string.h \
+  /usr/include/strings.h Headers/CUnit.h /usr/include/math.h \
+  /usr/include/machine/math.h /usr/include/x86/math.h Headers/CUError.h \
+  /usr/include/errno.h /usr/include/sys/errno.h Headers/TestDB.h \
+  /usr/include/setjmp.h /usr/include/machine/setjmp.h Headers/TestRun.h \
+  Headers/Util.h Headers/Basic.h
+CUError.o CUError.po CUError.so CUError.ln: Sources/Framework/CUError.c /usr/include/stdio.h \
+  /usr/include/sys/cdefs.h /usr/include/machine/cdefs.h \
+  /usr/include/sys/cdefs_elf.h /usr/include/sys/featuretest.h \
+  /usr/include/sys/ansi.h /usr/include/machine/int_types.h \
+  /usr/include/machine/ansi.h /usr/include/sys/null.h \
+  /usr/include/stdlib.h /usr/include/sys/types.h \
+  /usr/include/machine/types.h /usr/include/machine/endian.h \
+  /usr/include/sys/endian.h /usr/include/machine/endian_machdep.h \
+  /usr/include/machine/byte_swap.h /usr/include/machine/bswap.h \
+  /usr/include/sys/bswap.h /usr/include/pthread_types.h Headers/CUError.h \
+  /usr/include/errno.h /usr/include/sys/errno.h Headers/CUnit.h \
+  /usr/include/string.h /usr/include/strings.h /usr/include/math.h \
+  /usr/include/machine/math.h /usr/include/x86/math.h Headers/TestDB.h \
+  /usr/include/setjmp.h /usr/include/machine/setjmp.h Headers/TestRun.h
+Console.o Console.po Console.so Console.ln: Sources/Console/Console.c /usr/include/stdio.h \
+  /usr/include/sys/cdefs.h /usr/include/machine/cdefs.h \
+  /usr/include/sys/cdefs_elf.h /usr/include/sys/featuretest.h \
+  /usr/include/sys/ansi.h /usr/include/machine/int_types.h \
+  /usr/include/machine/ansi.h /usr/include/sys/null.h \
+  /usr/include/stdlib.h /usr/include/sys/types.h \
+  /usr/include/machine/types.h /usr/include/machine/endian.h \
+  /usr/include/sys/endian.h /usr/include/machine/endian_machdep.h \
+  /usr/include/machine/byte_swap.h /usr/include/machine/bswap.h \
+  /usr/include/sys/bswap.h /usr/include/pthread_types.h \
+  /usr/include/ctype.h /usr/include/assert.h /usr/include/string.h \
+  /usr/include/strings.h Headers/CUnit.h /usr/include/math.h \
+  /usr/include/machine/math.h /usr/include/x86/math.h Headers/CUError.h \
+  /usr/include/errno.h /usr/include/sys/errno.h Headers/TestDB.h \
+  /usr/include/setjmp.h /usr/include/machine/setjmp.h Headers/TestRun.h \
+  Headers/Util.h Headers/Console.h
+MyMem.o MyMem.po MyMem.so MyMem.ln: Sources/Framework/MyMem.c /usr/include/stdio.h \
+  /usr/include/sys/cdefs.h /usr/include/machine/cdefs.h \
+  /usr/include/sys/cdefs_elf.h /usr/include/sys/featuretest.h \
+  /usr/include/sys/ansi.h /usr/include/machine/int_types.h \
+  /usr/include/machine/ansi.h /usr/include/sys/null.h \
+  /usr/include/stdlib.h /usr/include/sys/types.h \
+  /usr/include/machine/types.h /usr/include/machine/endian.h \
+  /usr/include/sys/endian.h /usr/include/machine/endian_machdep.h \
+  /usr/include/machine/byte_swap.h /usr/include/machine/bswap.h \
+  /usr/include/sys/bswap.h /usr/include/pthread_types.h \
+  /usr/include/ctype.h /usr/include/errno.h /usr/include/sys/errno.h \
+  /usr/include/assert.h /usr/include/string.h /usr/include/strings.h \
+  /usr/include/time.h /usr/include/sys/time.h Headers/CUnit.h \
+  /usr/include/math.h /usr/include/machine/math.h /usr/include/x86/math.h \
+  Headers/CUError.h Headers/TestDB.h /usr/include/setjmp.h \
+  /usr/include/machine/setjmp.h Headers/TestRun.h Headers/MyMem.h
+TestDB.o TestDB.po TestDB.so TestDB.ln: Sources/Framework/TestDB.c /usr/include/stdio.h \
+  /usr/include/sys/cdefs.h /usr/include/machine/cdefs.h \
+  /usr/include/sys/cdefs_elf.h /usr/include/sys/featuretest.h \
+  /usr/include/sys/ansi.h /usr/include/machine/int_types.h \
+  /usr/include/machine/ansi.h /usr/include/sys/null.h \
+  /usr/include/stdlib.h /usr/include/sys/types.h \
+  /usr/include/machine/types.h /usr/include/machine/endian.h \
+  /usr/include/sys/endian.h /usr/include/machine/endian_machdep.h \
+  /usr/include/machine/byte_swap.h /usr/include/machine/bswap.h \
+  /usr/include/sys/bswap.h /usr/include/pthread_types.h \
+  /usr/include/assert.h /usr/include/string.h /usr/include/strings.h \
+  /usr/include/stdarg.h Headers/CUnit.h /usr/include/math.h \
+  /usr/include/machine/math.h /usr/include/x86/math.h Headers/CUError.h \
+  /usr/include/errno.h /usr/include/sys/errno.h Headers/TestDB.h \
+  /usr/include/setjmp.h /usr/include/machine/setjmp.h Headers/TestRun.h \
+  Headers/MyMem.h Headers/Util.h
+TestRun.o TestRun.po TestRun.so TestRun.ln: Sources/Framework/TestRun.c /usr/include/stdlib.h \
+  /usr/include/sys/cdefs.h /usr/include/machine/cdefs.h \
+  /usr/include/sys/cdefs_elf.h /usr/include/sys/featuretest.h \
+  /usr/include/sys/types.h /usr/include/machine/types.h \
+  /usr/include/machine/int_types.h /usr/include/machine/ansi.h \
+  /usr/include/sys/ansi.h /usr/include/machine/endian.h \
+  /usr/include/sys/endian.h /usr/include/machine/endian_machdep.h \
+  /usr/include/machine/byte_swap.h /usr/include/machine/bswap.h \
+  /usr/include/sys/bswap.h /usr/include/pthread_types.h \
+  /usr/include/sys/null.h /usr/include/string.h /usr/include/strings.h \
+  /usr/include/assert.h /usr/include/stdio.h /usr/include/setjmp.h \
+  /usr/include/machine/setjmp.h Headers/CUnit.h /usr/include/math.h \
+  /usr/include/machine/math.h /usr/include/x86/math.h Headers/CUError.h \
+  /usr/include/errno.h /usr/include/sys/errno.h Headers/TestDB.h \
+  Headers/TestRun.h Headers/MyMem.h
+Util.o Util.po Util.so Util.ln: Sources/Framework/Util.c /usr/include/stdio.h \
+  /usr/include/sys/cdefs.h /usr/include/machine/cdefs.h \
+  /usr/include/sys/cdefs_elf.h /usr/include/sys/featuretest.h \
+  /usr/include/sys/ansi.h /usr/include/machine/int_types.h \
+  /usr/include/machine/ansi.h /usr/include/sys/null.h \
+  /usr/include/stdlib.h /usr/include/sys/types.h \
+  /usr/include/machine/types.h /usr/include/machine/endian.h \
+  /usr/include/sys/endian.h /usr/include/machine/endian_machdep.h \
+  /usr/include/machine/byte_swap.h /usr/include/machine/bswap.h \
+  /usr/include/sys/bswap.h /usr/include/pthread_types.h \
+  /usr/include/ctype.h /usr/include/assert.h /usr/include/string.h \
+  /usr/include/strings.h Headers/CUnit.h /usr/include/math.h \
+  /usr/include/machine/math.h /usr/include/x86/math.h Headers/CUError.h \
+  /usr/include/errno.h /usr/include/sys/errno.h Headers/TestDB.h \
+  /usr/include/setjmp.h /usr/include/machine/setjmp.h Headers/TestRun.h \
+  Headers/Util.h

@@ -1,0 +1,22 @@
+include $(MKDIR)/make.var
+
+all: dirs
+
+dirs:	
+	for d in $(subdirs); \
+	do \
+	$(MAKE) --directory=$$d; \
+	done
+
+clean: 
+	for d in $(subdirs); \
+	do \
+	$(MAKE) clean --directory=$$d; \
+	done
+
+install:
+	for d in $(subdirs); \
+	do \
+	$(MAKE) install --directory=$$d; \
+	done
+

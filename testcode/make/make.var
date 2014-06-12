@@ -1,0 +1,6 @@
+SOURCES = $(wildcard *.c)
+OBJS   ?= $(patsubst %.c,%.o,$(SOURCES))
+MOD    ?= $(PROG)
+
+CC = gcc
+

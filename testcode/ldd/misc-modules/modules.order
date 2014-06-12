@@ -1,0 +1,5 @@
+kernel//home/shan/work/gnu-linux/ldd/misc-modules/hellop.ko
+kernel//home/shan/work/gnu-linux/ldd/misc-modules/hello.ko
+kernel//home/shan/work/gnu-linux/ldd/misc-modules/faulty.ko
+kernel//home/shan/work/gnu-linux/ldd/misc-modules/kdatasize.ko
+kernel//home/shan/work/gnu-linux/ldd/misc-modules/kdataalign.ko

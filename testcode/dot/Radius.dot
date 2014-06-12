@@ -1,0 +1,129 @@
+digraph signal_process {
+	edge [fontname="KaiTi", color=red];
+	node [shape=box, fontname="KaiTi" size="10,10"];
+
+	/* begin  */
+	packet_input [label="报文输入\n(计费报文)", shape = circle];
+	check_effective [label="检查报文是否有效"];
+	packet_input -> check_effective;
+
+	/* first branch */
+	return [label = "结束"];
+	check_effective -> return [label = "无效"];
+
+	calc_ip_hash [ label = "计算IP Hash" ];
+	check_effective -> calc_ip_hash [ label = "有效" , color = black];
+
+	/* lock */
+	lock_ip_hash_bucket [ label = "锁ip hash 桶 " ];
+	calc_ip_hash -> lock_ip_hash_bucket;
+
+	/* search ip hash bucket */
+	search_ip_hash_bucket [ label = "搜索IP Hash桶\n匹配Framed-IP" ];
+	lock_ip_hash_bucket -> search_ip_hash_bucket;
+
+	/* new branch */
+	/* has found out the ip cell */
+	calc_username_hash [ label = "计算用户名Hash"];
+	search_ip_hash_bucket -> calc_username_hash [ label = "匹配" ];
+	
+	lock_username_hash_bucket [ label = "锁用户名hash桶" ];
+	calc_username_hash -> lock_username_hash_bucket;
+
+	check_username_and_ifgroup [ label = "检查用户名\n和接口组" ];
+	lock_username_hash_bucket -> check_username_and_ifgroup;
+
+	/*  match username and ingrss group */
+	/* check packet type */
+	check_pkt_type [ label = "检查报文类型"];
+	check_username_and_ifgroup -> check_pkt_type [ label = "匹配" ];
+
+	/* unlock and return */
+	unlock_return [ label = "解锁\n返回"];
+
+	/* accounting update packet */
+	acct_update_packet [ label = "计费更新报文" ];
+	check_pkt_type -> acct_update_packet;
+
+	update_time_stamp [ label = "更新时间戳"];
+	acct_update_packet -> update_time_stamp;
+	update_time_stamp -> unlock_return;
+
+	/* accounting stop packet */
+	acct_stop_packet [ label = "计费停止报文" ];
+	check_pkt_type -> acct_stop_packet;
+
+	zero_time_stamp [label = "置零TTL"];
+	acct_stop_packet -> zero_time_stamp;
+	zero_time_stamp -> unlock_return;
+
+	/* other  accounting packet */
+	acct_other_packet [ label = "其他计费报文" ];
+	check_pkt_type -> acct_other_packet;
+	abnormal_deal [label = "异常处理"];
+	acct_other_packet -> abnormal_deal;
+	abnormal_deal -> unlock_return;
+
+	/* not match username and ingress group, ref line 34*/
+	/* username is null */
+	username_null [ label = "用户名空" ];
+	check_username_and_ifgroup -> username_null [ label = "异常"];
+	username_null -> abnormal_deal;
+	
+	/* username not match */
+	check_pkt_type1 [ label = "检查报文类型"];
+	check_username_and_ifgroup -> check_pkt_type1 [label = "未匹配"];
+	
+	acct_start_and_update [ label = "计费开始\n更新报文"];
+	check_pkt_type1 -> acct_start_and_update;
+
+	lock_username_hash_bucket1 [label = "锁用户名hash桶"];
+	acct_start_and_update -> lock_username_hash_bucket1;
+
+	rm_cell_from_ip_hash_bucket [label = "ip hash 桶\n拆链"];
+	lock_username_hash_bucket1 -> rm_cell_from_ip_hash_bucket;
+
+	rm_cell_from_un_hash_bucket [label = "用户名哈希桶\n拆链"];
+	rm_cell_from_ip_hash_bucket -> rm_cell_from_un_hash_bucket;
+
+	unlock_username_hash_bucket1 [label = "解锁用户名\n哈希桶"];
+	rm_cell_from_un_hash_bucket -> unlock_username_hash_bucket1;
+
+	add_new_cell [ label = "添加新单元"];
+	unlock_username_hash_bucket1 -> add_new_cell;
+	add_new_cell -> unlock_return;
+
+	acct_other_packet1 [ label = "其他计费报文"];
+	check_pkt_type1 -> acct_other_packet1;
+	acct_other_packet1 -> unlock_return;
+
+	/* has not found out the ip cell, ref line 25 */
+	check_pkt_type2 [label = "检查报文类型"];
+	search_ip_hash_bucket -> check_pkt_type2 [label = "未匹配"];
+
+	acct_start_and_update1 [ label = "计费开始\n更新报文"];
+	check_pkt_type2 -> acct_start_and_update1;
+
+	calc_username_hash1 [label = "计算用户名哈希"];
+	acct_start_and_update1 -> calc_username_hash1;
+
+	lock_username_hash_bucket2 [label = "锁用户名哈希桶"];
+	calc_username_hash1 -> lock_username_hash_bucket2;
+
+	search_username [label = "搜索用户名"];
+	lock_username_hash_bucket2 -> search_username;
+
+	match_handle [label = "匹配处理"];
+	search_username -> match_handle [label = "匹配"];
+	match_handle -> unlock_return;
+
+	add_new_cell1 [ label = "添加新单元"];
+	search_username -> add_new_cell1 [label = "未匹配"];
+	add_new_cell1 -> unlock_return;
+
+
+	acct_other_packet2 [ label = "其他计费报文"];
+	check_pkt_type2 -> acct_other_packet2;
+	acct_other_packet2 -> unlock_return;
+
+}

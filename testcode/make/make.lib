@@ -1,0 +1,22 @@
+LIB ?= lib$(PROG).a
+
+include $(MKDIR)/make.var
+
+CFLAGS  += -DMAKELIB -g -Wall -I$(SRCDIR) -I$(SRCDIR)/include
+
+all: $(LIB)
+%.c: 
+
+%.o: %.c
+	$(CC) $(CFLAGS) $(EFLAGS) -c $< -o $@ 
+
+
+$(LIB): $(OBJS)
+	$(AR) -rcs $@ $^
+
+clean: $(VCLEAN)
+	rm -rf *.o
+	rm -rf *.a
+	rm -rf $(PROG)
+
+

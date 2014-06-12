@@ -1,0 +1,18 @@
+
+Memory used by chunks : 786544 bytes
+
+Memory used by phase0_Nodes[0~5] is : 786432 bytes
+
+The CES amount of phase0_Nodes[0] is : 2
+The CES amount of phase0_Nodes[1] is : 8
+The CES amount of phase0_Nodes[2] is : 2
+The CES amount of phase0_Nodes[3] is : 2
+The CES amount of phase0_Nodes[4] is : 2
+The CES amount of phase0_Nodes[5] is : 2
+
+Memory used by phase1_Nodes[0] is : 64 bytes
+The CES amount of phase1_Nodes[0] is : 8
+Memory used by phase1_Nodes[1] is : 16 bytes
+The CES amount of phase1_Nodes[1] is : 2
+
+Memory used by phase2_Node is : 32 bytes

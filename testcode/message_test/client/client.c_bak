@@ -1,0 +1,97 @@
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <string.h>
+
+#define BUFSZ 512
+typedef unsigned char uint8_t;
+typedef unsigned short uint16_t;
+typedef unsigned int   uint32_t;
+/* Message structure */
+typedef struct{
+    long msg_type;
+    uint8_t op;
+    uint32_t reg;
+    uint32_t value;
+}msg;
+
+typedef enum{
+    OP_READ,
+    OP_WRITE
+}op_t;
+
+int main(int argc, char *argv[])
+{
+    int qid_server,qid_clent; /* The queue identifier */
+    int len; /* Length of data sent */
+    msg pmsg; /* Pointer to message structure */
+
+    /* file operation */
+    int fdsrc;
+    int flags = O_RDONLY;
+    char buf[10];
+
+    /* file operation */
+    /* open the source file, /dev/null, and /tmp/foo.bar */
+    memset(buf, 0, 10);
+    if ((fdsrc = open("../config.server", flags, 0644)) < 0) {
+            perror("open ../config.server");
+            exit(EXIT_FAILURE);
+    }
+
+    /* read qid from file */
+    if (read(fdsrc, buf, 10) < 0) {
+            perror("read ../config.server failed");
+    }
+    close(fdsrc);
+
+    /* Expect the queue ID passed on the command line */
+    qid_server = atoi(buf);
+    printf("qid:%d\n", qid_server);
+
+
+    /* file operation */
+    /* open the source file, /dev/null, and /tmp/foo.bar */
+    memset(buf, 0, 10);
+    if ((fdsrc = open("../config.client", flags, 0644)) < 0) {
+            perror("open ../config.client");
+            exit(EXIT_FAILURE);
+    }
+
+    /* read qid from file */
+    if (read(fdsrc, buf, 10) < 0) {
+            perror("read ../config.server failed");
+    }
+    close(fdsrc);
+
+    /* Expect the queue ID passed on the command line */
+    qid_client = atoi(buf);
+    printf("qid:%d\n", qid_client);
+
+
+
+    /* Get the message to add to the queue */
+    puts("Enter message to post:");
+    if ((fgets((&pmsg)->msg_text, BUFSZ, stdin)) == NULL) {
+        puts("no message to post");
+        exit(EXIT_FAILURE);
+    }
+
+    /* Associate the message with this process */
+    pmsg.msg_type = getpid();
+    printf("message type: %05ld\n", (&pmsg)->msg_type);
+    /* Add the message to the queue */
+    len = strlen(pmsg.msg_text);
+    if ((msgsnd(qid, &pmsg, len, 0)) < 0) {
+        perror("msgsnd");
+        exit(EXIT_FAILURE);
+    }
+    puts("message posted");
+
+    exit(EXIT_SUCCESS);
+}

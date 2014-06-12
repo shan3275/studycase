@@ -1,0 +1,21 @@
+digraph G {
+Start                   [label="Start", shape="box"]
+Draft_In_Sandbox        [label="Draft", shape="box"]
+Ready_For_Publish       [label="Ready For Publish Curve", shape="box"]
+Approved                [label= "Approved Curve", shape="box"]
+Published_Curve         [label="Published Curve", shape="box"]
+Deleted_Curve           [label="Deleted Curve", shape="box"]
+Inactive_Curve          [label="Inactive Curve", shape="box"]
+
+Start -> Draft_In_Sandbox                      [label = "Create the curve"]
+Draft_In_Sandbox -> Draft_In_Sandbox           [label = "Testing the curve"]
+Draft_In_Sandbox -> Ready_For_Publish          [label="Mark as Ready For Publish by owner"]
+Ready_For_Publish -> Ready_For_Publish [label="Testing the curve by risk admin"]
+Ready_For_Publish -> Approved    [label = "Mark as Approved by risk admin" ]
+Approved -> Published_Curve      [label="Published by IT admin"]
+Published_Curve -> Deleted_Curve [label="Deleted by IT admin"]
+Deleted_Curve -> Published_Curve [label="Restored by IT admin"]
+Inactive_Curve -> Published_Curve[label="Reactivate the curve"]
+Published_Curve -> Inactive_Curve[label="Activate the curve."]
+Published_Curve -> Draft_In_Sandbox[label="Edit/Rename the curve."]
+}
