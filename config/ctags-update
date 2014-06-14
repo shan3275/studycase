@@ -1,0 +1,2 @@
+#!/bin/sh
+ctags -R --fields=+lS && cscope -Rbq
