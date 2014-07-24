@@ -1113,8 +1113,26 @@ static int show_prompt(struct cli_def *cli, int sockfd)
     return len + write(sockfd, cli->promptchar, strlen(cli->promptchar));
 }
 
-int cli_loop(struct cli_def *cli, int sockfd)
+#if 0
+int cli_configure ( struct cli_def *cli )
 {
+    char banner[256];
+    sprintf ( banner, "----------------------------------------------------------\n\n"
+            "Welcome to Multicore Packet Parallelling Admin Console\n"
+            "\tPlatform Version %s.\n", "V1.00" );
+    cli_set_banner ( cli, banner );
+    cli_set_hostname ( cli, "*#*" );
+
+    cli_cmdline_register ( cli );
+    cmd_main_configure ( cli );
+
+    return 0;
+}
+
+int cli_loop(void *_param)
+{
+    struct cli_def *cli;
+    int sockfd;
     unsigned char c;
     int n, l, oldl = 0, is_telnet_option = 0, skip = 0, esc = 0;
     int cursor = 0, insertmode = 1;
@@ -1126,26 +1144,23 @@ int cli_loop(struct cli_def *cli, int sockfd)
         "\xFF\xFD\x03"
         "\xFF\xFD\x01";
 
-    cli_build_shortest(cli, cli->commands);
+    cli = cli_init();
+    cli_configure ( cli );
+    sockfd = cli->client = * ( int * ) _param;
     cli->state = STATE_LOGIN;
-
     cli_free_history(cli);
+
     write(sockfd, negotiate, strlen(negotiate));
 
     if ((cmd = malloc(4096)) == NULL)
         return CLI_ERROR;
 
-#ifdef WIN32
     /*
      * OMG, HACK
      */
     if (!(cli->client = fdopen(_open_osfhandle(sockfd,0), "w+")))
         return CLI_ERROR;
     cli->client->_file = sockfd;
-#else
-    if (!(cli->client = fdopen(sockfd, "w+")))
-        return CLI_ERROR;
-#endif
 
     setbuf(cli->client, NULL);
     if (cli->banner)
@@ -1858,6 +1873,7 @@ int cli_loop(struct cli_def *cli, int sockfd)
     cli->client = 0;
     return CLI_OK;
 }
+#endif
 
 int cli_file(struct cli_def *cli, FILE *fh, int privilege, int mode)
 {
