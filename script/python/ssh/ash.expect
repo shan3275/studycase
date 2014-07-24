@@ -1,0 +1,17 @@
+#!/usr/bin/expect
+set counter  0
+set done     0
+set timeout 30 
+incr counter
+puts "test $counter times"
+spawn /usr/bin/telnet 192.168.40.3 8000
+expect "root@OpenWrt:/# "
+while {$done == 0} {
+    send "ls\r"
+    expect "root@OpenWrt:/# "
+}
+send "quit\r"
+expect "Connection closed by foreign host"
+puts "\nok\n"
+exp_close
+exp_wait

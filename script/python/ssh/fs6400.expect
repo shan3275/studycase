@@ -1,0 +1,25 @@
+#!/usr/bin/expect
+set counter  0
+set done     0
+proc do_pre_cmd {} {
+        expect "Username: "
+        send "admin\r"
+        expect "Password: "
+        send "admin\r"
+        expect "FS6400(admin)#"
+		send "show version\r"
+        expect "FS6400(admin)#"
+        send "exit\r"
+		expect "Connection closed by foreign host"
+		puts "\nok\n"
+}
+        #set IP_LAST_BYTE [ lindex $argv 0 ]
+        set timeout 30 
+      # spawn ssh root@192.168.1.$IP_LAST_BYTE -o StrictHostKeyChecking=yes
+		while {$done == 0} {
+		    incr counter
+			puts "test $counter times"
+			spawn /usr/bin/telnet 192.168.1.168 8000 
+			log_file -a ./ssh.log
+			do_pre_cmd
+		}

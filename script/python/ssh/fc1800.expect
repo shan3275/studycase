@@ -1,0 +1,25 @@
+#!/usr/bin/expect
+set counter  0
+set done     0
+proc do_pre_cmd {} {
+	expect "Please input usrname:\r"
+	send "root\r"
+	expect "Please input password: \r"
+	send "root\r"
+	expect "MV(config)> "
+	send "vlan show\r"
+	expect "ID"
+	send "exit\r"
+	expect "Connection closed by foreign host."
+	puts "\nok\n"
+}
+	set timeout 30
+	while {$done == 0} {
+		incr counter
+        puts "test $counter times"
+        spawn /usr/bin/telnet 192.168.40.232 8000
+        log_file -a ./ssh.log
+        do_pre_cmd
+        exp_close
+        exp_wait
+	}

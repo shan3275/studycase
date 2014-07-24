@@ -11,9 +11,9 @@ Created on 2010-7-2
 import pexpect
  
 if __name__ == '__main__':
-    user = 'shan'
-    ip = '192.168.1.35'
-    mypassword = 'shan'
+    user = 'root'
+    ip = '192.168.40.3'
+    mypassword = 'root'
  
     pexpect.run('ls -la')
     print user
