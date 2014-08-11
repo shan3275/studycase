@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <getopt.h>
 #include "cli_cmd.h"
+#include "md_shm.h"
 
 extern struct cli_def *cli ;
 char *l_opt_arg;
@@ -28,6 +29,7 @@ int main (int argc, char *argv[])
 {
     int c;
     int debug = 1;
+    int rv;
 
     while ((c = getopt_long (argc, argv, shortopts, longopts, NULL)) != -1)
     {
@@ -46,7 +48,20 @@ int main (int argc, char *argv[])
     {
         daemon(0, 0);
     }
-    cmd_init(cli);
-    loop_server(cli);
+
+    rv = md_get_shm();
+    if (rv)
+    {
+        printf("Get SHM FAIL!\n");
+    }
+
+    rv = loop_if_monitor();
+    if (rv)
+    {
+        printf("crreate if monitor fail!\n");
+    }
+
+    loop_server();
+
     return 0;
 }

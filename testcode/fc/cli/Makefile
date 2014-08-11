@@ -1,9 +1,9 @@
-PROG    = cli
+PROG    = clitest
 
-ECFLAGS = -g -O0  -I. -Werror
+ECFLAGS = -g -O0  -I$(SRCDIR)/fc/libcli  -I$(SRCDIR)/fc/md -I. #-Werror
 
-ELDFLAGS = -L 
-LDLIBS  =  -Wl
+ELDFLAGS = -L $(SRCDIR)/fc/libcli -L $(SRCDIR)/fc/md
+LDLIBS  =   -lcli -lmd -lcrypt -lpthread
 
 include $(MKDIR)/make.app
 

@@ -92,29 +92,6 @@ int regex_dummy() {return 0;};
 #define REG_ICASE	0
 #endif
 
-enum cli_states {
-    STATE_LOGIN,
-    STATE_PASSWORD,
-    STATE_NORMAL,
-    STATE_ENABLE_PASSWORD,
-    STATE_ENABLE
-};
-
-struct unp {
-    char *username;
-    char *password;
-    struct unp *next;
-};
-
-struct cli_filter_cmds
-{
-    char *cmd;
-    char *help;
-};
-
-/* free and zero (to avoid double-free) */
-#define free_z(p) do { if (p) { free(p); (p) = 0; } } while (0)
-
 int cli_match_filter_init(struct cli_def *cli, int argc, char **argv, struct cli_filter *filt);
 int cli_range_filter_init(struct cli_def *cli, int argc, char **argv, struct cli_filter *filt);
 int cli_count_filter_init(struct cli_def *cli, int argc, char **argv, struct cli_filter *filt);
@@ -337,6 +314,82 @@ int cli_set_configmode(struct cli_def *cli, int mode, char *config_desc)
     return old;
 }
 
+struct cli_command *cli_register_command_f ( struct cli_def *cli,
+        struct cli_command *parent, const char *command,
+        int ( *callback ) ( struct cli_def *cli, char *, char **, int, int ),
+        int privilege, int mode, const char *help, int flag )
+{
+    struct cli_command *c, *p;
+
+    if ( !command )
+    {
+        return NULL;
+    }
+
+    for ( c = ( parent ? parent->children : cli->commands ); c; c = c->next )
+    {
+        if ( strcmp ( c->command, command ) == 0 )
+        {
+            return c;
+        }
+    }
+
+    if ( ! ( c = calloc ( sizeof ( struct cli_command ), 1 ) ) )
+    {
+        return NULL;
+    }
+
+    c->callback = callback;
+    c->next = NULL;
+    c->command = strdup ( command );
+    c->parent = parent;
+    c->privilege = privilege;
+    c->mode = mode;
+    c->flag = flag;
+
+    if ( help )
+    {
+        c->help = strdup ( help );
+    }
+    if ( parent )
+    {
+        if ( !parent->children )
+        {
+            parent->children = c;
+        }
+
+        else
+        {
+            for ( p = parent->children; p && p->next; p = p->next );
+
+            if ( p )
+            {
+                p->next = c;
+            }
+        }
+    }
+    else
+    {
+        if ( !cli->commands )
+        {
+            cli->commands = c;
+        }
+
+        else
+        {
+            for ( p = cli->commands; p && p->next; p = p->next );
+
+            if ( p )
+            {
+                p->next = c;
+            }
+        }
+    }
+
+    cli_build_shortest ( cli, ( parent ) ? parent : cli->commands );
+    return c;
+}
+
 struct cli_command *cli_register_command(struct cli_def *cli,
     struct cli_command *parent, char *command,
     int (*callback)(struct cli_def *cli, char *, char **, int),
@@ -382,6 +435,7 @@ struct cli_command *cli_register_command(struct cli_def *cli,
             if (p) p->next = c;
         }
     }
+    cli_build_shortest ( cli, ( parent ) ? parent : cli->commands );
     return c;
 }
 
@@ -610,7 +664,7 @@ int cli_done(struct cli_def *cli)
     return CLI_OK;
 }
 
-static int cli_add_history(struct cli_def *cli, char *cmd)
+int cli_add_history(struct cli_def *cli, char *cmd)
 {
     int i;
     for (i = 0; i < MAX_HISTORY; i++)
@@ -733,10 +787,91 @@ static char *join_words(int argc, char **argv)
     return p;
 }
 
+#define CMD_RANGE(S)    ((S[0] == '<'))
+#define DECIMAL_STRLEN_MAX 10
+
+static int
+cmd_range_match ( const char *range, const char *str )
+{
+    char *p;
+    char buf[DECIMAL_STRLEN_MAX + 1];
+    char *endptr = NULL;
+    unsigned long long min, max, val;
+
+    if ( str == NULL )
+    {
+        return 1;
+    }
+
+    val = strtoul ( str, &endptr, 0 );
+
+    if ( *endptr != '\0' )
+    {
+        return 0;
+    }
+
+    range++;
+    p = strchr ( range, '-' );
+
+    if ( p == NULL )
+    {
+        return 0;
+    }
+
+    if ( p - range > DECIMAL_STRLEN_MAX )
+    {
+        return 0;
+    }
+
+    strncpy ( buf, range, p - range );
+    buf[p - range] = '\0';
+    min = strtoull ( buf, &endptr, 0 );
+
+    if ( *endptr != '\0' )
+    {
+        return 0;
+    }
+
+    range = p + 1;
+    p = strchr ( range, '>' );
+
+    if ( p == NULL )
+    {
+        return 0;
+    }
+
+    if ( p - range > DECIMAL_STRLEN_MAX )
+    {
+        return 0;
+    }
+
+    strncpy ( buf, range, p - range );
+    buf[p - range] = '\0';
+    max = strtoull ( buf, &endptr, 0 );
+
+    if ( *endptr != '\0' )
+    {
+        return 0;
+    }
+
+    if ( val < min || val > max )
+    {
+        return 0;
+    }
+
+    return 1;
+}
+#if 0
 static int cli_find_command(struct cli_def *cli, struct cli_command *commands, int num_words, char *words[], int start_word, int filters[])
 {
     struct cli_command *c, *again = NULL;
+    static int first_param;
     int c_words = num_words;
+
+    if ( start_word == 0 )
+    {
+        first_param = -1;
+    }
 
     if (filters[0])
         c_words = filters[0];
@@ -769,11 +904,32 @@ static int cli_find_command(struct cli_def *cli, struct cli_command *commands, i
         if (cli->privilege < c->privilege)
             continue;
 
-        if (strncasecmp(c->command, words[start_word], c->unique_len))
-            continue;
+        if ( CMD_RANGE ( c->command ) )
+        {
+            if ( !cmd_range_match ( c->command, words[start_word] ) )
+            {
+                continue;
+            }
 
-        if (strncasecmp(c->command, words[start_word], strlen(words[start_word])))
-            continue;
+            else
+            {
+                if ( first_param < 0 )
+                {
+                    first_param = start_word;
+                }
+
+                goto AGAIN;
+            }
+        }
+        else
+        {
+            if (strncasecmp(c->command, words[start_word], c->unique_len))
+                continue;
+
+            if (strncasecmp(c->command, words[start_word], strlen(words[start_word])))
+                continue;
+        }
+
 
         AGAIN:
         if (c->mode == cli->mode || c->mode == MODE_ANY)
@@ -937,6 +1093,195 @@ static int cli_find_command(struct cli_def *cli, struct cli_command *commands, i
 
     return CLI_ERROR_ARG;
 }
+#else
+static int cli_find_command ( struct cli_def * cli, struct cli_command * commands, int num_words, char * words[], int start_word, int filters[] )
+{
+    struct cli_command *c, *again = NULL;
+    int c_words = num_words;
+    static int first_param;
+    char p[128];
+
+    if ( start_word == 0 )
+    {
+        first_param = -1;
+    }
+
+    if ( filters[0] )
+    {
+        c_words = filters[0];
+    }
+
+    // Deal with ? for help
+    if ( !words[start_word] )
+    {
+        return CLI_ERROR;
+    }
+
+    if ( words[start_word][strlen ( words[start_word] ) - 1] == '?' )
+    {
+        int l = strlen ( words[start_word] ) - 1;
+
+        if ( commands->parent && commands->parent->callback )
+        {
+            cli_print ( cli, " <cr>" );
+        }
+
+        for ( c = commands; c; c = c->next )
+        {
+            if ( strncmp ( c->command, words[start_word], l ) == 0
+                    && ( c->callback || c->children )
+                    && cli->privilege >= c->privilege
+                    && ( c->mode == cli->mode || c->mode == MODE_ANY ) )
+            {
+                cli_print ( cli, "  %-20s %s", c->command, c->help ? c->help : "" );
+            }
+        }
+
+        return CLI_OK;
+    }
+
+    for ( c = commands; c; c = c->next )
+    {
+        if ( cli->privilege < c->privilege )
+        {
+            continue;
+        }
+
+        if ( CMD_RANGE ( c->command ) )
+        {
+            if ( !cmd_range_match ( c->command, words[start_word] ) )
+            {
+                continue;
+            }
+
+            else
+            {
+                if ( first_param < 0 )
+                {
+                    first_param = start_word;
+                }
+
+                goto AGAIN;
+            }
+        }
+
+        else
+        {
+            if ( strncmp ( c->command, words[start_word], c->unique_len ) )
+            {
+                continue;
+            }
+
+            if ( strncmp ( c->command, words[start_word], strlen ( words[start_word] ) ) )
+            {
+                continue;
+            }
+        }
+
+AGAIN:
+
+        if ( c->mode == cli->mode || c->mode == MODE_ANY )
+        {
+            int rc = CLI_OK;
+            //struct cli_filter **filt = &cli->filters;
+
+            // Found a word!
+            if ( !c->children )
+            {
+                // Last word
+                if ( !c->callback )
+                {
+                    cli_print ( cli, "No callback for \"%s\"", cli_command_name ( cli, c ) );
+                    return CLI_ERROR;
+                }
+
+                if ( start_word + 1 < c_words )
+                {
+                    if ( words[start_word + 1][0] == '?' )
+                    {
+                        cli_print ( cli, "  <cr>\n" );
+                        return CLI_OK;
+                    }
+
+                    else
+                    {
+                        cli_print ( cli, "Unknown command %d\n", __LINE__ );
+                        return CLI_OK;
+                    }
+                }
+            }
+
+            else
+            {
+                if ( start_word == c_words - 1 )
+                {
+                    if ( c->callback )
+                    {
+                        goto CORRECT_CHECKS;
+                    }
+
+                    cli_print ( cli, "Unknown command\n" );
+                    return CLI_ERROR;
+                }
+
+                rc = cli_find_command ( cli, c->children, num_words, words, start_word + 1, filters );
+
+                if ( rc == CLI_ERROR_ARG )
+                {
+                    if ( !commands->parent )
+                    {  
+                        cli_print ( cli, "Unknown command\n" );
+                    }
+                }
+
+                return rc;
+            }
+
+            if ( !c->callback )
+            {
+                cli_print ( cli, "Internal server error processing \"%s\"", cli_command_name ( cli, c ) );
+                return CLI_ERROR;
+            }
+
+CORRECT_CHECKS:
+
+            if ( rc == CLI_OK )
+            {
+                if ( first_param < 0 )
+                {
+                    first_param = start_word + 1;
+                }
+
+                rc = c->callback ( cli, cli_command_name ( cli, c ),
+                        words + first_param, c_words - first_param, c->flag );
+            }
+
+            return rc;
+        }
+
+        else if ( cli->mode > MODE_CONFIG && c->mode == MODE_CONFIG )
+        {
+            // command matched but from another mode,
+            // remeber it if we fail to find correct command
+            again = c;
+        }
+    }
+
+    // drop out of config submode if we have matched command on MODE_CONFIG
+    //  if (again) {
+    //      c = again;
+    //      cli_set_configmode(cli, MODE_CONFIG, NULL);
+    //      goto AGAIN;
+    //  }
+
+    if ( start_word == 0 )
+    {
+        cli_print ( cli, "Unknown %s \"%s\"\n", commands->parent ? "argument" : "command", words[start_word] );
+    }
+
+    return CLI_ERROR_ARG;
+}
+#endif
 
 int cli_run_command(struct cli_def *cli, char *command)
 {
@@ -974,7 +1319,7 @@ int cli_run_command(struct cli_def *cli, char *command)
     return CLI_OK;
 }
 
-static int cli_get_completions(struct cli_def *cli, char *command, char **completions, int max_completions)
+int cli_get_completions(struct cli_def *cli, char *command, char **completions, int max_completions)
 {
     struct cli_command *c;
     struct cli_command *n;
@@ -1047,7 +1392,7 @@ static int cli_get_completions(struct cli_def *cli, char *command, char **comple
     return k;
 }
 
-static void cli_clear_line(int sockfd, char *cmd, int l, int cursor)
+void cli_clear_line(int sockfd, char *cmd, int l, int cursor)
 {
     int i;
     if (cursor < l) for (i = 0; i < (l - cursor); i++) write(sockfd, " ", 1);
@@ -1081,7 +1426,7 @@ void cli_regular_interval(struct cli_def *cli, int seconds)
 #define DES_PREFIX "{crypt}"        /* to distinguish clear text from DES crypted */
 #define MD5_PREFIX "$1$"
 
-static int pass_matches(char *pass, char *try)
+int pass_matches(char *pass, char *try)
 {
     int des;
     if ((des = !strncasecmp(pass, DES_PREFIX, sizeof(DES_PREFIX)-1)))
@@ -1098,9 +1443,7 @@ static int pass_matches(char *pass, char *try)
     return !strcmp(pass, try);
 }
 
-#define CTRL(c) (c - '@')
-
-static int show_prompt(struct cli_def *cli, int sockfd)
+int show_prompt(struct cli_def *cli, int sockfd)
 {
     int len = 0;
 
@@ -1962,10 +2305,22 @@ static void _print(struct cli_def *cli, int print_mode, char *format, va_list ap
         }
         if (print)
         {
-            if (cli->print_callback)
-                cli->print_callback(cli, p);
-            else if (cli->client)
-                fprintf(cli->client, "%s\r\n", p);
+            if ( cli->print_callback )
+            {
+                cli->print_callback ( cli, p );
+            }
+
+            else if ( cli->client )
+            {
+                write ( cli->client, p, strlen ( p ) );
+            }
+
+            write ( cli->client, "\r\n", 2 );
+                                                
+            //if (cli->print_callback)
+            //    cli->print_callback(cli, p);
+            //else if (cli->client)
+            //    fprintf(cli->client, "%s\r\n", p);
         }
 
         p = next;

@@ -62,22 +62,49 @@ struct cli_filter {
 
 struct cli_command {
     char *command;
-    int (*callback)(struct cli_def *, char *, char **, int);
+    int (*callback)(struct cli_def *, char *, char **, int, int);
     unsigned int unique_len;
     char *help;
     int privilege;
     int mode;
+    int flag;
     struct cli_command *next;
     struct cli_command *children;
     struct cli_command *parent;
 };
 
+enum cli_states {
+    STATE_LOGIN,
+    STATE_PASSWORD,
+    STATE_NORMAL,
+    STATE_ENABLE_PASSWORD,
+    STATE_ENABLE
+};
+
+struct unp {
+    char *username;
+    char *password;
+    struct unp *next;
+};
+
+struct cli_filter_cmds
+{
+    char *cmd;
+    char *help;
+};
+
+#define CTRL(c) (c - '@')
+/* free and zero (to avoid double-free) */
+#define free_z(p) do { if (p) { free(p); (p) = 0; } } while (0)
+
+int show_prompt(struct cli_def *cli, int sockfd);
 struct cli_def *cli_init();
 int cli_done(struct cli_def *cli);
 struct cli_command *cli_register_command(struct cli_def *cli, struct cli_command *parent, char *command, int (*callback)(struct cli_def *, char *, char **, int), int privilege, int mode, char *help);
+struct cli_command *cli_register_command_f(struct cli_def *cli, struct cli_command *parent, const char *command, int ( *callback ) ( struct cli_def *cli, char *, char **, int, int ),int privilege, int mode, const char *help, int flag );
 int cli_unregister_command(struct cli_def *cli, char *command);
 int cli_run_command(struct cli_def *cli, char *command);
-int cli_loop(struct cli_def *cli, int sockfd);
+//int cli_loop(struct cli_def *cli, int sockfd);
 int cli_file(struct cli_def *cli, FILE *fh, int privilege, int mode);
 void cli_set_auth_callback(struct cli_def *cli, int (*auth_callback)(char *, char *));
 void cli_set_enable_callback(struct cli_def *cli, int (*enable_callback)(char *));
@@ -100,5 +127,8 @@ void cli_error(struct cli_def *cli, char *format, ...) __attribute__((format (pr
 void cli_print_callback(struct cli_def *cli, void (*callback)(struct cli_def *, char *));
 void cli_free_history(struct cli_def *cli);
 void cli_set_idle_timeout(struct cli_def *cli, unsigned int seconds);
-
+void cli_clear_line(int sockfd, char *cmd, int l, int cursor);
+int cli_get_completions(struct cli_def *cli, char *command, char **completions, int max_completions);
+int pass_matches(char *pass, char *try);
+int cli_add_history(struct cli_def *cli, char *cmd);
 #endif

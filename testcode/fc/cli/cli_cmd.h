@@ -21,5 +21,6 @@
 #endif
 
 void cmd_init( struct cli_def *cli);
-int loop_server(struct cli_def *cli );
+int loop_server(void );
+int loop_if_monitor( void );
 #endif /* end of __CLI_CMD_INCLUDE__ */

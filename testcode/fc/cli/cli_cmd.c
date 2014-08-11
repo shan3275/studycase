@@ -1,4 +1,10 @@
 #include "cli_cmd.h"
+#include "ifgrp_cli.h"
+#include "md_if.h"
+#include "sts_cli.h"
+#include "embrave_cli.h"
+#include <errno.h>
+#include <pthread.h>
 
 unsigned int regular_count = 0;
 unsigned int debug_regular = 0;
@@ -128,26 +134,11 @@ void pc(UNUSED(struct cli_def *cli), char *string)
 void cmd_init( struct cli_def *cli)
 {
     struct cli_command *c;
-    cli = cli_init();
-    cli_set_banner(cli, "libcli test environment");
-    printf("\tline: %d  %s\n",__LINE__,cli->banner);
-    cli_set_hostname(cli, "love");
-    printf("\tline: %d  %s\n",__LINE__,cli->hostname);
     cli_regular(cli, regular_callback);
     cli_regular_interval(cli, 5); // Defaults to 1 second
-    cli_set_idle_timeout(cli, 60); // 60 second idle timeout
-    cli_register_command(cli, NULL, "test", cmd_test, PRIVILEGE_UNPRIVILEGED,
-        MODE_EXEC, NULL);
+    cli_set_idle_timeout(cli, 6000); // 60 second idle timeout
 
-    cli_register_command(cli, NULL, "simple", NULL, PRIVILEGE_UNPRIVILEGED,
-        MODE_EXEC, NULL);
-
-    cli_register_command(cli, NULL, "simon", NULL, PRIVILEGE_UNPRIVILEGED,
-        MODE_EXEC, NULL);
-
-    cli_register_command(cli, NULL, "set", cmd_set, PRIVILEGE_PRIVILEGED,
-        MODE_EXEC, NULL);
-
+#if 0
     c = cli_register_command(cli, NULL, "show", NULL, PRIVILEGE_UNPRIVILEGED,
         MODE_EXEC, NULL);
 
@@ -163,18 +154,11 @@ void cmd_init( struct cli_def *cli)
     cli_register_command(cli, NULL, "interface", cmd_config_int,
         PRIVILEGE_PRIVILEGED, MODE_CONFIG, "Configure an interface");
 
+#endif
     cli_register_command(cli, NULL, "exit", cmd_config_int_exit,
         PRIVILEGE_PRIVILEGED, MODE_CONFIG_INT,
         "Exit from interface configuration");
 
-    cli_register_command(cli, NULL, "address", cmd_test, PRIVILEGE_PRIVILEGED,
-        MODE_CONFIG_INT, "Set IP address");
-
-    c = cli_register_command(cli, NULL, "debug", NULL, PRIVILEGE_UNPRIVILEGED,
-        MODE_EXEC, NULL);
-
-    cli_register_command(cli, c, "regular", cmd_debug_regular, PRIVILEGE_UNPRIVILEGED,
-        MODE_EXEC, "Enable cli_regular() callback debugging");
 
     cli_set_auth_callback(cli, check_auth);
     cli_set_enable_callback(cli, check_enable);
@@ -193,6 +177,50 @@ void cmd_init( struct cli_def *cli)
     }
 }
 
+void cmd_no_init( struct cli_def *cli)
+{
+    struct cli_command *root;
+
+    /* del output interface group member */
+    root = cli_register_command(cli, NULL, "no", NULL, PRIVILEGE_UNPRIVILEGED,
+        MODE_EXEC, "delete");
+
+    iifgrp_cmd_del_init(cli, root);
+    oifgrp_cmd_del_init(cli, root);
+    cifgrp_cmd_del_init(cli, root);
+    return CLI_OK;
+}
+
+void cmd_show_init( struct cli_def *cli)
+{
+    struct cli_command *root;
+
+    /* show output interface group member */
+    root = cli_register_command(cli, NULL, "show", NULL, PRIVILEGE_UNPRIVILEGED,
+        MODE_EXEC, "display");
+
+    iifgrp_cmd_show_init(cli, root);
+    oifgrp_cmd_show_init(cli, root);
+    cifgrp_cmd_show_init(cli, root);
+    interface_cmd_show_init(cli, root);
+
+    return CLI_OK;
+}
+
+int cli_cmdline_register ( struct cli_def *cli )
+{
+    cmd_init(cli);
+    iifgrp_cmd_init( cli);
+    oifgrp_cmd_init( cli);
+    cifgrp_cmd_init( cli);
+    sts_cmd_init( cli);
+    interface_cmd_init( cli);
+    embrave_cmd_init( cli);
+    cmd_show_init( cli);
+    cmd_no_init( cli);
+    return CLI_OK;
+}
+
 int cli_configure ( struct cli_def *cli )
 {
     char banner[256];
@@ -200,10 +228,9 @@ int cli_configure ( struct cli_def *cli )
             "Welcome to Multicore Packet Parallelling Admin Console\n"
             "\tPlatform Version %s.\n", "V1.00" );
     cli_set_banner ( cli, banner );
-    cli_set_hostname ( cli, "*#*" );
+    cli_set_hostname ( cli, "pure" );
 
     cli_cmdline_register ( cli );
-    cmd_main_configure ( cli );
 
     return 0;
 }
@@ -234,16 +261,9 @@ int cli_loop(void *_param)
     if ((cmd = malloc(4096)) == NULL)
         return CLI_ERROR;
 
-    /*
-     * OMG, HACK
-     */
-    if (!(cli->client = fdopen(_open_osfhandle(sockfd,0), "w+")))
-        return CLI_ERROR;
-    cli->client->_file = sockfd;
-
-    setbuf(cli->client, NULL);
-    if (cli->banner)
-        cli_error(cli, "%s", cli->banner);
+    //setbuf(cli->client, NULL);
+    //if (cli->banner)
+    //    cli_error(cli, "%s", cli->banner);
 
     // Set the last action now so we don't time immediately
     if (cli->idle_timeout)
@@ -948,49 +968,69 @@ int cli_loop(void *_param)
     free_z(password);
     free_z(cmd);
 
-    fclose(cli->client);
+    close(cli->client);
     cli->client = 0;
+    cli_done ( cli );
     return CLI_OK;
 }
-thread_t clientThread;
-int loop_server( struct cli_def *cli )
+
+pthread_t clientThread;
+int listenSock;
+static int clientSock;
+static struct sockaddr_in listenAddr;
+static struct sockaddr_in clientAddr;
+
+int loop_server( void )
 {
-    int s, x;
     struct sockaddr_in addr;
     int on = 1;
 
     signal(SIGCHLD, SIG_IGN);
 
-    if ((s = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+    if ((listenSock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
     {
         perror("socket");
         return 1;
     }
-    setsockopt(s, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on));
+    setsockopt(listenSock, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on));
 
     memset(&addr, 0, sizeof(addr));
     addr.sin_family = AF_INET;
     addr.sin_addr.s_addr = htonl(INADDR_ANY);
     addr.sin_port = htons(CLITEST_PORT);
-    if (bind(s, (struct sockaddr *) &addr, sizeof(addr)) < 0)
+    if (bind(listenSock, (struct sockaddr *) &addr, sizeof(addr)) < 0)
     {
         perror("bind");
         return 1;
     }
 
-    if (listen(s, 50) < 0)
+    if (listen(listenSock, 50) < 0)
     {
         perror("listen");
         return 1;
     }
 
     printf("Listening on port %d\n", CLITEST_PORT);
-    while ((x = accept(s, NULL, 0)))
+    while ((clientSock = accept(listenSock, NULL, 0)))
     {
         pthread_create ( &clientThread, NULL, cli_loop, ( void * ) ( &clientSock ) );
     }
 
-    close(s);
-    cli_done(cli);
+    close(listenSock);
+    //cli_done(cli);
     return 0;
 }
+
+/* create a interface monitor pthread */
+int loop_if_monitor( void )
+{
+    pthread_t if_monitor_thread;
+
+    if ( pthread_create ( &if_monitor_thread, NULL, md_if_status_loop, NULL ) < 0 ) 
+    {
+        printf ( "Failed to create pthread for md_if_status_loop.\n" );
+        return CLI_ERROR; 
+    }
+    return CLI_OK;
+}
+

@@ -1,0 +1,302 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+IF_GROUP_NUM	md_ifgrp.h	9;"	d	language:C++
+INVALID_IFGRP_WORK_PRIORITY	md_ifgrp.h	12;"	d	language:C++
+INVALID_IIFGRP	md_ifgrp.h	10;"	d	language:C++
+INVALID_OIFGRP	md_ifgrp.h	11;"	d	language:C++
+InQueue	md_embrave.c	/^void InQueue(queue* pQ, cvmx_wqe_t * cInData)$/;"	f	language:C	signature:(queue* pQ, cvmx_wqe_t * cInData)
+InitQueue	md_embrave.c	/^void InitQueue(queue* pQ) $/;"	f	language:C	signature:(queue* pQ)
+MAX_COPY_TO_TIMES	md_ifgrp.h	48;"	d	language:C++
+MAX_CORE_NUM	md_config.h	7;"	d	language:C++
+MAX_CORE_NUM	md_if.h	6;"	d	language:C++
+MAX_EMBRAVE_NUM	md_embrave.h	4;"	d	language:C++
+MAX_GRP_ACL	md_ifgrp.h	6;"	d	language:C++
+MAX_IF_NUM	md_ifgrp.h	8;"	d	language:C++
+MD_BUSY	md_type.h	/^    MD_BUSY,$/;"	e	language:C++	enum:__anon5
+MD_DEBUG	md_type.h	/^    MD_DEBUG,$/;"	e	language:C++	enum:__anon5
+MD_DIRECTION_FAIL	md_type.h	/^    MD_DIRECTION_FAIL,$/;"	e	language:C++	enum:__anon5
+MD_EXCEED	md_type.h	/^    MD_EXCEED,$/;"	e	language:C++	enum:__anon5
+MD_EXIST	md_type.h	/^    MD_EXIST,$/;"	e	language:C++	enum:__anon5
+MD_FAIL	md_type.h	/^    MD_FAIL,$/;"	e	language:C++	enum:__anon5
+MD_IF_GRP_WORK_ACL	md_ifgrp.h	/^    MD_IF_GRP_WORK_ACL,$/;"	e	language:C++	enum:__anon16
+MD_IF_GRP_WORK_INVALID	md_ifgrp.h	/^    MD_IF_GRP_WORK_INVALID,$/;"	e	language:C++	enum:__anon16
+MD_IF_GRP_WORK_IP	md_ifgrp.h	/^    MD_IF_GRP_WORK_IP,$/;"	e	language:C++	enum:__anon16
+MD_IF_GRP_WORK_MAX	md_ifgrp.h	/^    MD_IF_GRP_WORK_MAX,$/;"	e	language:C++	enum:__anon16
+MD_IF_GRP_WORK_PAYLOAD	md_ifgrp.h	/^    MD_IF_GRP_WORK_PAYLOAD,$/;"	e	language:C++	enum:__anon16
+MD_IF_GRP_WORK_STRING	md_ifgrp.h	/^    MD_IF_GRP_WORK_STRING,$/;"	e	language:C++	enum:__anon16
+MD_INIT	md_type.h	/^    MD_INIT,$/;"	e	language:C++	enum:__anon5
+MD_IOCTL	md_type.h	/^    MD_IOCTL,$/;"	e	language:C++	enum:__anon5
+MD_MAX	md_type.h	/^    MD_MAX$/;"	e	language:C++	enum:__anon5
+MD_MEMORY	md_type.h	/^    MD_MEMORY,$/;"	e	language:C++	enum:__anon5
+MD_NOSPACE	md_type.h	/^    MD_NOSPACE,$/;"	e	language:C++	enum:__anon5
+MD_NOTFOUND	md_type.h	/^    MD_NOTFOUND,$/;"	e	language:C++	enum:__anon5
+MD_OPEN	md_type.h	/^    MD_OPEN,$/;"	e	language:C++	enum:__anon5
+MD_PARAM	md_type.h	/^    MD_PARAM,$/;"	e	language:C++	enum:__anon5
+MD_PKT_TYPE_ETH	md_rule.h	/^    MD_PKT_TYPE_ETH,$/;"	e	language:C++	enum:__anon15
+MD_PKT_TYPE_ETH_IP	md_rule.h	/^    MD_PKT_TYPE_ETH_IP,$/;"	e	language:C++	enum:__anon15
+MD_PKT_TYPE_ETH_IP_SCTP	md_rule.h	/^    MD_PKT_TYPE_ETH_IP_SCTP,$/;"	e	language:C++	enum:__anon15
+MD_PKT_TYPE_ETH_IP_TCP	md_rule.h	/^    MD_PKT_TYPE_ETH_IP_TCP,$/;"	e	language:C++	enum:__anon15
+MD_PKT_TYPE_ETH_IP_UDP	md_rule.h	/^    MD_PKT_TYPE_ETH_IP_UDP,$/;"	e	language:C++	enum:__anon15
+MD_PKT_TYPE_UNKNOWN	md_rule.h	/^    MD_PKT_TYPE_UNKNOWN,$/;"	e	language:C++	enum:__anon15
+MD_PTR_TO_PHYS	md_ifgrp.c	313;"	d	language:C	file:
+MD_PTR_TO_PHYS	md_ifgrp.c	315;"	d	language:C	file:
+MD_RULE_ACTION_COPYTO	md_rule.c	/^    MD_RULE_ACTION_COPYTO = 8,$/;"	e	language:C	enum:__anon17	file:
+MD_RULE_ACTION_DROP	md_rule.c	/^    MD_RULE_ACTION_DROP   = 1,$/;"	e	language:C	enum:__anon17	file:
+MD_RULE_ACTION_FWD	md_rule.c	/^    MD_RULE_ACTION_FWD    = 2,$/;"	e	language:C	enum:__anon17	file:
+MD_RULE_ACTION_MIRROR	md_rule.c	/^    MD_RULE_ACTION_MIRROR = 4,$/;"	e	language:C	enum:__anon17	file:
+MD_RULE_ACTION_PERMIT	md_rule.c	/^    MD_RULE_ACTION_PERMIT = 16,$/;"	e	language:C	enum:__anon17	file:
+MD_SUCCESS	md_type.h	/^    MD_SUCCESS,$/;"	e	language:C++	enum:__anon5
+MD_TIMEOUT	md_type.h	/^    MD_TIMEOUT,$/;"	e	language:C++	enum:__anon5
+MD_UNMATCH	md_type.h	/^    MD_UNMATCH,$/;"	e	language:C++	enum:__anon5
+MD_UNREGISTER	md_type.h	/^    MD_UNREGISTER,$/;"	e	language:C++	enum:__anon5
+MD_UNSUPPORT	md_type.h	/^    MD_UNSUPPORT,$/;"	e	language:C++	enum:__anon5
+MPP_MAX_IF_NUM	md_if.h	7;"	d	language:C++
+MPP_VLAN_ADD	md_wqe.h	84;"	d	language:C++
+MPP_VLAN_DEL	md_wqe.h	85;"	d	language:C++
+MPP_VLAN_DO_NOTHING	md_wqe.h	83;"	d	language:C++
+MPP_VLAN_TAG_MASK	md_wqe.h	86;"	d	language:C++
+MaxSize	md_embrave.h	5;"	d	language:C++
+OIF_GRP_HASH_DIP	md_ifgrp.h	/^    OIF_GRP_HASH_DIP,$/;"	e	language:C++	enum:oif_grp_hash_t
+OIF_GRP_HASH_FIVE_TUPLE	md_ifgrp.h	/^    OIF_GRP_HASH_FIVE_TUPLE,$/;"	e	language:C++	enum:oif_grp_hash_t
+OIF_GRP_HASH_MAX	md_ifgrp.h	/^    OIF_GRP_HASH_MAX,$/;"	e	language:C++	enum:oif_grp_hash_t
+OIF_GRP_HASH_SDIP	md_ifgrp.h	/^    OIF_GRP_HASH_SDIP,$/;"	e	language:C++	enum:oif_grp_hash_t
+OIF_GRP_HASH_SIP	md_ifgrp.h	/^    OIF_GRP_HASH_SIP,$/;"	e	language:C++	enum:oif_grp_hash_t
+OIF_GRP_HASH_USER_INTEGRITY	md_ifgrp.h	/^    OIF_GRP_HASH_USER_INTEGRITY,$/;"	e	language:C++	enum:oif_grp_hash_t
+OIF_GRP_MODE_HASH	md_ifgrp.h	/^    OIF_GRP_MODE_HASH,$/;"	e	language:C++	enum:oif_grp_mode_t
+OIF_GRP_MODE_MAX	md_ifgrp.h	/^    OIF_GRP_MODE_MAX,$/;"	e	language:C++	enum:oif_grp_mode_t
+OIF_GRP_MODE_ROUND_ROBIN	md_ifgrp.h	/^    OIF_GRP_MODE_ROUND_ROBIN,$/;"	e	language:C++	enum:oif_grp_mode_t
+OIF_GRP_MODE_WEIGHT_HASH	md_ifgrp.h	/^    OIF_GRP_MODE_WEIGHT_HASH,$/;"	e	language:C++	enum:oif_grp_mode_t
+OIF_GRP_MODE_WEIGHT_ROUND_ROBIN	md_ifgrp.h	/^    OIF_GRP_MODE_WEIGHT_ROUND_ROBIN,$/;"	e	language:C++	enum:oif_grp_mode_t
+OIF_GRP_UP_PORT_MEMBER_MAX	md_ifgrp.h	74;"	d	language:C++
+OutQueue	md_embrave.c	/^cvmx_wqe_t * OutQueue(queue* pQ)$/;"	f	language:C	signature:(queue* pQ)
+PATH	md_shm.c	6;"	d	language:C	file:
+PATH	md_shm.h	3;"	d	language:C++
+PLATFORM_X86	md_config.h	6;"	d	language:C++
+PROG	Makefile	/^PROG = md$/;"	m	language:Make
+SIZE_OF_EPIF_ENRTY	md_if.h	36;"	d	language:C++
+SSN_INDEX_INVALID	md_wqe.h	147;"	d	language:C++
+SSN_INDEX_INVALID	md_wqe.h	71;"	d	language:C++
+UINT64_BIT_NUM	md_ifgrp.h	7;"	d	language:C++
+__MD_CONFIG_INCLUDE__	md_config.h	2;"	d	language:C++
+__MD_EMBRAVE_INCLUDE__	md_embrave.h	2;"	d	language:C++
+__MD_GRP_INCLUDE__	md_ifgrp.h	5;"	d	language:C++
+__MD_IF_INCLUDE__	md_if.h	4;"	d	language:C++
+__MD_INIT_INCLUDE__	md_init.h	3;"	d	language:C++
+__MD_RULE_INCLUDE__	md_rule.h	2;"	d	language:C++
+__MD_SHM_INCLUDE__	md_shm.h	2;"	d	language:C++
+__MD_TYPE_INCLUDE__	md_type.h	2;"	d	language:C++
+__MD_WQE_INCLUDE__	md_wqe.h	2;"	d	language:C++
+acl_callback	md_ifgrp.h	/^    if_grp_acl_callback  acl_callback;$/;"	m	language:C++	struct:if_grp_work_table_t
+action	md_wqe.h	/^    uint8_t action;$/;"	m	language:C++	struct:mpp_control
+application_main_loop	md_rule.c	/^int application_main_loop(void)$/;"	f	language:C	signature:(void)
+auditid	md_if.h	/^            uint64_t     auditid                    :4;  \/* Maxinum 16 audit group(s) *\/ $/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+backepif	md_if.h	/^            uint64_t     backepif                   :8;   \/* backup interface *\/    $/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+board_type_index	md_if.h	/^            uint64_t     board_type_index           :3;   \/* board type index *\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+cBuff	md_embrave.h	/^    cvmx_wqe_t *cBuff[MaxSize];$/;"	m	language:C++	struct:__anon14
+card	md_if.h	/^            uint64_t     card                       :2;   \/* card number, like slot\/card\/index *\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+copyto_group	md_ifgrp.h	/^    copyto_grp          copyto_group[IF_GROUP_NUM];$/;"	m	language:C++	struct:mpp_if_group_t
+copyto_grp	md_ifgrp.h	/^}copyto_grp;$/;"	t	language:C++	typeref:struct:copyto_grp_t
+copyto_grp_t	md_ifgrp.h	/^typedef struct copyto_grp_t$/;"	s	language:C++
+copyto_times	md_wqe.h	/^    uint8_t copyto_times;$/;"	m	language:C++	struct:mpp_control
+count	md_embrave.h	/^    int  in,out,count;$/;"	m	language:C++	struct:__anon14
+cvmx_pow_work_request_sync	md_embrave.c	/^cvmx_wqe_t * cvmx_pow_work_request_sync(void)$/;"	f	language:C	signature:(void)
+cvmx_wqe_t	md_wqe.h	/^}  CVMX_CACHE_LINE_ALIGNED cvmx_wqe_t;$/;"	t	language:C++	typeref:struct:__anon1
+cvmx_wqe_t	md_wqe.h	/^} cvmx_wqe_t;$/;"	t	language:C++	typeref:struct:__anon4
+data	md_if.h	/^        uint64_t    data[SIZE_OF_EPIF_ENRTY];$/;"	m	language:C++	union:mpp_epif_entry_t::__anon12
+data_64	md_if.h	/^        uint64_t        data_64[16];$/;"	m	language:C++	union:mpp_if_stat_t::__anon10
+dn_port_num	md_ifgrp.h	/^    uint32_t                dn_port_num;         \/* link down port number *\/$/;"	m	language:C++	struct:oif_grp_t
+dupl_num	md_wqe.h	/^    int32_t  dupl_num;       \/* copy to times *\/$/;"	m	language:C++	struct:mpp_control
+epif	md_init.h	/^    mpp_epif                epif;$/;"	m	language:C++	struct:mpp_shared_data
+flag_3gpp_gb	md_if.h	/^            uint64_t     flag_3gpp_gb               :1;$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+flag_3gpp_gn	md_if.h	/^            uint64_t     flag_3gpp_gn               :1; $/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+flag_big_sync	md_if.h	/^            uint64_t     flag_big_sync              :1;   \/* flag that length of tcp sync header >= 32bytes *\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+flag_clear_mpls	md_if.h	/^            uint64_t     flag_clear_mpls            :1;  $/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+flag_clear_vlan	md_if.h	/^            uint64_t     flag_clear_vlan            :1; $/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+flag_dmac_mask	md_if.h	/^            uint64_t     flag_dmac_mask             :1;   \/* modify dmac mask enable flag *\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+flag_mod_dmac	md_if.h	/^            uint64_t     flag_mod_dmac              :1;   \/* modify dmac enable flag *\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+flag_only_sync	md_if.h	/^            uint64_t     flag_only_sync             :1;   \/* tcp sync packet statistics enable flag *\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+flag_pppoe_with_vlan	md_if.h	/^            uint64_t     flag_pppoe_with_vlan       :1; $/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+flag_singlink	md_if.h	/^            uint64_t     flag_singlink              :1;   \/* 1 for link-forced, also called single fiber mode *\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+flag_time_stamp	md_if.h	/^            uint64_t     flag_time_stamp            :1;   \/* time stamp enable flag, write time stamp to dmac *\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+greh	md_wqe.h	/^        struct grehdr   *greh;$/;"	m	language:C++	union:mpp_control::__anon2	typeref:struct:mpp_control::__anon2::grehdr
+grekey	md_wqe.h	/^        uint32_t grekey; \/* cdma *\/$/;"	m	language:C++	union:mpp_control::__anon3
+grp_acl	md_ifgrp.h	/^    if_grp_acl_callback     grp_acl[2][MAX_GRP_ACL];     \/* two group, one for use,  the other for backup *\/$/;"	m	language:C++	struct:if_grp_work_t
+grp_member	md_ifgrp.h	/^    if_grp_member           grp_member;     \/* interface group member *\/$/;"	m	language:C++	struct:iif_grp_t
+grp_work	md_ifgrp.h	/^    if_grp_work             grp_work;       \/* interface group work *\/$/;"	m	language:C++	struct:copyto_grp_t
+grp_work	md_ifgrp.h	/^    if_grp_work             grp_work;       \/* interface group work *\/$/;"	m	language:C++	struct:iif_grp_t
+gsdata	md_init.c	/^ struct mpp_shared_data *gsdata;$/;"	v	language:C	typeref:struct:mpp_shared_data
+gtph	md_wqe.h	/^        struct gtphdr   *gtph;$/;"	m	language:C++	union:mpp_control::__anon2	typeref:struct:mpp_control::__anon2::gtphdr
+hash	md_ifgrp.h	/^    uint8_t                 hash;$/;"	m	language:C++	struct:oif_grp_t
+hijacked	md_if.h	/^            uint64_t     hijacked                   :7; $/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+if_get_if_link	md_if.c	/^int if_get_if_link( uint8_t ipif, uint8_t *link)$/;"	f	language:C	signature:( uint8_t ipif, uint8_t *link)
+if_get_ifgrp	md_if.c	/^int if_get_ifgrp( uint8_t ipif, uint8_t *ifgrp)$/;"	f	language:C	signature:( uint8_t ipif, uint8_t *ifgrp)
+if_get_status_link	md_if.c	/^int if_get_status_link( uint8_t ipif, uint8_t *link)$/;"	f	language:C	signature:( uint8_t ipif, uint8_t *link)
+if_group	md_init.h	/^    mpp_if_group            if_group;$/;"	m	language:C++	struct:mpp_shared_data
+if_grp_acl_callback	md_ifgrp.h	/^typedef int  (* if_grp_acl_callback) ( cvmx_wqe_t *work,  struct mpp_control *mpp );$/;"	t	language:C++
+if_grp_id	md_ifgrp.h	/^    uint32_t                if_grp_id;           \/* interface group index *\/$/;"	m	language:C++	struct:oif_grp_t
+if_grp_id	md_ifgrp.h	/^    uint32_t                if_grp_id;      \/* interface group index *\/$/;"	m	language:C++	struct:copyto_grp_t
+if_grp_id	md_ifgrp.h	/^    uint32_t                if_grp_id;      \/* interface group index *\/$/;"	m	language:C++	struct:iif_grp_t
+if_grp_member	md_ifgrp.h	/^}if_grp_member;$/;"	t	language:C++	typeref:struct:if_grp_member_t
+if_grp_member_t	md_ifgrp.h	/^typedef struct if_grp_member_t$/;"	s	language:C++
+if_grp_port_num	md_ifgrp.h	/^    uint32_t                if_grp_port_num;    \/* port number in a interface group *\/$/;"	m	language:C++	struct:if_grp_member_t
+if_grp_work	md_ifgrp.h	/^}if_grp_work;$/;"	t	language:C++	typeref:struct:if_grp_work_t
+if_grp_work_t	md_ifgrp.h	/^typedef struct if_grp_work_t$/;"	s	language:C++
+if_grp_work_table	md_ifgrp.h	/^}if_grp_work_table;$/;"	t	language:C++	typeref:struct:if_grp_work_table_t
+if_grp_work_table_t	md_ifgrp.h	/^typedef struct if_grp_work_table_t$/;"	s	language:C++
+if_set_if_link	md_if.c	/^int if_set_if_link ( uint8_t ipif, uint8_t flag )$/;"	f	language:C	signature:( uint8_t ipif, uint8_t flag )
+if_set_ifgrp	md_if.c	/^int if_set_ifgrp ( uint8_t ipif, uint8_t ifgrp )$/;"	f	language:C	signature:( uint8_t ipif, uint8_t ifgrp )
+if_set_status_link	md_if.c	/^int if_set_status_link ( uint8_t ipif, uint8_t flag )$/;"	f	language:C	signature:( uint8_t ipif, uint8_t flag )
+if_stat	md_if.h	/^            mpp_if_stat   if_stat[MAX_CORE_NUM];    \/* interface statistics *\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+if_type	md_if.h	/^            uint64_t     if_type                    :2;   \/* interface physical attribute, such as lan, wan*\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+ifmask	md_ifgrp.h	/^    uint64_t                ifmask[MAX_IF_NUM\/UINT64_BIT_NUM];      \/* interface mask  *\/$/;"	m	language:C++	struct:oif_grp_t
+ifmask	md_ifgrp.h	/^    uint64_t                ifmask[MAX_IF_NUM\/UINT64_BIT_NUM];   \/* interface mask*\/$/;"	m	language:C++	struct:if_grp_member_t
+ifname_index	md_if.h	/^            uint64_t     ifname_index               :3;   \/* interface name index *\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+iif_group	md_ifgrp.h	/^    iif_grp             iif_group[IF_GROUP_NUM];$/;"	m	language:C++	struct:mpp_if_group_t
+iif_grp	md_ifgrp.h	/^}iif_grp;$/;"	t	language:C++	typeref:struct:iif_grp_t
+iif_grp_t	md_ifgrp.h	/^typedef struct iif_grp_t$/;"	s	language:C++
+iifgrp	md_if.h	/^            uint64_t     iifgrp                     :8;   \/*interface bind to input interface group *\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+ilif	md_wqe.h	/^    uint8_t  ilif;             \/* ingress logical interface  *\/$/;"	m	language:C++	struct:mpp_control
+in	md_embrave.h	/^    int  in,out,count;$/;"	m	language:C++	struct:__anon14
+index	md_if.h	/^            uint64_t     index                      :5;   \/* index number, like slot\/card\/index *\/  $/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+input_num	md_init.h	/^    uint8_t                 input_num;$/;"	m	language:C++	struct:mpp_shared_data
+ipd_port	md_if.h	/^            uint64_t     ipd_port                   :16;  \/* packet port *\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+ipif	md_wqe.h	/^    uint8_t  ipif;   \/* logic port number *\/$/;"	m	language:C++	struct:mpp_control
+len_header	md_wqe.h	/^    uint8_t  len_header;  \/* ip head offset *\/$/;"	m	language:C++	struct:mpp_control
+link	md_if.h	/^            uint64_t     link                       :1;   \/* interface link status, 1 for link up, 0 for link down *\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+load_flag	md_if.h	/^            uint64_t     load_flag                  :2;   \/* interface upload or download flag *\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+mac_mask	md_if.h	/^            uint64_t     mac_mask                   :16;  $/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+master	md_ifgrp.h	/^    uint32_t                master;         \/* indicate which acl table in using *\/$/;"	m	language:C++	struct:if_grp_work_t
+master	md_ifgrp.h	/^    uint8_t                 master;       \/* indicate which up port is using *\/$/;"	m	language:C++	struct:oif_grp_t
+mc_main_procs_packet_data	md_rule.c	/^static inline void mc_main_procs_packet_data ( cvmx_wqe_t *work,  struct mpp_control *mpp )$/;"	f	language:C	file:	signature:( cvmx_wqe_t *work, struct mpp_control *mpp )
+mc_main_protocol_analysis	md_rule.c	/^static inline void mc_main_protocol_analysis ( cvmx_wqe_t *work,  struct mpp_control *mpp )$/;"	f	language:C	file:	signature:( cvmx_wqe_t *work, struct mpp_control *mpp )
+md_acl	md_ifgrp.h	/^    if_grp_acl_callback     *md_acl;        \/* md operate acl priority pointer, physical address *\/$/;"	m	language:C++	struct:if_grp_work_t
+md_cifgrp_bind_work	md_ifgrp.c	/^int md_cifgrp_bind_work(uint8_t grp_id, md_ifgrp_work_t work, int priority)$/;"	f	language:C	signature:(uint8_t grp_id, md_ifgrp_work_t work, int priority)
+md_cifgrp_retore_work	md_ifgrp.c	/^int md_cifgrp_retore_work(uint8_t grp_id)$/;"	f	language:C	signature:(uint8_t grp_id)
+md_cifgrp_unbind_work	md_ifgrp.c	/^int md_cifgrp_unbind_work(uint8_t grp_id, md_ifgrp_work work)$/;"	f	language:C	signature:(uint8_t grp_id, md_ifgrp_work work)
+md_embrave_start	md_embrave.c	/^int md_embrave_start(uint8_t num)$/;"	f	language:C	signature:(uint8_t num)
+md_enabrave_init	md_embrave.c	/^int md_enabrave_init(void)$/;"	f	language:C	signature:(void)
+md_get_shm	md_shm.c	/^int md_get_shm(void)$/;"	f	language:C	signature:(void)
+md_if_init	md_if.c	/^int md_if_init(void)$/;"	f	language:C	signature:(void)
+md_if_status_loop	md_if.c	/^void md_if_status_loop(void)$/;"	f	language:C	signature:(void)
+md_ifgrp_get_copytogrp	md_ifgrp.c	/^copyto_grp *md_ifgrp_get_copytogrp(uint8_t grp_id)$/;"	f	language:C	signature:(uint8_t grp_id)
+md_ifgrp_get_copytogrp_work	md_ifgrp.c	/^if_grp_work *md_ifgrp_get_copytogrp_work(uint8_t grp_id)$/;"	f	language:C	signature:(uint8_t grp_id)
+md_ifgrp_get_iifgrp	md_ifgrp.c	/^iif_grp *md_ifgrp_get_iifgrp(uint8_t grp_id)$/;"	f	language:C	signature:(uint8_t grp_id)
+md_ifgrp_get_iifgrp_work	md_ifgrp.c	/^if_grp_work *md_ifgrp_get_iifgrp_work(uint8_t grp_id)$/;"	f	language:C	signature:(uint8_t grp_id)
+md_ifgrp_get_oifgrp	md_ifgrp.c	/^oif_grp *md_ifgrp_get_oifgrp(uint8_t grp_id)$/;"	f	language:C	signature:(uint8_t grp_id)
+md_ifgrp_get_work_table	md_ifgrp.c	/^if_grp_work_table *md_ifgrp_get_work_table(uint8_t priority)$/;"	f	language:C	signature:(uint8_t priority)
+md_ifgrp_work_register	md_ifgrp.c	/^int md_ifgrp_work_register(md_ifgrp_work_t work, if_grp_acl_callback acl_callback)$/;"	f	language:C	signature:(md_ifgrp_work_t work, if_grp_acl_callback acl_callback)
+md_ifgrp_work_t	md_ifgrp.h	/^}md_ifgrp_work_t;$/;"	t	language:C++	typeref:enum:__anon16
+md_iifgrp_add	md_ifgrp.c	/^int md_iifgrp_add(uint8_t grp_id, uint8_t if_id)$/;"	f	language:C	signature:(uint8_t grp_id, uint8_t if_id)
+md_iifgrp_bind_work	md_ifgrp.c	/^int md_iifgrp_bind_work(uint8_t grp_id, md_ifgrp_work_t work, int priority)$/;"	f	language:C	signature:(uint8_t grp_id, md_ifgrp_work_t work, int priority)
+md_iifgrp_del	md_ifgrp.c	/^int md_iifgrp_del(uint8_t grp_id, uint8_t if_id)$/;"	f	language:C	signature:(uint8_t grp_id, uint8_t if_id)
+md_iifgrp_get	md_ifgrp.c	/^int md_iifgrp_get(uint8_t grp_id, iif_grp *grp)$/;"	f	language:C	signature:(uint8_t grp_id, iif_grp *grp)
+md_iifgrp_retore_work	md_ifgrp.c	/^int md_iifgrp_retore_work(uint8_t grp_id)$/;"	f	language:C	signature:(uint8_t grp_id)
+md_iifgrp_unbind_work	md_ifgrp.c	/^int md_iifgrp_unbind_work(uint8_t grp_id, md_ifgrp_work_t work)$/;"	f	language:C	signature:(uint8_t grp_id, md_ifgrp_work_t work)
+md_init	md_init.c	/^int md_init(void)$/;"	f	language:C	signature:(void)
+md_mk_shm	md_shm.c	/^int md_mk_shm(void)$/;"	f	language:C	signature:(void)
+md_oifgrp_add	md_ifgrp.c	/^int md_oifgrp_add(uint8_t grp_id, uint8_t if_id)$/;"	f	language:C	signature:(uint8_t grp_id, uint8_t if_id)
+md_oifgrp_add_if_to_up_port_array	md_ifgrp.c	/^int md_oifgrp_add_if_to_up_port_array(if_grp_up_port_member *up_port, int if_id, int weight)$/;"	f	language:C	signature:(if_grp_up_port_member *up_port, int if_id, int weight)
+md_oifgrp_del	md_ifgrp.c	/^int md_oifgrp_del(uint8_t grp_id, uint8_t if_id)$/;"	f	language:C	signature:(uint8_t grp_id, uint8_t if_id)
+md_oifgrp_del_if_from_up_port_array	md_ifgrp.c	/^int md_oifgrp_del_if_from_up_port_array(if_grp_up_port_member *up_port, int if_id, int weight)$/;"	f	language:C	signature:(if_grp_up_port_member *up_port, int if_id, int weight)
+md_oifgrp_get	md_ifgrp.c	/^int md_oifgrp_get(uint8_t grp_id, oif_grp *grp)$/;"	f	language:C	signature:(uint8_t grp_id, oif_grp *grp)
+md_oifgrp_modify_if_to_up_port_array	md_ifgrp.c	/^int md_oifgrp_modify_if_to_up_port_array(if_grp_up_port_member *up_port, int if_id, int weight_new, int weight_old)$/;"	f	language:C	signature:(if_grp_up_port_member *up_port, int if_id, int weight_new, int weight_old)
+md_oifgrp_set_hash	md_ifgrp.c	/^int md_oifgrp_set_hash(uint8_t grp_id, oif_grp_hash hash)$/;"	f	language:C	signature:(uint8_t grp_id, oif_grp_hash hash)
+md_oifgrp_set_mode	md_ifgrp.c	/^int md_oifgrp_set_mode(uint8_t grp_id, oif_grp_mode mode)$/;"	f	language:C	signature:(uint8_t grp_id, oif_grp_mode mode)
+md_pkt_type	md_rule.h	/^}md_pkt_type;$/;"	t	language:C++	typeref:enum:__anon15
+md_return_t	md_type.h	/^} md_return_t;$/;"	t	language:C++	typeref:enum:__anon5
+md_rule_action	md_rule.c	/^}md_rule_action;$/;"	t	language:C	typeref:enum:__anon17	file:
+md_rule_work_copy_to_process	md_rule.c	/^int md_rule_work_copy_to_process(cvmx_wqe_t *work, struct mpp_control *mpp, uint8_t ifgrp)$/;"	f	language:C	signature:(cvmx_wqe_t *work, struct mpp_control *mpp, uint8_t ifgrp)
+md_rule_work_process	md_rule.c	/^int md_rule_work_process(if_grp_work *grp_work, cvmx_wqe_t *work, struct mpp_control *mpp)$/;"	f	language:C	signature:(if_grp_work *grp_work, cvmx_wqe_t *work, struct mpp_control *mpp)
+md_update_oifgrp_up_port_array	md_ifgrp.c	/^int md_update_oifgrp_up_port_array(int if_id, uint8_t link)$/;"	f	language:C	signature:(int if_id, uint8_t link)
+mdu_acl	md_ifgrp.h	/^    if_grp_acl_callback     *mdu_acl;       \/* mdu operate acl priority pointer, application address *\/$/;"	m	language:C++	struct:if_grp_work_t
+mirrif	md_wqe.h	/^    uint8_t  mirrif;$/;"	m	language:C++	struct:mpp_control
+mode	md_if.h	/^            uint64_t     mode                       :3;   \/* interface mode,such as inline, inline_server, sniffer,user integrality and so on*\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+mode	md_ifgrp.h	/^    uint8_t                 mode;$/;"	m	language:C++	struct:oif_grp_t
+monitor_flag	md_if.h	/^            uint64_t     monitor_flag               :1;   \/* interface status loop enable flag *\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+mpp_control	md_wqe.h	/^struct mpp_control$/;"	s	language:C++
+mpp_epif_entry	md_if.h	/^} CVMX_CACHE_LINE_ALIGNED mpp_epif_entry;$/;"	t	language:C++	typeref:struct:mpp_epif_entry_t
+mpp_epif_entry_t	md_if.h	/^typedef struct mpp_epif_entry_t$/;"	s	language:C++
+mpp_if_group	md_ifgrp.h	/^}mpp_if_group;$/;"	t	language:C++	typeref:struct:mpp_if_group_t
+mpp_if_group_t	md_ifgrp.h	/^typedef struct mpp_if_group_t$/;"	s	language:C++
+mpp_if_stat	md_if.h	/^} mpp_if_stat;$/;"	t	language:C++	typeref:struct:mpp_if_stat_t
+mpp_if_stat_t	md_if.h	/^typedef struct mpp_if_stat_t$/;"	s	language:C++
+mpp_ifgrp_init	md_ifgrp.c	/^int  mpp_ifgrp_init(void)$/;"	f	language:C	signature:(void)
+mpp_shared_data	md_init.h	/^typedef struct mpp_shared_data$/;"	s	language:C++
+mtu	md_if.h	/^            uint64_t     mtu                        :16;  $/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+oif_group	md_ifgrp.h	/^    oif_grp             oif_group[IF_GROUP_NUM];$/;"	m	language:C++	struct:mpp_if_group_t
+oif_grp	md_ifgrp.h	/^}oif_grp;$/;"	t	language:C++	typeref:struct:oif_grp_t
+oif_grp_hash	md_ifgrp.h	/^}oif_grp_hash;$/;"	t	language:C++	typeref:enum:oif_grp_hash_t
+oif_grp_hash_t	md_ifgrp.h	/^typedef enum oif_grp_hash_t$/;"	g	language:C++
+oif_grp_mode	md_ifgrp.h	/^}oif_grp_mode;$/;"	t	language:C++	typeref:enum:oif_grp_mode_t
+oif_grp_mode_t	md_ifgrp.h	/^typedef enum oif_grp_mode_t$/;"	g	language:C++
+oif_grp_t	md_ifgrp.h	/^typedef struct oif_grp_t$/;"	s	language:C++
+oif_grp_up_port_member	md_ifgrp.h	/^}oif_grp_up_port_member;$/;"	t	language:C++	typeref:struct:oif_grp_up_port_member_t
+oif_grp_up_port_member_t	md_ifgrp.h	/^typedef struct oif_grp_up_port_member_t$/;"	s	language:C++
+online	md_if.h	/^            uint64_t     online                     :1;   \/* online flag*\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+out	md_embrave.h	/^    int  in,out,count;$/;"	m	language:C++	struct:__anon14
+pQ	md_init.h	/^    queue                   pQ;$/;"	m	language:C++	struct:mpp_shared_data
+packet	md_wqe.h	/^    uint8_t *packet;$/;"	m	language:C++	struct:mpp_control
+packet_data	md_wqe.h	/^    uint8_t packet_data[96];$/;"	m	language:C++	struct:__anon1
+packet_data	md_wqe.h	/^    uint8_t packet_data[96];$/;"	m	language:C++	struct:__anon4
+packet_ptr	md_wqe.h	/^    cvmx_buf_ptr_t             packet_ptr;$/;"	m	language:C++	struct:__anon1
+pkt_type	md_wqe.h	/^    char pkt_type;$/;"	m	language:C++	struct:mpp_control
+port	md_wqe.h	/^    uint8_t port;$/;"	m	language:C++	struct:__anon4
+port_num	md_if.h	/^            uint64_t     port_num                   :8;   \/* logical interface number *\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+port_num	md_ifgrp.h	/^    uint32_t                port_num;            \/* port number in a interface group *\/$/;"	m	language:C++	struct:oif_grp_t
+priority	md_ifgrp.h	/^    uint8_t                 priority[MAX_GRP_ACL];       \/* acl work default priority *\/$/;"	m	language:C++	struct:if_grp_work_t
+priority	md_ifgrp.h	/^    uint8_t priority;   \/* default priority *\/$/;"	m	language:C++	struct:if_grp_work_table_t
+process_work	md_rule.c	/^static inline void process_work ( cvmx_wqe_t *work )$/;"	f	language:C	file:	signature:( cvmx_wqe_t *work )
+qos_en	md_if.h	/^            uint64_t     qos_en                     :1;   \/* reserved *\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+qos_id	md_if.h	/^            uint64_t     qos_id                     :16;  \/* reserved *\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+queue	md_embrave.h	/^}queue;$/;"	t	language:C++	typeref:struct:__anon14
+reserved0	md_if.h	/^            uint64_t     reserved0                  :56;  \/* reserved *\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+rev0	md_wqe.h	/^    int16_t  rev0;$/;"	m	language:C++	struct:mpp_control
+rule_work	md_rule.c	/^int rule_work(cvmx_wqe_t *work, struct mpp_control *mpp)$/;"	f	language:C	signature:(cvmx_wqe_t *work, struct mpp_control *mpp)
+rx_bps	md_if.h	/^            uint64_t        rx_bps;         \/* the size of received packets in bits per second *\/$/;"	m	language:C++	struct:mpp_if_stat_t::__anon10::__anon11
+rx_bytes	md_if.h	/^            int64_t         rx_bytes;       \/* the size of received pakcets in bytes now*\/$/;"	m	language:C++	struct:mpp_if_stat_t::__anon10::__anon11
+rx_bytes_pre	md_if.h	/^            uint64_t        rx_bytes_pre;$/;"	m	language:C++	struct:mpp_if_stat_t::__anon10::__anon11
+rx_en	md_if.h	/^            uint64_t     rx_en                      :1;   \/* flag rx statistics enable\/disable *\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+rx_max_bps	md_if.h	/^            uint64_t        rx_max_bps;$/;"	m	language:C++	struct:mpp_if_stat_t::__anon10::__anon11
+rx_max_pps	md_if.h	/^            uint64_t        rx_max_pps;$/;"	m	language:C++	struct:mpp_if_stat_t::__anon10::__anon11
+rx_pkts	md_if.h	/^            int64_t         rx_pkts;        \/* the number of received pakcets now *\/$/;"	m	language:C++	struct:mpp_if_stat_t::__anon10::__anon11
+rx_pkts_pre	md_if.h	/^            uint64_t        rx_pkts_pre;$/;"	m	language:C++	struct:mpp_if_stat_t::__anon10::__anon11
+rx_pps	md_if.h	/^            uint64_t        rx_pps;         \/* the number of received pakets per second *\/$/;"	m	language:C++	struct:mpp_if_stat_t::__anon10::__anon11
+session_type	md_wqe.h	/^    uint8_t  session_type;$/;"	m	language:C++	struct:mpp_control
+shutdown	md_if.h	/^            uint64_t     shutdown                   :1;   \/* interface shutdown, 1 for shutdown; 0 for not shutdown *\/ $/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+slot	md_if.h	/^            uint64_t     slot                       :4;   \/* slot number , like slot\/card\/index *\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+speed	md_if.h	/^            uint64_t     speed                      :3;   \/* interface speed *\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+ssn	md_wqe.h	/^    struct mpp_ssn *ssn;$/;"	m	language:C++	struct:mpp_control	typeref:struct:mpp_control::mpp_ssn
+ssn_index	md_wqe.h	/^    uint32_t ssn_index;$/;"	m	language:C++	struct:mpp_control
+ssn_ip	md_wqe.h	/^    int32_t  ssn_ip;$/;"	m	language:C++	struct:mpp_control
+svr_seq	md_wqe.h	/^    uint32_t svr_seq;$/;"	m	language:C++	struct:mpp_control
+syn_cookie	md_wqe.h	/^    uint32_t syn_cookie;$/;"	m	language:C++	struct:mpp_control
+tag	md_wqe.h	/^    uint32_t  tag;$/;"	m	language:C++	struct:mpp_control
+teid	md_wqe.h	/^        uint32_t teid;   \/* gn *\/$/;"	m	language:C++	union:mpp_control::__anon3
+tlli	md_wqe.h	/^        uint32_t tlli;   \/* gb *\/$/;"	m	language:C++	union:mpp_control::__anon3
+tuple	md_wqe.h	/^    struct mpp_tuple *tuple;$/;"	m	language:C++	struct:mpp_control	typeref:struct:mpp_control::mpp_tuple
+tx_bps	md_if.h	/^            uint64_t        tx_bps;$/;"	m	language:C++	struct:mpp_if_stat_t::__anon10::__anon11
+tx_bytes	md_if.h	/^            int64_t         tx_bytes;$/;"	m	language:C++	struct:mpp_if_stat_t::__anon10::__anon11
+tx_bytes_pre	md_if.h	/^            uint64_t        tx_bytes_pre;$/;"	m	language:C++	struct:mpp_if_stat_t::__anon10::__anon11
+tx_en	md_if.h	/^            uint64_t     tx_en                      :1;   \/* flag tx statistics enable\/disable *\/$/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+tx_max_bps	md_if.h	/^            uint64_t        tx_max_bps;$/;"	m	language:C++	struct:mpp_if_stat_t::__anon10::__anon11
+tx_max_pps	md_if.h	/^            uint64_t        tx_max_pps;$/;"	m	language:C++	struct:mpp_if_stat_t::__anon10::__anon11
+tx_pkts	md_if.h	/^            int64_t         tx_pkts;$/;"	m	language:C++	struct:mpp_if_stat_t::__anon10::__anon11
+tx_pkts_pre	md_if.h	/^            uint64_t        tx_pkts_pre;$/;"	m	language:C++	struct:mpp_if_stat_t::__anon10::__anon11
+tx_pps	md_if.h	/^            uint64_t        tx_pps;$/;"	m	language:C++	struct:mpp_if_stat_t::__anon10::__anon11
+udph	md_wqe.h	/^    struct udphdr *udph;$/;"	m	language:C++	struct:mpp_control	typeref:struct:mpp_control::udphdr
+up_ifmask	md_ifgrp.h	/^    uint64_t                up_ifmask[MAX_IF_NUM\/UINT64_BIT_NUM];   \/* up interface mask    *\/$/;"	m	language:C++	struct:oif_grp_t
+up_port	md_ifgrp.h	/^    oif_grp_up_port_member  up_port[2];   \/* up port array, used for tarnsmit the packet *\/$/;"	m	language:C++	struct:oif_grp_t
+up_port	md_ifgrp.h	/^    uint32_t                up_port[OIF_GRP_UP_PORT_MEMBER_MAX]; \/* link up port logic number *\/$/;"	m	language:C++	struct:oif_grp_up_port_member_t
+up_port_num	md_ifgrp.h	/^    uint32_t                up_port_num;  \/* link up port number, add the weight, port number of up_port[] array *\/$/;"	m	language:C++	struct:oif_grp_up_port_member_t
+user_info_idx	md_wqe.h	/^    uint32_t user_info_idx; \/* 3gpp *\/$/;"	m	language:C++	struct:mpp_control
+vlan	md_if.h	/^            uint64_t     vlan                       :16;  \/*default vlan *\/ $/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+vlan_act	md_wqe.h	/^    uint8_t  vlan_act;            \/* 3:5 *\/$/;"	m	language:C++	struct:mpp_control
+weight	md_if.h	/^            uint64_t     weight                     :8;  $/;"	m	language:C++	struct:mpp_epif_entry_t::__anon12::__anon13
+word0	md_wqe.h	/^    ¦   cvmx_wqe_word0_t word0;$/;"	m	language:C++	struct:__anon1
+word1	md_wqe.h	/^    ¦   cvmx_wqe_word1_t word1;$/;"	m	language:C++	struct:__anon1
+word2	md_wqe.h	/^    cvmx_pip_wqe_word2_t       word2;$/;"	m	language:C++	struct:__anon1
+work_table	md_ifgrp.h	/^    if_grp_work_table   work_table[MD_IF_GRP_WORK_MAX];$/;"	m	language:C++	struct:mpp_if_group_t

@@ -1,4 +1,4 @@
-subdirs = libcli cli
+subdirs = libcli md mp cli
 
 include $(MKDIR)/make.dir
 

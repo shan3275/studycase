@@ -1,0 +1,206 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+CC	Doc/Makefile	/^CC = gcc$/;"	m	language:Make
+CLI_ERROR	libcli.h	8;"	d	language:C++
+CLI_ERROR_ARG	libcli.h	10;"	d	language:C++
+CLI_OK	libcli.h	7;"	d	language:C++
+CLI_QUIT	libcli.h	9;"	d	language:C++
+CMD_RANGE	libcli.c	790;"	d	language:C	file:
+CTRL	libcli.h	96;"	d	language:C++
+DEBUG	Doc/Makefile	/^DEBUG = -g$/;"	m	language:Make
+DECIMAL_STRLEN_MAX	libcli.c	791;"	d	language:C	file:
+DESTDIR	Doc/Makefile	/^DESTDIR =$/;"	m	language:Make
+DES_PREFIX	libcli.c	1426;"	d	language:C	file:
+Introduction	Doc/developers.html	/^<H2><A NAME="Introduction">1.0 Introduction<\/A><\/H2>$/;"	a	language:HTML
+Introduction	Doc/usersguide.html	/^<H2><A NAME="Introduction">Introduction<\/A><\/H2>$/;"	a	language:HTML
+LIB	Doc/Makefile	/^LIB = libcli.so$/;"	m	language:Make
+LIBCLI_HAS_ENABLE	libcli.h	20;"	d	language:C++
+LIBS	Doc/Makefile	/^LIBS = -lcrypt$/;"	m	language:Make
+MAJOR	Doc/Makefile	/^MAJOR = 1$/;"	m	language:Make
+MATCH_INVERT	libcli.c	2373;"	d	language:C	file:
+MATCH_REGEX	libcli.c	2372;"	d	language:C	file:
+MAX_HISTORY	libcli.h	12;"	d	language:C++
+MD5_PREFIX	libcli.c	1427;"	d	language:C	file:
+MINOR	Doc/Makefile	/^MINOR = 9$/;"	m	language:Make
+MODE_ANY	libcli.h	16;"	d	language:C++
+MODE_CONFIG	libcli.h	18;"	d	language:C++
+MODE_EXEC	libcli.h	17;"	d	language:C++
+OPTIM	Doc/Makefile	/^OPTIM = -O3$/;"	m	language:Make
+PREFIX	Doc/Makefile	/^PREFIX = \/usr\/local$/;"	m	language:Make
+PRINT_BUFFERED	libcli.h	24;"	d	language:C++
+PRINT_FILTERED	libcli.h	23;"	d	language:C++
+PRINT_PLAIN	libcli.h	22;"	d	language:C++
+PRIVILEGE_PRIVILEGED	libcli.h	15;"	d	language:C++
+PRIVILEGE_UNPRIVILEGED	libcli.h	14;"	d	language:C++
+PROG	Makefile	/^PROG = cli$/;"	m	language:Make
+REG_EXTENDED	libcli.c	91;"	d	language:C	file:
+REG_ICASE	libcli.c	92;"	d	language:C	file:
+REG_NOSUB	libcli.c	90;"	d	language:C	file:
+REVISION	Doc/Makefile	/^REVISION = 3$/;"	m	language:Make
+STATE_ENABLE	libcli.h	/^    STATE_ENABLE$/;"	e	language:C++	enum:cli_states
+STATE_ENABLE_PASSWORD	libcli.h	/^    STATE_ENABLE_PASSWORD,$/;"	e	language:C++	enum:cli_states
+STATE_LOGIN	libcli.h	/^    STATE_LOGIN,$/;"	e	language:C++	enum:cli_states
+STATE_NORMAL	libcli.h	/^    STATE_NORMAL,$/;"	e	language:C++	enum:cli_states
+STATE_PASSWORD	libcli.h	/^    STATE_PASSWORD,$/;"	e	language:C++	enum:cli_states
+TOC	Doc/developers.html	/^<H2><A NAME="TOC">Table of Contents<\/A><\/H2>$/;"	a	language:HTML
+TOC	Doc/usersguide.html	/^<H2><A NAME="TOC">Table of Contents<\/A><\/H2>$/;"	a	language:HTML
+UNUSED	libcli.c	25;"	d	language:C	file:
+UNUSED	libcli.c	27;"	d	language:C	file:
+_GNU_SOURCE	libcli.c	6;"	d	language:C	file:
+__LIBCLI_H__	libcli.h	2;"	d	language:C++
+_print	libcli.c	/^static void _print(struct cli_def *cli, int print_mode, char *format, va_list ap)$/;"	f	language:C	file:	signature:(struct cli_def *cli, int print_mode, char *format, va_list ap)
+asprintf	libcli.c	/^int asprintf(char **strp, const char *fmt, ...) {$/;"	f	language:C	signature:(char **strp, const char *fmt, ...)
+auth	Doc/developers.html	/^<H2><A NAME="auth">2.0 Authentication<\/A><\/H2>$/;"	a	language:HTML
+auth_callback	libcli.h	/^    int (*auth_callback)(char *, char *);$/;"	m	language:C++	struct:cli_def
+banner	libcli.h	/^    char *banner;$/;"	m	language:C++	struct:cli_def
+buf_size	libcli.h	/^    unsigned buf_size;$/;"	m	language:C++	struct:cli_def
+buffer	libcli.h	/^    char *buffer;$/;"	m	language:C++	struct:cli_def
+callback	libcli.h	/^    int (*callback)(struct cli_def *, char *, char **, int);$/;"	m	language:C++	struct:cli_command
+children	libcli.h	/^    struct cli_command *children;$/;"	m	language:C++	struct:cli_command	typeref:struct:cli_command::cli_command
+cli_add_history	libcli.c	/^int cli_add_history(struct cli_def *cli, char *cmd)$/;"	f	language:C	signature:(struct cli_def *cli, char *cmd)
+cli_allow_enable	Doc/developers.html	/^<H3><A NAME="cli_allow_enable">4.17 cli_allow_enable(<EM>struct cli_def *cli, char *password<\/EM>)<\/A><\/H3>$/;"	a	language:HTML
+cli_allow_enable	libcli.c	/^void cli_allow_enable(struct cli_def *cli, char *password)$/;"	f	language:C	signature:(struct cli_def *cli, char *password)
+cli_allow_user	Doc/developers.html	/^<H3><A NAME="cli_allow_user">4.7 cli_allow_user(<EM>struct cli_def *cli, char *username, char *password<\/EM>)<\/A><\/H3>$/;"	a	language:HTML
+cli_allow_user	libcli.c	/^void cli_allow_user(struct cli_def *cli, char *username, char *password)$/;"	f	language:C	signature:(struct cli_def *cli, char *username, char *password)
+cli_bufprint	libcli.c	/^void cli_bufprint(struct cli_def *cli, char *format, ...)$/;"	f	language:C	signature:(struct cli_def *cli, char *format, ...)
+cli_build_shortest	libcli.c	/^static int cli_build_shortest(struct cli_def *cli, struct cli_command *commands)$/;"	f	language:C	file:	signature:(struct cli_def *cli, struct cli_command *commands)
+cli_clear_line	libcli.c	/^void cli_clear_line(int sockfd, char *cmd, int l, int cursor)$/;"	f	language:C	signature:(int sockfd, char *cmd, int l, int cursor)
+cli_command	libcli.h	/^struct cli_command {$/;"	s	language:C++
+cli_command_name	libcli.c	/^char *cli_command_name(struct cli_def *cli, struct cli_command *command)$/;"	f	language:C	signature:(struct cli_def *cli, struct cli_command *command)
+cli_count_filter	libcli.c	/^int cli_count_filter(struct cli_def *cli, char *string, void *data)$/;"	f	language:C	signature:(struct cli_def *cli, char *string, void *data)
+cli_count_filter_init	libcli.c	/^int cli_count_filter_init(struct cli_def *cli, int argc, UNUSED(char **argv), struct cli_filter *filt)$/;"	f	language:C	signature:(struct cli_def *cli, int argc, UNUSED(char **argv), struct cli_filter *filt)
+cli_def	libcli.h	/^struct cli_def {$/;"	s	language:C++
+cli_deny_user	Doc/developers.html	/^<H3><A NAME="cli_deny_user">4.8 cli_deny_user(<EM>struct cli_def *cli, char *username<\/EM>)<\/A><\/H3>$/;"	a	language:HTML
+cli_deny_user	libcli.c	/^void cli_deny_user(struct cli_def *cli, char *username)$/;"	f	language:C	signature:(struct cli_def *cli, char *username)
+cli_done	Doc/developers.html	/^<H3><A NAME="cli_done">4.2 cli_done(<EM>struct cli_def *cli<\/EM>)<\/A><\/H3>$/;"	a	language:HTML
+cli_done	libcli.c	/^int cli_done(struct cli_def *cli)$/;"	f	language:C	signature:(struct cli_def *cli)
+cli_error	Doc/developers.html	/^<H3><A NAME="cli_error">4.13 cli_error(<EM>struct cli_def *cli, char *format, ...<\/EM>)<\/A><\/H3>$/;"	a	language:HTML
+cli_error	libcli.c	/^void cli_error(struct cli_def *cli, char *format, ...)$/;"	f	language:C	signature:(struct cli_def *cli, char *format, ...)
+cli_file	Doc/developers.html	/^<H3><A NAME="cli_file">4.12 cli_file(<EM>struct cli_def *cli, FILE *f, int privilege, int mode<\/EM>)<\/A><\/H3>$/;"	a	language:HTML
+cli_file	libcli.c	/^int cli_file(struct cli_def *cli, FILE *fh, int privilege, int mode)$/;"	f	language:C	signature:(struct cli_def *cli, FILE *fh, int privilege, int mode)
+cli_filter	libcli.h	/^struct cli_filter {$/;"	s	language:C++
+cli_filter_cmds	libcli.h	/^struct cli_filter_cmds$/;"	s	language:C++
+cli_find_command	libcli.c	/^static int cli_find_command ( struct cli_def * cli, struct cli_command * commands, int num_words, char * words[], int start_word, int filters[] )$/;"	f	language:C	file:	signature:( struct cli_def * cli, struct cli_command * commands, int num_words, char * words[], int start_word, int filters[] )
+cli_free_command	libcli.c	/^static void cli_free_command(struct cli_command *cmd)$/;"	f	language:C	file:	signature:(struct cli_command *cmd)
+cli_free_history	libcli.c	/^void cli_free_history(struct cli_def *cli)$/;"	f	language:C	signature:(struct cli_def *cli)
+cli_get_completions	libcli.c	/^int cli_get_completions(struct cli_def *cli, char *command, char **completions, int max_completions)$/;"	f	language:C	signature:(struct cli_def *cli, char *command, char **completions, int max_completions)
+cli_init	Doc/developers.html	/^<H3><A NAME="cli_init">4.1 cli_init()<\/A><\/H3>$/;"	a	language:HTML
+cli_init	libcli.c	/^struct cli_def *cli_init()$/;"	f	language:C
+cli_int_configure_terminal	libcli.c	/^int cli_int_configure_terminal(struct cli_def *cli, UNUSED(char *command), UNUSED(char *argv[]), UNUSED(int argc))$/;"	f	language:C	signature:(struct cli_def *cli, UNUSED(char *command), UNUSED(char *argv[]), UNUSED(int argc))
+cli_int_disable	libcli.c	/^int cli_int_disable(struct cli_def *cli, UNUSED(char *command), UNUSED(char *argv[]), UNUSED(int argc))$/;"	f	language:C	signature:(struct cli_def *cli, UNUSED(char *command), UNUSED(char *argv[]), UNUSED(int argc))
+cli_int_enable	libcli.c	/^int cli_int_enable(struct cli_def *cli, UNUSED(char *command), UNUSED(char *argv[]), UNUSED(int argc))$/;"	f	language:C	signature:(struct cli_def *cli, UNUSED(char *command), UNUSED(char *argv[]), UNUSED(int argc))
+cli_int_exit	libcli.c	/^int cli_int_exit(struct cli_def *cli, char *command, char *argv[], int argc)$/;"	f	language:C	signature:(struct cli_def *cli, char *command, char *argv[], int argc)
+cli_int_help	libcli.c	/^int cli_int_help(struct cli_def *cli, UNUSED(char *command), UNUSED(char *argv[]), UNUSED(int argc))$/;"	f	language:C	signature:(struct cli_def *cli, UNUSED(char *command), UNUSED(char *argv[]), UNUSED(int argc))
+cli_int_history	libcli.c	/^int cli_int_history(struct cli_def *cli, UNUSED(char *command), UNUSED(char *argv[]), UNUSED(int argc))$/;"	f	language:C	signature:(struct cli_def *cli, UNUSED(char *command), UNUSED(char *argv[]), UNUSED(int argc))
+cli_int_quit	libcli.c	/^int cli_int_quit(struct cli_def *cli, UNUSED(char *command), UNUSED(char *argv[]), UNUSED(int argc))$/;"	f	language:C	signature:(struct cli_def *cli, UNUSED(char *command), UNUSED(char *argv[]), UNUSED(int argc))
+cli_loop	Doc/developers.html	/^<H3><A NAME="cli_loop">4.5 cli_loop(<EM>struct cli_def *cli, int sockfd<\/EM>)<\/A><\/H3>$/;"	a	language:HTML
+cli_match_filter_init	libcli.c	/^int cli_match_filter_init(struct cli_def *cli, int argc, char **argv, struct cli_filter *filt)$/;"	f	language:C	signature:(struct cli_def *cli, int argc, char **argv, struct cli_filter *filt)
+cli_match_filter_state	libcli.c	/^struct cli_match_filter_state$/;"	s	language:C	file:
+cli_parse_line	libcli.c	/^static int cli_parse_line(char *line, char *words[], int max_words)$/;"	f	language:C	file:	signature:(char *line, char *words[], int max_words)
+cli_print	Doc/developers.html	/^<H3><A NAME="cli_print">4.13 cli_print(<EM>struct cli_def *cli, char *format, ...<\/EM>)<\/A><\/H3>$/;"	a	language:HTML
+cli_print	libcli.c	/^void cli_print(struct cli_def *cli, char *format, ...)$/;"	f	language:C	signature:(struct cli_def *cli, char *format, ...)
+cli_print_callback	Doc/developers.html	/^<H3><A NAME="cli_print_callback">4.15 cli_print_callback(<EM>struct cli_def *cli, void (*callback)(struct cli_def *, char *)<\/EM>)<\/A><\/H3>$/;"	a	language:HTML
+cli_print_callback	libcli.c	/^void cli_print_callback(struct cli_def *cli, void (*callback)(struct cli_def *, char *))$/;"	f	language:C	signature:(struct cli_def *cli, void (*callback)(struct cli_def *, char *))
+cli_range_filter_init	libcli.c	/^int cli_range_filter_init(struct cli_def *cli, int argc, char **argv, struct cli_filter *filt)$/;"	f	language:C	signature:(struct cli_def *cli, int argc, char **argv, struct cli_filter *filt)
+cli_range_filter_state	libcli.c	/^struct cli_range_filter_state {$/;"	s	language:C	file:
+cli_register_command	Doc/developers.html	/^<H3><A NAME="cli_register_command">4.3 cli_register_command(<EM>struct cli_def *cli, struct cli_command *parent, char *command, int (*callback)(struct cli_def *, char *, char **, int), int privilege, int mode, char *help<\/EM>)<\/A><\/H3>$/;"	a	language:HTML
+cli_register_command	libcli.c	/^struct cli_command *cli_register_command(struct cli_def *cli,$/;"	f	language:C	signature:(struct cli_def *cli, struct cli_command *parent, char *command, int (*callback)(struct cli_def *cli, char *, char **, int), int privilege, int mode, char *help)
+cli_register_command_f	libcli.c	/^struct cli_command *cli_register_command_f ( struct cli_def *cli,$/;"	f	language:C	signature:( struct cli_def *cli, struct cli_command *parent, const char *command, int ( *callback ) ( struct cli_def *cli, char *, char **, int, int ), int privilege, int mode, const char *help, int flag )
+cli_regular	Doc/developers.html	/^<H3><A NAME="cli_regular">4.11 cli_regular(<EM>struct cli_def *cli, int(*callback)(struct cli_def *)<\/EM>)<\/A><\/H3>$/;"	a	language:HTML
+cli_regular	libcli.c	/^void cli_regular(struct cli_def *cli, int (*callback)(struct cli_def *cli))$/;"	f	language:C	signature:(struct cli_def *cli, int (*callback)(struct cli_def *cli))
+cli_regular_interval	libcli.c	/^void cli_regular_interval(struct cli_def *cli, int seconds)$/;"	f	language:C	signature:(struct cli_def *cli, int seconds)
+cli_reprompt	libcli.c	/^void cli_reprompt(struct cli_def *cli)$/;"	f	language:C	signature:(struct cli_def *cli)
+cli_run_command	libcli.c	/^int cli_run_command(struct cli_def *cli, char *command)$/;"	f	language:C	signature:(struct cli_def *cli, char *command)
+cli_set_auth_callback	Doc/developers.html	/^<H3><A NAME="cli_set_auth_callback">4.6 cli_set_auth_callback(<EM>struct cli_def *cli, int (*auth_callback)(char *, char *)<\/EM>)<\/A><\/H3>$/;"	a	language:HTML
+cli_set_auth_callback	libcli.c	/^void cli_set_auth_callback(struct cli_def *cli, int (*auth_callback)(char *, char *))$/;"	f	language:C	signature:(struct cli_def *cli, int (*auth_callback)(char *, char *))
+cli_set_banner	Doc/developers.html	/^<H3><A NAME="cli_set_banner">4.9 cli_set_banner(<EM>struct cli_def *cli, char *banner<\/EM>)<\/A><\/H3>$/;"	a	language:HTML
+cli_set_banner	libcli.c	/^void cli_set_banner(struct cli_def *cli, char *banner)$/;"	f	language:C	signature:(struct cli_def *cli, char *banner)
+cli_set_configmode	Doc/developers.html	/^<H3><A NAME="cli_set_configmode">4.18 cli_set_configmode(<EM>struct cli_def *cli, int mode, char *string<\/EM>)<\/A><\/H3>$/;"	a	language:HTML
+cli_set_configmode	libcli.c	/^int cli_set_configmode(struct cli_def *cli, int mode, char *config_desc)$/;"	f	language:C	signature:(struct cli_def *cli, int mode, char *config_desc)
+cli_set_enable_callback	Doc/developers.html	/^<H3><A NAME="cli_set_enable_callback">4.16 cli_set_enable_callback(<EM>struct cli_def *cli, void (*callback)(struct cli_def *, char *)<\/EM>)<\/A><\/H3>$/;"	a	language:HTML
+cli_set_enable_callback	libcli.c	/^void cli_set_enable_callback(struct cli_def *cli, int (*enable_callback)(char *))$/;"	f	language:C	signature:(struct cli_def *cli, int (*enable_callback)(char *))
+cli_set_hostname	Doc/developers.html	/^<H3><A NAME="cli_set_hostname">4.10 cli_set_hostname(<EM>struct cli_def *cli, char *hostname<\/EM>)<\/A><\/H3>$/;"	a	language:HTML
+cli_set_hostname	libcli.c	/^void cli_set_hostname(struct cli_def *cli, char *hostname)$/;"	f	language:C	signature:(struct cli_def *cli, char *hostname)
+cli_set_idle_timeout	libcli.c	/^void cli_set_idle_timeout(struct cli_def *cli, unsigned int seconds)$/;"	f	language:C	signature:(struct cli_def *cli, unsigned int seconds)
+cli_set_modestring	libcli.c	/^void cli_set_modestring(struct cli_def *cli, char *modestring)$/;"	f	language:C	signature:(struct cli_def *cli, char *modestring)
+cli_set_privilege	libcli.c	/^int cli_set_privilege(struct cli_def *cli, int priv)$/;"	f	language:C	signature:(struct cli_def *cli, int priv)
+cli_set_promptchar	libcli.c	/^void cli_set_promptchar(struct cli_def *cli, char *promptchar)$/;"	f	language:C	signature:(struct cli_def *cli, char *promptchar)
+cli_show_help	libcli.c	/^int cli_show_help(struct cli_def *cli, struct cli_command *c)$/;"	f	language:C	signature:(struct cli_def *cli, struct cli_command *c)
+cli_states	libcli.h	/^enum cli_states {$/;"	g	language:C++
+cli_unregister_all	libcli.c	/^void cli_unregister_all(struct cli_def *cli, struct cli_command *command)$/;"	f	language:C	signature:(struct cli_def *cli, struct cli_command *command)
+cli_unregister_command	Doc/developers.html	/^<H3><A NAME="cli_unregister_command">4.4 cli_unregister_command(<EM>struct cli_def *cli, char *command<\/EM>)<\/A><\/H3>$/;"	a	language:HTML
+cli_unregister_command	libcli.c	/^int cli_unregister_command(struct cli_def *cli, char *command)$/;"	f	language:C	signature:(struct cli_def *cli, char *command)
+cli_vabufprint	libcli.c	/^void cli_vabufprint(struct cli_def *cli, char *format, va_list ap)$/;"	f	language:C	signature:(struct cli_def *cli, char *format, va_list ap)
+client	libcli.h	/^    FILE *client;$/;"	m	language:C++	struct:cli_def
+cmd	libcli.h	/^    char *cmd;$/;"	m	language:C++	struct:cli_filter_cmds
+cmd_range_match	libcli.c	/^cmd_range_match ( const char *range, const char *str )$/;"	f	language:C	file:	signature:( const char *range, const char *str )
+command	libcli.h	/^    char *command;$/;"	m	language:C++	struct:cli_command
+commandname	libcli.h	/^    char *commandname;  \/\/ temporary buffer for cli_command_name() to prevent leak$/;"	m	language:C++	struct:cli_def
+commands	libcli.h	/^    struct cli_command *commands;$/;"	m	language:C++	struct:cli_def	typeref:struct:cli_def::cli_command
+completion_callback	libcli.h	/^    int completion_callback;$/;"	m	language:C++	struct:cli_def
+conn	libcli.h	/^    void *conn;$/;"	m	language:C++	struct:cli_def
+data	libcli.h	/^    void *data;$/;"	m	language:C++	struct:cli_filter
+editing	Doc/usersguide.html	/^<H2><A NAME="editing">Command-Line Editing<\/A><\/H2>$/;"	a	language:HTML
+enable_callback	libcli.h	/^    int (*enable_callback)(char *);$/;"	m	language:C++	struct:cli_def
+enable_password	libcli.h	/^    char *enable_password;$/;"	m	language:C++	struct:cli_def
+filter	libcli.h	/^    int (*filter)(struct cli_def *cli, char *string, void *data);$/;"	m	language:C++	struct:cli_filter
+filter_cmds	libcli.c	/^static struct cli_filter_cmds filter_cmds[] =$/;"	v	language:C	typeref:struct:cli_filter_cmds	file:
+filters	Doc/usersguide.html	/^<H2><A NAME="filters">Filters<\/A><\/H2>$/;"	a	language:HTML
+filters	libcli.h	/^    struct cli_filter *filters;$/;"	m	language:C++	struct:cli_def	typeref:struct:cli_def::cli_filter
+flag	libcli.h	/^    int flag;$/;"	m	language:C++	struct:cli_command
+flags	libcli.c	/^    int flags;$/;"	m	language:C	struct:cli_match_filter_state	file:
+fprintf	libcli.c	/^int fprintf(FILE *stream, const char *fmt, ...) {$/;"	f	language:C	signature:(FILE *stream, const char *fmt, ...)
+free_z	libcli.h	98;"	d	language:C++
+from	libcli.c	/^    char *from;$/;"	m	language:C	struct:cli_range_filter_state	file:
+funcref	Doc/developers.html	/^<H2><A NAME="funcref">4.0 Function Reference<\/A><\/H2>$/;"	a	language:HTML
+help	libcli.h	/^    char *help;$/;"	m	language:C++	struct:cli_command
+help	libcli.h	/^    char *help;$/;"	m	language:C++	struct:cli_filter_cmds
+history	Doc/usersguide.html	/^<H2><A NAME="history">History<\/A><\/H2>$/;"	a	language:HTML
+history	libcli.h	/^    char *history[MAX_HISTORY];$/;"	m	language:C++	struct:cli_def
+hostname	libcli.h	/^    char *hostname;$/;"	m	language:C++	struct:cli_def
+idle_timeout	libcli.h	/^    unsigned int idle_timeout;$/;"	m	language:C++	struct:cli_def
+join_words	libcli.c	/^static char *join_words(int argc, char **argv)$/;"	f	language:C	file:	signature:(int argc, char **argv)
+last_action	libcli.h	/^    time_t last_action;$/;"	m	language:C++	struct:cli_def
+match	libcli.c	/^    } match;$/;"	m	language:C	struct:cli_match_filter_state	typeref:union:cli_match_filter_state::__anon1	file:
+matched	libcli.c	/^    int matched;$/;"	m	language:C	struct:cli_range_filter_state	file:
+mode	libcli.h	/^    int mode;$/;"	m	language:C++	struct:cli_command
+mode	libcli.h	/^    int mode;$/;"	m	language:C++	struct:cli_def
+modestring	libcli.h	/^    char *modestring;$/;"	m	language:C++	struct:cli_def
+next	libcli.h	/^    struct cli_command *next;$/;"	m	language:C++	struct:cli_command	typeref:struct:cli_command::cli_command
+next	libcli.h	/^    struct cli_filter *next;$/;"	m	language:C++	struct:cli_filter	typeref:struct:cli_filter::cli_filter
+next	libcli.h	/^    struct unp *next;$/;"	m	language:C++	struct:unp	typeref:struct:unp::unp
+parent	libcli.h	/^    struct cli_command *parent;$/;"	m	language:C++	struct:cli_command	typeref:struct:cli_command::cli_command
+pass_matches	libcli.c	/^int pass_matches(char *pass, char *try)$/;"	f	language:C	signature:(char *pass, char *try)
+password	libcli.h	/^    char *password;$/;"	m	language:C++	struct:unp
+print_callback	libcli.h	/^    void (*print_callback)(struct cli_def *cli, char *string);$/;"	m	language:C++	struct:cli_def
+privilege	libcli.h	/^    int privilege;$/;"	m	language:C++	struct:cli_command
+privilege	libcli.h	/^    int privilege;$/;"	m	language:C++	struct:cli_def
+promptchar	libcli.h	/^    char *promptchar;$/;"	m	language:C++	struct:cli_def
+re	libcli.c	/^        regex_t re;$/;"	m	language:C	union:cli_match_filter_state::__anon1	file:
+read	libcli.c	/^int read(int fd, void *buf, unsigned int count) {$/;"	f	language:C	signature:(int fd, void *buf, unsigned int count)
+regcomp	libcli.c	88;"	d	language:C	file:
+regex_dummy	libcli.c	/^int regex_dummy() {return 0;};$/;"	f	language:C
+regex_t	libcli.c	89;"	d	language:C	file:
+regexec	libcli.c	87;"	d	language:C	file:
+regfree	libcli.c	86;"	d	language:C	file:
+regular_callback	libcli.h	/^    int (*regular_callback)(struct cli_def *cli);$/;"	m	language:C++	struct:cli_def
+service	libcli.h	/^    void *service;$/;"	m	language:C++	struct:cli_def
+show_prompt	libcli.c	/^int show_prompt(struct cli_def *cli, int sockfd)$/;"	f	language:C	signature:(struct cli_def *cli, int sockfd)
+showprompt	libcli.h	/^    char showprompt;$/;"	m	language:C++	struct:cli_def
+state	libcli.h	/^    int state;$/;"	m	language:C++	struct:cli_def
+string	libcli.c	/^        char *string;$/;"	m	language:C	union:cli_match_filter_state::__anon1	file:
+string	libcli.c	/^int cli_match_filter(UNUSED(struct cli_def *cli), char *string, void *data)$/;"	v	language:C
+string	libcli.c	/^int cli_range_filter(UNUSED(struct cli_def *cli), char *string, void *data)$/;"	v	language:C
+timeout_tm	libcli.h	/^    struct timeval timeout_tm;$/;"	m	language:C++	struct:cli_def	typeref:struct:cli_def::timeval
+to	libcli.c	/^    char *to;$/;"	m	language:C	struct:cli_range_filter_state	file:
+tutorial	Doc/developers.html	/^<H2><A NAME="tutorial">3.0 Tutorial<\/A><\/H2>$/;"	a	language:HTML
+unique_len	libcli.h	/^    unsigned int unique_len;$/;"	m	language:C++	struct:cli_command
+unp	libcli.h	/^struct unp {$/;"	s	language:C++
+username	libcli.h	/^    char *username;$/;"	m	language:C++	struct:unp
+users	libcli.h	/^    struct unp *users;$/;"	m	language:C++	struct:cli_def	typeref:struct:cli_def::unp
+vasprintf	libcli.c	/^int vasprintf(char **strp, const char *fmt, va_list args) {$/;"	f	language:C	signature:(char **strp, const char *fmt, va_list args)
+write	libcli.c	/^int write(int fd,const void *buf, unsigned int count) {$/;"	f	language:C	signature:(int fd,const void *buf, unsigned int count)
