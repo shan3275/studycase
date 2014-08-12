@@ -46,7 +46,11 @@ set expandtab
 set autoindent
 set foldmethod=syntax 
 set foldlevel=100 "启动vim时不要自动折叠代码 
-
+set list
+set listchars=tab:¦\ ,trail:~,extends:»,precedes:«
+" To save, ctrl-s.
+nmap <c-s> :w<CR>
+imap <c-s> <Esc>:w<CR>a
 
 " TagList
 nnoremap <silent> <F8> :TlistToggle<CR>
