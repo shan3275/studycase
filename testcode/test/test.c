@@ -32,9 +32,21 @@ void getPortStr(int portNum, char *pStr)
 void  main(void)
 {
     char str[24] = {0};
-     int port = 32;
+     int port = 32000;
      getPortStr(port, str);
      printf("%s", str);
+}
+#endif
+
+#if 0
+
+int main(int argc, char **argv)
+{
+    char *pStr = "This is a test.";
+    char str[] = "Hello world";
+    printf("%s", strcpy(&pStr[2], str));
+
+    return 0;
 }
 #endif
 
