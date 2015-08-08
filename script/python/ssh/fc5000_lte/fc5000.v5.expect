@@ -1,0 +1,20 @@
+#!/usr/bin/expect
+set ip [lindex $argv 0]
+
+proc do_pre_cmd {} {
+        expect "Please input usrname:\r"
+        send "root\r"
+        expect "Please input password:\r"
+        send "root\r"
+        expect "mdu# "
+		send "show interface all statistics\r"
+        expect "mdu# "
+        send "quit\r"
+		expect "Connection closed by foreign host"
+		puts "\nok\n"
+}
+        set timeout 3
+        spawn /usr/bin/telnet $ip 16000 
+        do_pre_cmd
+        exp_close
+        exp_wait
