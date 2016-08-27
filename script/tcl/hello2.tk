@@ -1,0 +1,8 @@
+#!/usr/bin/wish
+#
+# Hello World, Tk-style
+
+ button .b -text "Hello, world!" \
+   -command {exit} -background {black}
+
+   grid .b
