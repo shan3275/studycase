@@ -1,0 +1,89 @@
+" ~/.vimrc (configuration file for vim only)
+" skeletons
+function! SKEL_spec()
+	0r /usr/share/vim/current/skeletons/skeleton.spec
+	language time en_US
+	if $USER != ''
+	    let login = $USER
+	elseif $LOGNAME != ''
+	    let login = $LOGNAME
+	else
+	    let login = 'unknown'
+	endif
+	let newline = stridx(login, "\n")
+	if newline != -1
+	    let login = strpart(login, 0, newline)
+	endif
+	if $HOSTNAME != ''
+	    let hostname = $HOSTNAME
+	else
+	    let hostname = system('hostname -f')
+	    if v:shell_error
+		let hostname = 'localhost'
+	    endif
+	endif
+	let newline = stridx(hostname, "\n")
+	if newline != -1
+	    let hostname = strpart(hostname, 0, newline)
+	endif
+	exe "%s/specRPM_CREATION_DATE/" . strftime("%a\ %b\ %d\ %Y") . "/ge"
+	exe "%s/specRPM_CREATION_AUTHOR_MAIL/" . login . "@" . hostname . "/ge"
+	exe "%s/specRPM_CREATION_NAME/" . expand("%:t:r") . "/ge"
+	setf spec
+endfunction
+autocmd BufNewFile	*.spec	call SKEL_spec()
+" filetypes
+filetype plugin on
+filetype indent on
+set completeopt=longest,menu 
+set number
+syntax enable
+syntax on
+colorscheme desert
+set ts=4
+set shiftwidth=4
+set expandtab
+set autoindent
+set foldmethod=syntax 
+set foldlevel=100 "启动vim时不要自动折叠代码 
+set list
+set listchars=tab:¦\ ,trail:~,extends:»,precedes:«
+" To save, ctrl-s.
+nmap <c-s> :w<CR>
+imap <c-s> <Esc>:w<CR>a
+
+" TagList
+nnoremap <silent> <F8> :TlistToggle<CR>
+let Tlist_Show_One_File=1    "只显示当前文件的tags
+let Tlist_WinWidth=50        "设置taglist宽度
+let Tlist_Exit_OnlyWindow = 1          "如果taglist窗口是最后一个窗口，则退出vim
+let Tlist_Use_Right_Window=0
+let Tlist_Use_SingleClick=1
+let Tlist_Show_Menu=1
+let Tlist_Window_Jump_To_Tag=1
+let Tlist_Window_Open_File=1
+let Tlist_Auto_Highlight_Tag=1
+let Tlist_Display_Prototype=1
+
+" WinManger
+let g:winManagerWindowLayout='FileExplorer|TagList' 
+nmap wm :WMToggle<cr>
+
+" cscope
+set cscopequickfix=s-,c-,d-,i-,t-,e- 
+
+" miniBufExplorer
+let g:miniBufExplMapWindowNavVim = 1 
+let g:miniBufExplMapWindowNavArrows = 1 
+
+" A
+nnoremap <silent> <F12> :A<CR>
+
+"Grep
+nnoremap <silent> <F3> :Rgrep<CR>
+
+"SuperTab
+let g:SuperTabRetainCompletionType=2 
+let g:SuperTabDefaultCompletionType="<C-X><C-O>" 
+
+" ~/.vimrc ends here

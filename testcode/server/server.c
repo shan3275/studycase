@@ -47,12 +47,12 @@ int main() {
             perror("call to accept");
             exit(EXIT_FAILURE);
         }
-
+        memset(buf, 0, sizeof(buf));
         if (recv(temp_sock_descriptor, buf, 16384, 0) == -1) {
             perror("call to recv");
             exit(EXIT_FAILURE);
         }
-        printf("received from client:%s\n", buf);
+        printf("received from client(%s):%s\n", inet_ntoa(pin.sin_addr), buf);
 
         // for this server example, we just convert the
         // characters to upper case:

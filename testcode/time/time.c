@@ -38,19 +38,19 @@ int main()
      tblock=localtime(&timer);
      printf("Local time is: %s",asctime(tblock));
      return 0;
-}*/
-
+}
+*/
 /*得到日历时间
  *返回字符串格式：星期,月,日,小时:分:秒,年
  */
-/*int main()
+int main()
 {
     time_t t;
     time(&t);
     printf("Today's date and time: %s",ctime(&t));
     return 0;
 
-}*/
+}
 
 
 /*int main()
@@ -65,7 +65,7 @@ int main()
       printf("tz_minuteswest:%d\n",tz.tz_minuteswest);
       printf("tz_dsttime:%d\n",tz.tz_dsttime);
       return 0;
-}*/
+}
 
 int delay(int time)
 
@@ -96,4 +96,28 @@ int main()
         printf("thedifference is %ld\n",diff);
         return 0;
 
-}
+}*/
+
+/*
+ *
+ * 
+ *
+ char date[32] = {0};
+ struct timeval clock;
+ struct tm *tm;
+ gettimeofday(&clock, NULL);
+ tm = localtime(&clock.tv_sec);
+ strftime(date, sizeof(date), "%Y%m%d%H%M%S", tm);
+ printf("%s\n", date);
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ * */

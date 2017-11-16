@@ -30,10 +30,10 @@ def ssh_command (user, host, password):
     print 'good'
     return child
 def main ():
-    host = '192.168.1.35'
+    host = '192.168.1.3'
     user = 'shan'
     password = 'shan'
-    command = 'md5sum /home/shan/minicom.cap'
+    command = 'date'
     child = ssh_command (user, host, password)
     child.expect(pexpect.EOF)
     print child.before

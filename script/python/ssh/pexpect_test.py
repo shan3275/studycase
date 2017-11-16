@@ -12,27 +12,22 @@ import pexpect
  
 if __name__ == '__main__':
     user = 'root'
-    ip = '192.168.40.3'
-    mypassword = 'root'
+    ip = 'admartzone.com'
+    mypassword = 'csE)5ZbMXX$c*rPPY.4UfG*aNM(IqFkJ'
  
     pexpect.run('ls -la')
     print user
-    child = pexpect.spawn('ssh %s@%s' % (user,ip))
+    child = pexpect.spawn('ssh %s@%s -p 65522' % (user,ip))
     child.expect ('password:')
     child.sendline (mypassword)
  
-    child.expect('$')
-    child.sendline('ls -la')
-    '''
-    child.sendline('sudo -s')
-    child.expect (':')
-    child.sendline (mypassword)
     child.expect('#')
-    child.sendline('ls -la')
+    child.sendline(' echo '' > /var/log/wtmp')
+    child.sendline(' ls -la')
     child.expect('#')
-    print child.before   # Print the result of the ls command.
-    child.sendline("echo '112' >> /home/shan/1.txt ")
-    '''
+    print child.before
+    child.sendline(' exit')
+
     child.interact()     # Give control of the child to the user.
  
     pass

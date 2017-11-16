@@ -11,7 +11,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-char * host_name = "127.0.0.1"; //local host
+char * host_name = "192.168.1.104"; //local host
 int port = 8000;
 
 int main(int argc, char *argv[]) {
@@ -21,13 +21,14 @@ int main(int argc, char *argv[]) {
     struct sockaddr_in pin;
     struct hostent *server_host_name;
 
-    char * str = "A default test string";
+    char str[256] = "A default test string";
 
     if (argc < 2) {
         printf("Usage:'test \"Any test string\"\n");
         printf("We will send a default test string.\n");
     } else {
-        str = argv[1];
+        memset(str, 0, sizeof(str));
+        memcpy(str,argv[1], strlen(argv[1]));
     }
 
     if ((server_host_name = gethostbyname(host_name)) == 0) {
@@ -60,6 +61,7 @@ int main(int argc, char *argv[]) {
 
     printf("..sent message.. wait for response...\n");
 
+    memset(buf, 0, sizeof(buf));
     if (recv(socket_descriptor, buf, 8192, 0) == -1) {
         perror("Error in receving response from server\n");
         exit(EXIT_FAILURE);
