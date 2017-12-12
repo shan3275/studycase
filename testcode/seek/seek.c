@@ -21,11 +21,13 @@ int main(void)
         exit(EXIT_FAILURE);
     }
 
+    printf("infd:%d\n", infd);
     /* create a temporary file for output */
     if ((outfd = mkstemp(ftmp)) < 0) {
         perror("mkstemp");
         exit(EXIT_FAILURE);
     }
+    printf("outfd:%d\n", outfd);
     printf("output file if %s\n", ftmp);
 
     /* set the initial location in the file */
@@ -42,11 +44,11 @@ int main(void)
 
     /* show size before and after ftruncate */
     fstat(outfd, &statbuf);
-    printf("before ftruncate, %s is %ld bytes\n", ftmp, statbuf.st_size);
+    //printf("before ftruncate, %s is %ld bytes\n", ftmp, statbuf.st_size);
     ftruncate(outfd, statbuf.st_size / 2);
     fsync(outfd);
     fstat(outfd, &statbuf);
-    printf("after ftruncate, %s is %ld bytes\n", ftmp, statbuf.st_size);
+    //printf("after ftruncate, %s is %ld bytes\n", ftmp, statbuf.st_size);
 
     /* close 'em up and get outta here */
     close(infd);

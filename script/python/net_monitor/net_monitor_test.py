@@ -95,11 +95,13 @@ def net_loop(interface, direction, rate, info):
     Bytes_data = (new_Bytes - Bytes)/1024
     print ("%s data: %s kB" %(direction, Bytes_data))
     real_rate = int(Bytes_data/60);
-    message = "%s %s方向一分钟流量警告,检查实时平均速率: %s KBps, 设置速率门阀值: %s KBps,请各位大佬关注服务器流量状况，发大财！！！"%(info, direction, real_rate,rate)
-    print  message
     if real_rate < rate :
-       print("达到报警条件，报警！！！")
+       message = "流量告警! %s %s %s方向一分钟流量警告,检查实时平均速率: %s KBps, 设置速率门阀值: %s KBps,请各位大佬关注服务器流量状况，发大财！！！"%(time.strftime('%Y-%m-%d %H:%M:%S'),info, direction, real_rate,rate)
        send_simple_message(message)
+    else:
+       message = "流量信息  %s %s %s方向一分钟流量,检查实时平均速率: %s KBps, 设置速率门阀值: %s KBps,发大财！！！"%(time.strftime('%Y-%m-%d %H:%M:%S'),info, direction, real_rate,rate)
+    print  message
+    
 
 
 if __name__ == "__main__":

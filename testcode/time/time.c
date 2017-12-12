@@ -48,6 +48,13 @@ int main()
     time_t t;
     time(&t);
     printf("Today's date and time: %s",ctime(&t));
+ char date[32] = {0};
+ struct timeval clock;
+ struct tm *tm;
+ gettimeofday(&clock, NULL);
+ tm = localtime(&clock.tv_sec);
+ strftime(date, sizeof(date), "%Y-%m-%d %H:%M:%S", tm);
+ printf("%s\n", date);
     return 0;
 
 }

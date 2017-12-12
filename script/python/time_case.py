@@ -1,4 +1,5 @@
 #!/usr/bin/python
+#coding:UTF-8
 #Filename:time.py
 import time
 import datetime
@@ -12,3 +13,13 @@ print time.strftime('%Y')
 print datetime.date.today() - datetime.timedelta(days=1)
 print datetime.date.today()
 #print time.__doc__
+
+dt = "2016-05-05 20:28:00"
+
+#转换成时间数组
+timeArray = time.strptime(dt, "%Y-%m-%d %H:%M:%S")
+print timeArray
+#转换成时间戳
+timestamp = time.mktime(timeArray)
+
+print timestamp

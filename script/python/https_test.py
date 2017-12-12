@@ -1,9 +1,8 @@
 #!/usr/bin/python
 #coding=utf-8
 #Filename : addr_book.py
-#Function : This program can add, modify, del and search your contact
-#	    persons.Personal information include phone number.
-#History  : 2013/04/10     shan      V0.1
+#Function : 通过钉钉机器人发送消息给群指定成员,测试OK
+#History  : 2017/11/15     shan      V0.1
 
 import os
 import sys
@@ -33,7 +32,7 @@ def send_warn(recv_data, send_data):
 
 if __name__ == "__main__":
     send_warn(600,300)
-    
+
 
 '''
 #get access_token
