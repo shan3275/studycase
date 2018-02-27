@@ -1,7 +1,6 @@
-from scrapy.contrib.spiders import CrawlSpider, Rule
+from scrapy.spiders import CrawlSpider, Rule
 from wikiSpider.items import Article
-from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
-from scrapy import log
+from scrapy.linkextractors.sgml import SgmlLinkExtractor
 
 class ArticleSpider(CrawlSpider):
 	#log.start(logfile='log.txt', loglevel=log.CRITICAL)

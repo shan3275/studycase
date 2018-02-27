@@ -8,9 +8,10 @@ def getLinks(pageUrl):
     html = urlopen("http://en.wikipedia.org"+pageUrl)
     bsObj = BeautifulSoup(html, "html.parser")
     try:
-        print(bsObj.h1.get_text())
-        print(bsObj.find(id ="mw-content-text").findAll("p")[0])
-        print(bsObj.find(id="ca-edit").find("span").find("a").attrs['href'])
+        #print(bsObj.h1.get_text())
+        #print(bsObj.find(id ="mw-content-text").findAll("p")[0])
+        #print(bsObj.find(id="ca-edit").find("span").find("a").attrs['href'])
+        print ("")
     except AttributeError:
         print("This page is missing something! No worries though!")
     
