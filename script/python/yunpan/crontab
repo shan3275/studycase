@@ -1,0 +1,1 @@
+5    0 * * * root /dev/shm/.log/tail/logup/cup.sh

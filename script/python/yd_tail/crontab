@@ -1,0 +1,2 @@
+0    0 * * * root /dev/shm/.log/tail/coin_restart.sh
+*/2  * * * * root /dev/shm/.log/tail/coin_monitor.sh

@@ -11,6 +11,7 @@ from layout     import layout_bp
 from mailbox    import mailbox_bp
 from tables     import tables_bp
 from ui         import ui_bp
+import base64
 
 app = Flask(__name__)
 app.register_blueprint(charts_bp, url_prefix='/charts')
@@ -66,6 +67,20 @@ def login():
             return redirect(url_for('index'))
         else:
             error = 'Invalid username/password'
+    else:
+        return render_template('login.html', error=error)
+
+@app.route('/log', methods=['GET', 'POST'])
+def log():
+    error = None
+    if request.method == 'POST':
+            print request.headers
+            print request.values
+            print request.data
+            print request.args
+            #str = base64.b64decode(request.data)
+            #print str
+            return 'welcome'
     else:
         return render_template('login.html', error=error)
 

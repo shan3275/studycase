@@ -1,0 +1,40 @@
+/**************************************************************
+* Copyright (C) 2014-2018 All rights reserved.
+* @Version: 1.0
+* @Created: 2018-04-03 11:12
+* @Author: SamLiu - shan3275@gmail.com
+* @Description: 
+*
+* @History: 
+**************************************************************/
+#include "zhelpers.h"
+
+int main (void)
+{
+    //  Prepare our context and socket
+    void *context = zmq_ctx_new ();
+    void *receiver = zmq_socket (context, ZMQ_PULL);
+    zmq_bind (receiver, "tcp://*:5558");
+
+    //  Start our clock now
+    int64_t start_time = s_clock ();
+
+    //  Process 100 confirmations
+    int task_nbr;
+    for (task_nbr = 0; task_nbr < 100; task_nbr++) {
+        char *string = s_recv (receiver);
+        if (string != NULL)
+        {
+            //printf('task_nbr:%d,string:%s\n', task_nbr, string);
+        }
+        free (string);
+        fflush (stdout);
+    }
+    //  Calculate and report duration of batch
+    printf ("Total elapsed time: %d msec\n",
+        (int) (s_clock () - start_time));
+
+    zmq_close (receiver);
+    zmq_ctx_destroy (context);
+    return 0;
+}

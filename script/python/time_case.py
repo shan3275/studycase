@@ -7,10 +7,13 @@ print time.clock()
 print time.time()
 print time.ctime()
 print time.strftime('%Y-%m-%d %H:%M:%S')
+print time.strftime('%Y%m%d')
 print time.strftime('%Y')
 
 ##day dec one day
-print datetime.date.today() - datetime.timedelta(days=1)
+yesterday =  datetime.date.today() - datetime.timedelta(days=1)
+print yesterday.strftime('%Y%m%d')
+
 print datetime.date.today()
 #print time.__doc__
 

@@ -1,0 +1,17 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+ECFLAGS	Makefile	/^ECFLAGS = -g -O0  -I. -Werror$/;"	m	language:Make
+ELDFLAGS	Makefile	/^ELDFLAGS = -L $/;"	m	language:Make
+LDLIBS	Makefile	/^LDLIBS  =  -Wl$/;"	m	language:Make
+PROG	Makefile	/^PROG    = base64_test$/;"	m	language:Make
+__cbase64_h__	cbase64.h	2;"	d	language:C++
+base64_alphabet	cbase64.c	/^static const char base64_alphabet[] = {$/;"	v	language:C	file:
+base64_decode	cbase64.c	/^int base64_decode(const char *indata, int inlen, char *outdata, int *outlen) {$/;"	f	language:C	signature:(const char *indata, int inlen, char *outdata, int *outlen)
+base64_encode	cbase64.c	/^int base64_encode(const char *indata, int inlen, char *outdata, int *outlen) {$/;"	f	language:C	signature:(const char *indata, int inlen, char *outdata, int *outlen)
+base64_suffix_map	cbase64.c	/^static const unsigned char base64_suffix_map[256] = {$/;"	v	language:C	file:
+cmove_bits	cbase64.c	/^static char cmove_bits(unsigned char src, unsigned lnum, unsigned rnum) {$/;"	f	language:C	file:	signature:(unsigned char src, unsigned lnum, unsigned rnum)
+main	test.c	/^int main()$/;"	f	language:C

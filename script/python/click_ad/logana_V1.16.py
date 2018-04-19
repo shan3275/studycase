@@ -397,7 +397,8 @@ def main():
         for LINE in hfile:
             LINE = LINE.strip('\n')
             kdict = {}
-            PATSTR = LINE + "(.*?)\.s?html"
+            #PATSTR = LINE + "(.*?)\.s?html"
+            PATSTR = LINE
             kdict['di'] = PATSTR
             kdicts.append(kdict)
 

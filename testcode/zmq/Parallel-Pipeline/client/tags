@@ -1,0 +1,24 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+ECFLAGS	Makefile	/^ECFLAGS = -g -O0  -I. #-Werror$/;"	m	language:Make
+ELDFLAGS	Makefile	/^ELDFLAGS = -L$/;"	m	language:Make
+LDLIBS	Makefile	/^LDLIBS  =  -Wl -lzmq$/;"	m	language:Make
+PROG	Makefile	/^PROG    = client$/;"	m	language:Make
+__ZHELPERS_H_INCLUDED__	zhelpers.h	9;"	d	language:C++
+main	client.c	/^int main (void)$/;"	f	language:C	signature:(void)
+randof	zhelpers.h	44;"	d	language:C++
+random	zhelpers.h	40;"	d	language:C++
+s_clock	zhelpers.h	/^s_clock (void)$/;"	f	language:C++	signature:(void)
+s_console	zhelpers.h	/^s_console (const char *format, ...)$/;"	f	language:C++	signature:(const char *format, ...)
+s_dump	zhelpers.h	/^s_dump (void *socket)$/;"	f	language:C++	signature:(void *socket)
+s_recv	zhelpers.h	/^s_recv (void *socket) {$/;"	f	language:C++	signature:(void *socket)
+s_send	zhelpers.h	/^s_send (void *socket, char *string) {$/;"	f	language:C++	signature:(void *socket, char *string)
+s_sendmore	zhelpers.h	/^s_sendmore (void *socket, char *string) {$/;"	f	language:C++	signature:(void *socket, char *string)
+s_set_id	zhelpers.h	/^s_set_id (void *socket)$/;"	f	language:C++	signature:(void *socket)
+s_set_id	zhelpers.h	/^s_set_id(void *socket, intptr_t id)$/;"	f	language:C++	signature:(void *socket, intptr_t id)
+s_sleep	zhelpers.h	/^s_sleep (int msecs)$/;"	f	language:C++	signature:(int msecs)
+srandom	zhelpers.h	39;"	d	language:C++
