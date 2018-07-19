@@ -10,7 +10,6 @@ import sys
 import re
 import base64
 import requests
-import urlparse
 
 def follow(thefile):
     thefile.seek(0,2)
@@ -37,92 +36,48 @@ def uri_compare(pstr, vstr):
 
 if __name__ == '__main__':
     #读取hosts域名列表
-    hosts_path = 'round-hosts.conf'
-    kdicts = {}
+    hosts_path = 'hosts.conf'
+    kdicts = []
     if hosts_path != None:
-        hfile = open(hosts_path, "r")
+        hfile = open('hosts.conf', "r")
         for LINE in hfile:
             LINE = LINE.strip('\n')
-            kdicts[LINE]=0
+            kdicts.append(LINE)
     else:
         print '没有发现hosts配置文件，退出'
         os._exit()
     for kdict in kdicts:
-        print (kdict,kdicts[kdict])
+        print kdict
 
     ###业务开始
-    keyword = ('i','s','ua','aid','uid','from','gsid')
-    for kw in keyword:
-        print(kw)
-
     tmp_dict = OrderedDict()
-    tmp_dict['channel']='AGJH-001'
-    tmp_dict['platform']='sina'
-    tmp_dict['rule']='weibo.cn'
-    content_dict = dict()
-
-    log_file = '/root/.log/naga.log' + time.strftime('%Y%m%d')
-    print 'log_file:%s' %(log_file)
-    logfile = open(log_file, "r")
+    logfile = open("access-log","r")
     loglines = follow(logfile)
     for line in loglines:
-        #print line
+        print line
         array = line.split('|')
-	if len(array) < 10:
-            break;
         RUF = array[9]
-        #print "URL:%s" %(RUF)
-        HOST = RUF.split('/',1)[0]
-        #print "HOST:%s" %(HOST)
         for kdict in kdicts:
             #print kdict
-            if uri_compare(kdict, HOST) == True:
-                durl = 'http://' + RUF
-                r = urlparse.urlsplit(durl)
-		#print 'host: %s' %(r.netloc)
-                path = r.path
-                #print 'path: %s\n' %(path)
-                query = dict(urlparse.parse_qs(r.query))
-                #query = urlparse.parse_qs(r.query)
-                #print query
-                #print '\n'
-
-                ##组装content
-                if query.has_key('i') == False or query.has_key('s') == False or query.has_key('ua') == False or query.has_key('aid')==False or query.has_key('gsid')==False :
-                    break;
-                if query.has_key('uid') == False and query.has_key('from') == False :
-                    break;
-                print '\n'
+            if uri_compare(kdict, RUF) == True:
                 print 'match!'
-		kdicts[kdict] = kdicts[kdict] + 1
-		print '%s :%d' %(kdict, kdicts[kdict])
-                content_str =''
-                for kw in keyword:
-                    if query.has_key(kw) :
-                        content_str += '%s=%s|' %(kw, query[kw][0])
-                    else:
-                        content_str += '%s=|'   %(kw)
-                print content_str
-                print '\n'
-
-                ##base64加密
-                encryed_content_str = base64.b64encode(content_str)
-                print encryed_content_str
-                print '\n'
-
-                content_dict['content'] = encryed_content_str
-
-                tmp_dict['datas'] = [content_dict]
-                print tmp_dict
-
-                post_json_str = json.dumps(tmp_dict)
-                print post_json_str
+                tmp_dict['time']=array[0]
+                tmp_dict['srcIp']=array[3]
+                tmp_dict['Url']=array[9]
+                json_str = json.dumps(tmp_dict)
+                print json_str
+                ##发送加密内容
+                encryed_str = base64.b64encode(json_str)
+                print encryed_str
+                tmp_dict.clear()
+                ##加密host
+                encryed_host_str = base64.b64encode(kdict)
+                print encryed_host_str
 
                 ##发送
-                #server_url='http://127.0.0.1:5000/log'
-		server_url='http://117.50.19.69/api/pushData'
+                server_url='http://127.0.0.1:5000/log?data=%s' %(encryed_host_str)
                 print 'server_url:%s' %(server_url)
-                r = requests.post(server_url, data=post_json_str)
+                r = requests.post(server_url, data=encryed_str)
                 print r.status_code
                 print r.text
 

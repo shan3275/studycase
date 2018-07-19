@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # coding:utf-8
 #Filename:tail.py
-# 用途：将日志进行域名匹配之后，加密发送到指定的服务器
+# 用途：将日志进行域名匹配之后，保存日志文件,一个小时一个文件
 #
 import time
 import json
@@ -51,17 +51,15 @@ if __name__ == '__main__':
         print (kdict,kdicts[kdict])
 
     ###业务开始
-    keyword = ('i','s','ua','aid','uid','from','gsid')
+    keyword      = ('i','s','ua','aid','uid','from','gsid')
+    keyword_main = ('i','s','ua','aid','uid','gsid')
     for kw in keyword:
         print(kw)
 
-    tmp_dict = OrderedDict()
-    tmp_dict['channel']='AGJH-001'
-    tmp_dict['platform']='sina'
-    tmp_dict['rule']='weibo.cn'
     content_dict = dict()
 
-    log_file = '/root/.log/naga.log' + time.strftime('%Y%m%d')
+    filepath = '/Users/liudeshan/work/studycase/script/python/yd_tail/'
+    log_file = filepath + 'naga.log' + time.strftime('%Y%m%d')
     print 'log_file:%s' %(log_file)
     logfile = open(log_file, "r")
     loglines = follow(logfile)
@@ -69,7 +67,7 @@ if __name__ == '__main__':
         #print line
         array = line.split('|')
 	if len(array) < 10:
-            break;
+            continue
         RUF = array[9]
         #print "URL:%s" %(RUF)
         HOST = RUF.split('/',1)[0]
@@ -88,10 +86,24 @@ if __name__ == '__main__':
                 #print '\n'
 
                 ##组装content
-                if query.has_key('i') == False or query.has_key('s') == False or query.has_key('ua') == False or query.has_key('aid')==False or query.has_key('gsid')==False :
-                    break;
-                if query.has_key('uid') == False and query.has_key('from') == False :
-                    break;
+	        if query.has_key('i') == False or query.has_key('s') == False or query.has_key('ua') == False or query.has_key('aid')==False or query.has_key('gsid')==False or query.has_key('uid')==False :
+		    print '字段不全'
+	            break;
+	        if query['i'][0] == False or query['s'][0] == False or query['ua'][0] == False or query['aid'][0]==False or query['gsid'][0]==False or query['uid'][0]==False :
+		    print '字段有零'
+		    break;
+                print 'not null, not 0'
+                if len(query['uid'][0]) != 10 :
+		    print 'uid长度不为10'
+                    break
+                print 'uid len = 10'
+                if query['uid'][0].isdigit() == False :
+		    print 'uid不全是数值'
+                    break
+                print 'uid is number '
+                #if len(query['aid'][0]) <= 50 :
+                #    break
+                #print 'aid is > 50 bytes'
                 print '\n'
                 print 'match!'
 		kdicts[kdict] = kdicts[kdict] + 1
@@ -99,31 +111,13 @@ if __name__ == '__main__':
                 content_str =''
                 for kw in keyword:
                     if query.has_key(kw) :
-                        content_str += '%s=%s|' %(kw, query[kw][0])
+                        content_str += '%s=%s;' %(kw, query[kw][0])
                     else:
-                        content_str += '%s=|'   %(kw)
+                        content_str += '%s=;'   %(kw)
                 print content_str
                 print '\n'
-
-                ##base64加密
-                encryed_content_str = base64.b64encode(content_str)
-                print encryed_content_str
-                print '\n'
-
-                content_dict['content'] = encryed_content_str
-
-                tmp_dict['datas'] = [content_dict]
-                print tmp_dict
-
-                post_json_str = json.dumps(tmp_dict)
-                print post_json_str
-
-                ##发送
-                #server_url='http://127.0.0.1:5000/log'
-		server_url='http://117.50.19.69/api/pushData'
-                print 'server_url:%s' %(server_url)
-                r = requests.post(server_url, data=post_json_str)
-                print r.status_code
-                print r.text
-
+                f = file(filepath + time.strftime('%Y%m%d%H')+".txt", 'aw')
+                f.write(content_str+'\n')
+                f.flush()
+                f.close()
                 break
