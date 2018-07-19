@@ -70,7 +70,7 @@ def login():
     else:
         return render_template('login.html', error=error)
 
-@app.route('/log', methods=['GET', 'POST'])
+@app.route('/log', methods=['GET', 'POST', 'PUT'])
 def log():
     error = None
     if request.method == 'POST':
@@ -81,6 +81,14 @@ def log():
             #str = base64.b64decode(request.data)
             #print str
             return 'welcome'
+    if request.method == 'PUT':
+            print request.headers
+            print request.values
+            print request.data
+            print request.args
+            #str = base64.b64decode(request.data)
+            #print str
+            return 'put'
     else:
         return render_template('login.html', error=error)
 
