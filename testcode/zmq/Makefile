@@ -1,4 +1,4 @@
-subdirs = Parallel-Pipeline
+subdirs = Parallel-Pipeline udp
 
 include $(MKDIR)/make.dir
 

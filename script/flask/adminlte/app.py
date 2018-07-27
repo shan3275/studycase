@@ -116,13 +116,15 @@ def test(username):
     return redirect(url_for(username))
 
 
+@app.route('/db/<username>')
 def db():
     cursor = mysql.get_db().cursor()
     cursor.execute('select * from kq_person_info')
     data = cursor.fetchall()
     for d in data:
         print(d[3], SEX[d[4]])
-    return jsonify({'code': 200})   
+    #return jsonify({'code': 200})   
+    return 'db test'
 
 if __name__ == "__main__":
     app.run(debug=True,host='0.0.0.0')

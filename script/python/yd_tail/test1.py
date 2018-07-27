@@ -10,4 +10,4 @@ with open('naga.log20180712') as f:
        f.write(line)
        f.flush()
        f.close()
-       time.sleep(0.1)
+       time.sleep(0.5)

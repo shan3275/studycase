@@ -1,0 +1,47 @@
+#1、字符串默认不使用引号表示
+str1: 这是一个字符串
+
+#2、如果字符串之中包含空格或特殊字符，需要放在引号之中。
+str2: '内容： *字符串'  #{'str2': '内容： *字符串'}
+
+#3、单引号和双引号都可以使用，双引号不会对特殊字符转义。
+str3: '内容\n字符串'  #{'str3': '内容\\n字符串'}
+str4: "content\n string"   #{'str4': 'content\n string'}
+
+#4、单引号之中如果还有单引号，必须连续使用两个单引号转义。
+s3: 'labor''s day'   #{'s3': "labor's day"}
+
+#5、字符串可以写成多行，从第二行开始，必须有一个单空格缩进。换行符会被转为空格
+strline: 这是一段
+  多行
+  字符串
+  #{'strline': '这是一段 多行 字符串'}
+
+#6、多行字符串可以使用|保留换行符，也可以使用>折叠换行
+this: |
+  Foo
+  Bar
+ #{'this': 'Foo\nBar\n'}
+that: >
+  Foo
+  Bar
+   #{'that': 'Foo Bar\n'}
+
+#7、+表示保留文字块末尾的换行，-表示删除字符串末尾的换行。
+s4: |
+  Foo4
+s5: |+
+  Foo5
+s6: |-
+  Foo6
+#{'s4': 'Foo4\n', 's5': 'Foo5\n', 's6': 'Foo6'}
+
+complex:
+ languages:
+  - Ruby
+  - Perl
+  - Python
+ websites:
+  YAML: yaml.org
+  Ruby: ruby-lang.org
+  Python: python.org

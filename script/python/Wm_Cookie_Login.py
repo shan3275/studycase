@@ -9,8 +9,10 @@ from selenium import webdriver
 
 import time
 
-url = 'http://192.168.1.19:5000/login'
-
+#url = 'http://192.168.1.13:5000/login'
+url = 'https://www.douyu.com/'
+#cookies = 'acf_did=5e33581fbb6a925255e20e8c00041501; acf_uid=126078070; acf_username=126078070; acf_nickname=%E8%BF%87%E5%A4%9C800%E5%85%83RMB; acf_own_room=0; acf_groupid=1; acf_phonestatus=1; acf_avatar=https%3A%2F%2Fapic.douyucdn.cn%2Fupload%2Favatar%2Fdefault%2F09_; acf_ct=0; acf_ltkid=14768355; acf_biz=1; acf_stk=5232bc6c50c7f8ac; dy_did=5e33581fbb6a925255e20e8c00041501; Hm_lvt_e99aee90ec1b2106afe7ec3b199020a7=1532482084,1532582556; Hm_lpvt_e99aee90ec1b2106afe7ec3b199020a7=1532582556'
+cookies = {'acf_did':'5e33581fbb6a925255e20e8c00041501', 'acf_uid':'126078070', 'acf_username':'126078070', 'acf_nickname':'%E8%BF%87%E5%A4%9C800%E5%85%83RMB', 'acf_own_room':'0', 'acf_groupid':'1', 'acf_phonestatus':'1', 'acf_avatar':'https%3A%2F%2Fapic.douyucdn.cn%2Fupload%2Favatar%2Fdefault%2F09_', 'acf_ct':'0', 'acf_ltkid':'14768355', 'acf_biz':'1', 'acf_stk':'5232bc6c50c7f8ac', 'dy_did':'5e33581fbb6a925255e20e8c00041501', 'Hm_lvt_e99aee90ec1b2106afe7ec3b199020a7':['1532482084', '1532582556'], 'Hm_lpvt_e99aee90ec1b2106afe7ec3b199020a7':'1532582556'}
 
 def login():
     '''先定义一个正常登录的方法，获取登录前和登录后的cookie'''
@@ -50,11 +52,11 @@ def login():
     driver.quit()
     # 将获取的这四个cookie作为参数，传递给，使用cookie登录的函数，如下
     cookieLogin(cookie1,cookie2)
-def cookieLogin(cookie1,cookie2):
+#def cookieLogin(cookie1,cookie2):
+def cookieLogin(cookie1):
     print("+++++++++++++++++++++++++")
     print("cookieLogin")
     print("cookie2:%s" % cookie1)
-    print("cookie4:%s" % cookie2)
     driver = webdriver.Chrome('/Applications/chromedriver')
     driver.maximize_window()
     # 清除一下cookie
@@ -62,18 +64,19 @@ def cookieLogin(cookie1,cookie2):
     time.sleep(3)
     driver.get(url)
     # 打开浏览器后添加访问地址后，添加cookie
-    #driver.add_cookie(cookie1)
-    driver.add_cookie(cookie2)
+    driver.add_cookie(cookie1)
+    #driver.add_cookie(cookie2)
     print("cookies")
     # 打印一下cookie,与上面正常登录的cookie对比一下
     print(driver.get_cookies())
     time.sleep(5)
     # 刷新页面，可以看到已经是登录状态了，至此完成的使用cookie 的登录。
     driver.refresh()
-    time.sleep(5)
+    time.sleep(20)
     driver.quit()
 
 
 if __name__ == "__main__":
 
-    login()
+    #login()
+    cookieLogin(cookies)

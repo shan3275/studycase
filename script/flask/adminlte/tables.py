@@ -10,4 +10,3 @@ def data():
 def simple():
     return render_template('simple.html')      
 
-    

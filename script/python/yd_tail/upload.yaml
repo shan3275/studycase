@@ -1,0 +1,10 @@
+output_path:
+    ./tmp/
+ency_path:
+    ./ency/
+
+log:
+    log_file:
+        upload.log
+    log_app:
+        WB

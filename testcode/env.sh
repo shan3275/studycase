@@ -6,5 +6,6 @@
 
 export SRCDIR=`pwd`
 export MKDIR=$SRCDIR/make
+export CPPFLAGS="$CPPFLAGS  -DZMQ_BUILD_DRAFT_API"
 
 

@@ -1,0 +1,16 @@
+input_file:
+    naga.log
+output_path:
+    ./tmp/
+ency_path:
+    ./ency/
+
+log:
+    log_file:
+        round.log
+    log_app:
+        WB
+
+filter_rule:
+    - weibo.cn
+    - qq.com
