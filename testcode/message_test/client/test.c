@@ -4,14 +4,14 @@
 #include <unistd.h>
 #include <assert.h>
 
-#include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/msg.h>
-#include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/ipc.h>
 #include <fcntl.h>
 #include <string.h>
 #include "ssctest.h"

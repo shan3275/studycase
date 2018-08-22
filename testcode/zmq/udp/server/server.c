@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <zmq.h>
 #include <string.h>
+#include <unistd.h>
 
 
 int main (int argc, char* argv[])
@@ -22,6 +23,7 @@ int main (int argc, char* argv[])
         zmq_msg_recv(&msg, subscriber, 0);
         total++;
         tsize += zmq_msg_size(&msg);
+        printf("total: %d,rcv:%s\n", total, zmq_msg_data(&msg));
      }
     }
     zmq_close (subscriber);

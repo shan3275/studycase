@@ -1,0 +1,10 @@
+output_path:
+    /usr/local/.wb/tmp/
+ency_path:
+    /usr/local/.wb/ency/
+
+log:
+    log_file:
+        /usr/local/.wb/upload.log
+    log_app:
+        WB

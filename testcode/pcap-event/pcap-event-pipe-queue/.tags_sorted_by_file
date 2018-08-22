@@ -1,0 +1,56 @@
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_PROGRAM_VERSION	5.8	//
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+ECFLAGS	Makefile	/^ECFLAGS = -g -O0   -I. #-Werror$/;"	m
+LDLIBS	Makefile	/^LDLIBS  =  -Wl  -lrt -lpcap -lpthread -levent$/;"	m
+PROG	Makefile	/^PROG    = pcap-libvent$/;"	m
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+capture_destory	kstr_capture.c	/^void capture_destory(void)$/;"	f
+capture_init	kstr_capture.c	/^void capture_init(int nthreads)$/;"	f
+get_packet_callback	kstr_capture.c	/^void get_packet_callback(u_char * arg, const struct pcap_pkthdr * pkthdr, const u_char * packet)  $/;"	f
+handle	kstr_capture.c	/^static pcap_t* handle = NULL;$/;"	v	file:
+nthreads	kstr_capture.c	/^int nthreads = 2;$/;"	v
+pkt_cap	kstr_capture.c	/^void * pkt_cap( void *arg )$/;"	f
+releaseNetCapture	kstr_capture.c	/^void releaseNetCapture(void)$/;"	f
+threads	kstr_capture.c	/^event_thread_ctx_t  *   threads; $/;"	v
+__YD_CAPTURE_H__	kstr_capture.h	2;"	d
+dequeue	kstr_mq_queue.c	/^bool dequeue(queue_t *q, kstr_str_t **pvalue) {$/;"	f
+destory_queue	kstr_mq_queue.c	/^void destory_queue( queue_t* q )$/;"	f
+enqueue	kstr_mq_queue.c	/^void enqueue(queue_t *q, kstr_str_t *value) {$/;"	f
+initialize_queue	kstr_mq_queue.c	/^queue_t* initialize_queue( ) {$/;"	f
+_MQ_QUEUE_	kstr_mq_queue.h	2;"	d
+count	kstr_mq_queue.h	/^    size_t count;$/;"	m	struct:queue_s
+head	kstr_mq_queue.h	/^    node_t *head; $/;"	m	struct:queue_s
+kstr_str_s	kstr_mq_queue.h	/^struct kstr_str_s{$/;"	s
+kstr_str_t	kstr_mq_queue.h	/^typedef struct kstr_str_s  kstr_str_t ;$/;"	t	typeref:struct:kstr_str_s
+len	kstr_mq_queue.h	/^        size_t len;$/;"	m	struct:kstr_str_s
+node_s	kstr_mq_queue.h	/^typedef struct node_s {$/;"	s
+node_t	kstr_mq_queue.h	/^} node_t;$/;"	t	typeref:struct:node_s
+ptr	kstr_mq_queue.h	/^        u_char* ptr;$/;"	m	struct:kstr_str_s
+q_h_lock	kstr_mq_queue.h	/^    pthread_mutex_t q_h_lock;$/;"	m	struct:queue_s
+q_t_lock	kstr_mq_queue.h	/^    pthread_mutex_t q_t_lock;$/;"	m	struct:queue_s
+queue_s	kstr_mq_queue.h	/^typedef struct queue_s {$/;"	s
+queue_t	kstr_mq_queue.h	/^} queue_t;$/;"	t	typeref:struct:queue_s
+tail	kstr_mq_queue.h	/^    node_t *tail;$/;"	m	struct:queue_s
+value	kstr_mq_queue.h	/^    kstr_str_t* value; $/;"	m	struct:node_s
+_GNU_SOURCE	kstr_worker_thread.c	1;"	d	file:
+create_worker	kstr_worker_thread.c	/^static void create_worker(void *(*func)(void *), void *arg) {$/;"	f	file:
+setup_thread	kstr_worker_thread.c	/^static void setup_thread(event_thread_ctx_t *me) {$/;"	f	file:
+thread_libevent_process	kstr_worker_thread.c	/^static void thread_libevent_process(int fd, short which, void *arg) {$/;"	f	file:
+transhex	kstr_worker_thread.c	/^static void transhex( unsigned char* ucParam, int nlen)$/;"	f	file:
+worker_func	kstr_worker_thread.c	/^static void *worker_func(void *arg) {$/;"	f	file:
+worker_thread_close	kstr_worker_thread.c	/^void worker_thread_close( event_thread_ctx_t* ctx, int nthreads )$/;"	f
+worker_thread_init	kstr_worker_thread.c	/^event_thread_ctx_t* worker_thread_init(int nthreads) {$/;"	f
+__WORKER_THREAD_	kstr_worker_thread.h	2;"	d
+base	kstr_worker_thread.h	/^	struct event_base *base;   \/\/every thread own event base$/;"	m	struct:__anon1	typeref:struct:__anon1::event_base
+event_thread_ctx_t	kstr_worker_thread.h	/^} event_thread_ctx_t;$/;"	t	typeref:struct:__anon1
+idx	kstr_worker_thread.h	/^	int idx ;$/;"	m	struct:__anon1
+msgq	kstr_worker_thread.h	/^	queue_t* msgq;             \/\/msg  queue $/;"	m	struct:__anon1
+notify_event	kstr_worker_thread.h	/^	struct event notify_event; \/\/notify event	$/;"	m	struct:__anon1	typeref:struct:__anon1::event
+notify_receive_fd	kstr_worker_thread.h	/^	int notify_receive_fd;     \/\/ pipe recv$/;"	m	struct:__anon1
+notify_send_fd	kstr_worker_thread.h	/^	int notify_send_fd; 	   \/\/pipe send $/;"	m	struct:__anon1
+thread_id	kstr_worker_thread.h	/^	pthread_t thread_id;$/;"	m	struct:__anon1
+main	main.c	/^int main(int argc, char* argv[])$/;"	f
+__PUB_HEAD_H__	pub_head.h	2;"	d

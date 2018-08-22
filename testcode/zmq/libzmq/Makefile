@@ -3,12 +3,14 @@
 all:zeromq-4.2.3 libzmq.a
 
 libzmq.a:
-	ln -s  zeromq-4.2.3/.libs/libzmq.a
+	ln -s  zeromq-4.2.3/src/.libs/libzmq.a
 
 zeromq-4.2.3:
-	tar xvf zeromq-4.2.3.tgz>>/dev/null
+	tar xvf zeromq-4.2.3.tar.gz>>/dev/null
 	ln -s zeromq-4.2.3 zeromq
-	cd zeromq &&  chmod +x configure
+	cd zeromq &&  mkdir -p src/.libs
+	cd zeromq &&  mkdir -p tools/.libs
+	cd zeromq &&  mkdir -p perf/.libs
 	cd zeromq && ./configure CFLAGS=-g --without-libsodium  >>/dev/null
 	cd zeromq &&  make >>/dev/null
 

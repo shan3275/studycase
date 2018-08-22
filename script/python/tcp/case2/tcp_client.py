@@ -3,8 +3,10 @@
 from socket import *
 import thread
 
-HOST='localhost'
-PORT=5648
+#HOST='localhost'
+HOST='192.168.1.97'
+#PORT=5648
+PORT=40713
 BUFSIZE=1024
 ADDR=(HOST,PORT)
 def th(sock):

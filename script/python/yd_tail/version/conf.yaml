@@ -1,0 +1,15 @@
+input_file:
+    /usr/local/.log/naga.log
+output_path:
+    /usr/local/.wb/tmp/
+ency_path:
+    /usr/local/.wb/ency/
+
+log:
+    log_file:
+        /usr/local/.wb/round.log
+    log_app:
+        WB
+
+filter_rule:
+    - weibo.cn

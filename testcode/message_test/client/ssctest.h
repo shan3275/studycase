@@ -141,7 +141,7 @@ void cmd_test_usage(void);
         } \
     } \
 }
-#define SSCTEST_DEBUG 0
+#define SSCTEST_DEBUG 1
 
 #if SSCTEST_DEBUG
 #define SSCTEST_DBG(fmt, args...) printf("[DEBUG]%s.%d: " fmt, __FUNCTION__, __LINE__, ##args)

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <zmq.h>
 #include <string.h>
+#include <unistd.h>
 
 int main (int argc , char* argv[])
 {
@@ -9,8 +10,9 @@ int main (int argc , char* argv[])
     void *publisher = zmq_socket (context, ZMQ_RADIO);
     zmq_connect (publisher, argv[1]);
     printf("Broadcasting on radio channel 'foo'!\n");
-    long long int sent = 0;
     while (1) {
+        printf("send hello\n");
+        usleep(2000000);
        zmq_msg_t msg;
         zmq_msg_init_size(&msg, strlen("hello"));
         memcpy(zmq_msg_data(&msg), "hello", strlen("hello"));
