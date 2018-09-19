@@ -9,6 +9,9 @@ class Cli(Cmd):
     def do_hello(self,line):
         print "hello",line
 
+    def do_bye(self,line):
+        print "Bye Bye",line    
+
 if __name__ == '__main__':
     cli = Cli()
     cli.cmdloop()

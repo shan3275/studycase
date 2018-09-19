@@ -20,7 +20,10 @@ def rc4(data, key):
     return "".join(out)
 
 if __name__ == "__main__":
-    buf = rc4("123456789", "dc")
+    buf = rc4("hello script, i love python and lua", "dc")
     print binascii.b2a_hex(buf)
+    #print buf
+    bff =rc4(buf,"dc");
+    print bff
     #assert rc4(buf, "dc") == "Hello World"
     print("Ran 1 test..")

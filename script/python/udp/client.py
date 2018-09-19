@@ -2,8 +2,8 @@
 # coding:utf-8
 import socket
 
-#host = '192.168.1.96'    
-host = '18.191.243.72'
+host = '192.168.1.7'    
+#host = '18.191.243.72'
 #两个段口必须一致
 port = 6666 
 addr = (host, port)

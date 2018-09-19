@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sys,os,hashlib,time,base64
+import binascii
 
 class RC4:
     def __init__(self, keyStr, keyLen=32):
@@ -63,6 +64,7 @@ if __name__=='__main__':
     data = 'hello script, i love python and lua'
     print data
     str = rc4.encrypt(data)
+    print binascii.b2a_hex(str)
     print str
     str = rc4.decrypt(str)
     print str

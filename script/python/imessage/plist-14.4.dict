@@ -1,0 +1,42 @@
+{
+'RtVariables': 
+	{
+		'MLB': 'C0250530060G36DAT', 
+		'BooterConfig': '0x28', 
+		'ROM': Data('\x0c\xbc\x9f4\xd0\x04'), 
+		'CsrActiveConfig': '0x67'
+	}, 
+
+'SystemParameters': 
+	{
+		'NvidiaWeb': True, 
+		'InjectSystemID': True, 
+		'InjectKexts': 'Yes'
+	}, 
+
+'SMBIOS': 
+	{
+		'BiosVersion': 'IM144.88Z.0189.B00.1804111137', 
+		'BoardType': 10, 
+		'SerialNumber': 'C02P68U3FY0T', 
+		'Family': 'iMac', 
+		'BoardSerialNumber': 'C0250530060G36DAT', 
+		'BoardVersion': '1.0', 
+		'ChassisAssetTag': 'iMac-Aluminum', 
+		'ChassisManufacturer': 'Apple Inc.', 
+		'BiosVendor': 'Apple Inc.', 
+		'BiosReleaseDate': '04/11/2018', 
+		'FirmwareFeatures': '0xF00FE137',
+		'LocationInChassis': 'Part Component',
+		'BoardManufacturer': 'Apple Inc.', 
+		'Version': '1.0', 
+		'Board-ID': 'Mac-81E3E92DD6088272', 
+		'ChassisType': '0x0D', 
+		'Mobile': False,
+		'ProductName': 'iMac14,4'
+		'PlatformFeature': '0x01', 
+		'FirmwareFeaturesMask': '0xFF1FFF3F', 
+		'Manufacturer': 'Apple Inc.', 
+		'SmUUID': '8182869C-82FC-4E6A-A788-F2A2E3DC5DA4', 
+	}
+}
