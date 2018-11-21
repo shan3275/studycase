@@ -1,11 +1,11 @@
 #!/usr/bin/python
 # coding:utf-8
 #Filename:tail.py
-import cmd
+from cmd import Cmd
 import os
 import sys
 
-class Client():
+class Cli(Cmd):
     u"""help
     这是doc
     """
@@ -13,9 +13,9 @@ class Client():
     intro = 'Welcom to pyFun!'
 
     def __init(self):
-        reload(sys)
-        sys.setdefaultencoding('utf-8')
-        cmd.__init__(self)
+        #reload(sys)
+        #sys.setdefaultencoding('utf-8')
+        Cmd.__init__(self)
 
     def do_hello(self,arg):
         print 'hello',arg
@@ -40,9 +40,5 @@ class Client():
         return cmd.postcmd(self, stop, line)   
 
 if __name__ == '__main__':
-    try:
-        os.system('clear')
-        client = Client()
-        client.cmdloop()
-    except:
-        exit()
+    cli = Cli()
+    cli.cmdloop()
