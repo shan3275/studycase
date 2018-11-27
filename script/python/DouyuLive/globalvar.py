@@ -1,17 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-def _init():
-    global CONF,logger
-    CONF = {}
+
+class GlobalVar:
+  CONF = dict()
+  logger = None
 
 def set_logger(value):
-    logger = value
-def set_conf(value):
-    CONF = value
+    GlobalVar.logger = value
 
-def get_logger(defValue=None):
-    try:
-        return logger
-    except KeyError:
-        return defValue
+def get_logger():
+    return GlobalVar.logger
+
+def set_conf(value):
+    GlobalVar.CONF = value
+
+def get_conf():
+    return GlobalVar.CONF
