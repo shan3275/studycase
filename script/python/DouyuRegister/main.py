@@ -20,6 +20,7 @@ import globalvar as gl
 import airtel    as airtel
 import douyuRegister as douyuRegister
 import douyuLogin    as douyuLogin
+import jsyzm         as jsyzm
 
 global CONF
 global logger
@@ -263,11 +264,19 @@ def RegisterOneAccountV5():
     airtel.AirtelReboot()
 
     ##第一步 获取手机号码
-    phone = jiema.RecvCodeGetPhone()
-    if phone == False:
-        ou['error'] = 5
-        ou['msg']   = '获取手机号码失败'
-        return ou
+    if CONF['useyzm'] == True:
+        jm = jsyzm.JSJM()
+        ou = jm.getPhone()
+        if ou['error'] != '0':
+            logger.error('获取号码失败，error=%s,msg=%s', ou['error'], ou['msg'])
+            return ou
+        phone = ou['data']['phone']
+    else:
+        phone = jiema.RecvCodeGetPhone()
+        if phone == False:
+            ou['error'] = 5
+            ou['msg']   = '获取手机号码失败'
+            return ou
     #print('phone: ' + phone)
 
     ##第二步 产生随机密码
@@ -285,12 +294,19 @@ def RegisterOneAccountV5():
 
     time.sleep(20)
     ##第三步 接收验证码
-    code = jiema.RecvCodeGetCode(phone)
-    if code == False:
-        ou['error'] = 6
-        ou['msg']   = '获取验证码失败'
-        ou['data'].clear()
-        return ou
+    if CONF['useyzm'] == True:
+        ou = jm.getCode(phone)
+        if ou['error'] != '0':
+            logger.error('获取短信失败，error=' + ou['error'] + ' msg=' + ou['msg'])
+            return ou
+        code = ou['data']['code']
+    else:
+        code = jiema.RecvCodeGetCode(phone)
+        if code == False:
+            ou['error'] = 6
+            ou['msg']   = '获取验证码失败'
+            ou['data'].clear()
+            return ou
 
     ##第四步 设置验证码
     crack.setcode(code)
@@ -491,12 +507,17 @@ class Cli(Cmd):
 
     ##接码平台登录获取token
     def do_jmlogin(self,line):
-        user = CONF['jiema']['user']
-        pwd  = CONF['jiema']['pwd']
-        token = jiema.JieMaLogin(user, pwd)
-        if token == False:
-            print('接码平台Token获取失败')
-            return
+        if CONF['useyzm'] == True:
+            #use jsyzm
+            jm = jsyzm.JSJM()
+            token = jm.token
+        else:
+            user = CONF['jiema']['user']
+            pwd  = CONF['jiema']['pwd']
+            token = jiema.JieMaLogin(user, pwd)
+            if token == False:
+                print('接码平台Token获取失败')
+                return
         print('接码平台Token获取成功: token='+token)
     def help_jmlogin(self):
         print '接码平台登录获取token'
@@ -535,13 +556,55 @@ class Cli(Cmd):
 
     ##获取接码平台手机号码
     def do_getphone(self,line):
-        phone = jiema.RecvCodeGetPhone()
-        if phone == False:
-            print('获取手机号码失败')
-            return
+        if CONF['useyzm'] == True:
+            jm = jsyzm.JSJM()
+            ou = jm.getPhone()
+            if ou['error'] != '0':
+                print('获取号码失败，error=%s,msg=%s', ou['error'], ou['msg'])
+                return
+            phone = ou['data']['phone']
+        else:
+            phone = jiema.RecvCodeGetPhone()
+            if phone == False:
+                print('获取手机号码失败')
+                return
         print('phone: '+phone)
     def help_getphone(self):
         print('获取接码平台手机号码')
+
+    ##释放接码平台手机号码
+    def do_releasephone(self,line):
+        phone = line
+        if CONF['useyzm'] == True:
+            jm = jsyzm.JSJM()
+            ou = jm.releasePhone(phone)
+            if ou['error'] != '0':
+                print('获取号码失败，error=%s,msg=%s', ou['error'], ou['msg'])
+                return
+        else:
+            print('不用释放号码')
+            return
+        print('释放号码 %s 成功',phone)
+    def help_releasephone(self):
+        print('释放单个手机号码, 需要输入参数')
+
+    ##释放接码平台手机号码
+    def do_releaseallphone(self, line):
+        phone = line
+        if CONF['useyzm'] == True:
+            jm = jsyzm.JSJM()
+            ou = jm.releaseAllPhone()
+            if ou['error'] != '0':
+                print('获取号码失败，error=%s,msg=%s', ou['error'], ou['msg'])
+                return
+        else:
+            print('不用释放号码')
+            return
+        print('释放号码全部号码成功')
+
+    def help_releaseallphone(self):
+        print('释放全部获取的手机号码')
+
 
     ##接码平台加黑无用号码
     def do_jmignorephone(self,phone):
@@ -564,10 +627,18 @@ class Cli(Cmd):
         if phone == '':
             print('请输入手机号码作为参数')
             return
-        code = jiema.RecvCodeGetCode(phone)
-        if code == False:
-            print('获取验证码失败')
-            return
+        if CONF['useyzm'] == True:
+            jm = jsyzm.JSJM()
+            ou = jm.getCode(phone)
+            if ou['error'] != '0':
+                print('获取短信失败，error='+ou['error'] +' msg='+ou['msg'])
+                return
+            code = ou['data']['code']
+        else:
+            code = jiema.RecvCodeGetCode(phone)
+            if code == False:
+                print('获取验证码失败')
+                return
         print('接码平台验证码获取成功, '+phone+' '+code)
     def help_getcode(self):
         print('接码平台获取验证码,执行命令时，需输入参数：手机号码')
