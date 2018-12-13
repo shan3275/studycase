@@ -24,7 +24,7 @@ import jsyzm         as jsyzm
 
 global CONF
 global logger
-
+Version = "V0.1.38.c2cd367-2018-12-12"
 """
 功能：判断手机号码是否有效
 输入参数：phone：手机号码，字符串
@@ -332,8 +332,11 @@ def RegisterOneAccountV5():
     ou['data']['pwd']      = pwd
     ou['data']['cookie']   = cookie
 
+    ##第八步 获取站内信
+    validate = crack.get_umes()
+    ou['data']['validate'] = validate
     logger.debug("注册成功")
-    logger.debug('nickname:%s,phone:%s, pwd:%s, cooike:%s', nickname, phone, pwd, cookie)
+    logger.debug('nickname:%s,phone:%s, pwd:%s, validate:%s, cooike:%s', nickname, phone, pwd, format(validate,""), cookie)
 
     return ou
 
@@ -367,11 +370,13 @@ def LoginOneAccountV5(nickname, pwd):
         ou['msg'] = '登陆失败'
         return ou
     cookie = crack.get_cookie()
+    validate = crack.get_umes()
     ou['error'] = 0
     ou['msg'] = '登陆成功'
     ou['data']['nickname'] = nickname
     ou['data']['pwd']      = pwd
     ou['data']['cookie']   = cookie
+    ou['data']['validate'] = validate
     return ou
 
 def RegisterAndLoginOneAccount():
@@ -442,7 +447,7 @@ def RegisterAccount(num):
             fail = fail + 1
             continue
         #成功
-        acc_str =  ou['data']['nickname'] + "|" + ou['data']['phone'] + "|" + ou['data']['pwd']+"|"+ou['data']['cookie']
+        acc_str =  ou['data']['nickname']  + "|" + ou['data']['pwd']+ "|" + format(ou['data']['validate'],"d")+"|"+ou['data']['cookie']
         SaveAccountToFile(acc_str)
         #自加一
         success = success +1
@@ -473,6 +478,12 @@ class Cli(Cmd):
         return True  # 返回True，直接输入exit命令将会退出
     def help_exit(self):
         print '退出命令行'
+
+    #版本号
+    def do_version(self,arg):
+        print(Version)
+    def help_version(self):
+        print("显示版本号")
 
     ##获取本机的IP地址，内部调试使用
     def do_ip(self,line):
@@ -779,11 +790,12 @@ class Cli(Cmd):
         ou = LoginOneAccountV5(nickname, pwd)
         if ou['error'] == 0:
             print "登陆成功，昵称：" +nickname + " 密码：" +pwd + ' cookie:' + ou['data']['cookie']
+            print "账号有效：" + format(ou['data']['validate'],"")
         else:
             print '登陆失败：%s' % (ou['msg'])
             return
     def help_v5loginoneacc(self):
-        print('使用浏览器，模拟登陆，获取用户名,输入参数： phone  password')
+        print('使用浏览器，模拟登陆，获取用户名,输入参数： nickname  password')
 
     def do_v5regacc(self,line):
         if line == '':

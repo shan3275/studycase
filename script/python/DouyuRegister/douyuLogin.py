@@ -22,7 +22,7 @@ global logger
 """
 class DouyuLogin():
     def __init__(self,nickname,pwd):
-        self.url = 'https://passport.douyu.com'
+        self.url = 'https://passport.douyu.com/member/login?state=https%3A%2F%2Fwww.douyu.com%2Fmember%2Fcp'
         self.browser = webdriver.Chrome('/Applications/chromedriver')
         self.wait = WebDriverWait(self.browser, 60)
         self.nickname = nickname
@@ -99,7 +99,7 @@ class DouyuLogin():
         time.sleep(5)
         self.switch_window(self.browser, self.browser.current_window_handle)
         try:
-            hadsend = self.browser.find_element(By.CLASS_NAME, "l-txt")
+            hadsend = self.browser.find_element(By.XPATH, "//span[@class='user_top js_nickname']")
             logger.debug('元素已找到，登陆成功')
             return True
         except:
@@ -123,6 +123,7 @@ class DouyuLogin():
             i = i + 1
         logger.info(cookie_str)
         return cookie_str
+
     def login(self):
         """
         登陆斗鱼
@@ -162,12 +163,29 @@ class DouyuLogin():
         获取登陆之后的用户名
         :return: 用户名
         """
-        nickname = self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, "l-txt")))
+        nickname = self.wait.until(EC.presence_of_element_located((By.XPATH, "//span[@class='user_top js_nickname']")))
         username =  nickname.text
         logger.debug("username: " + username)
         logger.debug(type(username))
         return username
 
+    def get_umes(self):
+        """
+        获取站内信数量，一封OK，两封异常
+        :return: True  正常
+                 False 异常
+        """
+        #有可能出现没有站内信的情况
+        logger.debug('延迟10秒钟，等待获取信息')
+        time.sleep(10)
+        letters = self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, "letter_num")))
+        letters_num =  letters.text
+        logger.debug("letters number: " + letters_num)
+        logger.debug(type(letters_num))
+        if letters_num == '1':
+            return True
+        else:
+            return False
 
 logger = gl.get_logger()
 """

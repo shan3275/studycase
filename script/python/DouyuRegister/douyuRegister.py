@@ -22,7 +22,7 @@ class DouyuRegister():
     def __init__(self,phone,pwd):
         self.url = 'https://passport.douyu.com/member/regNew?client_id=1&lang=cn'
         self.browser = webdriver.Chrome('/Applications/chromedriver')
-        self.wait = WebDriverWait(self.browser, 60)
+        self.wait = WebDriverWait(self.browser, 90)
         self.phone = phone
         self.pwd   = pwd
         self.code  = ''
@@ -237,6 +237,26 @@ class DouyuRegister():
             logger.debug('注册失败')
         return False
 
+    def get_umes(self):
+        """
+        获取站内信数量，一封OK，两封异常
+        :return: True  正常
+                 False 异常
+        """
+        self.url = 'https://www.douyu.com/member/cp'
+        self.browser.get(self.url)
+        logger.debug('已经打开页面:%s', self.url)
+        #有可能出现没有站内信的情况
+        logger.debug('延迟60秒钟，等待获取信息')
+        time.sleep(60)
+        letters = self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, "letter_num")))
+        letters_num =  letters.text
+        logger.debug("letters number: " + letters_num)
+        logger.debug(type(letters_num))
+        if letters_num == '1':
+            return True
+        else:
+            return False
 
 logger = gl.get_logger()
 
