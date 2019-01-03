@@ -387,6 +387,7 @@ def LoginOneAccountV5(nickname, pwd):
                                         : 7 注册提交失败
                                         : 8 登陆失败
                                         : 9 获取验证码保存失败
+                                        : 10 验证码识别失败
 
     """
     ou = dict(error=0, data=dict(), msg='ok')
@@ -420,7 +421,11 @@ def LoginOneAccountV5(nickname, pwd):
             return ou
         dama = jsdati.JSDATI(png)
         location = dama.verifyPic('word')
-        #rv = crack.click_word('191,302|137,181')
+        if location == False:
+            logger.error('验证码识别失败')
+            ou['error'] = 10
+            ou['msg'] = '验证码识别失败'
+            return ou
         rv = crack.click_word(location)
         if rv == False:
             logger.error('登陆失败')
