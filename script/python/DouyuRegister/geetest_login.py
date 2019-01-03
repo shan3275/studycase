@@ -21,6 +21,10 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import globalvar as gl
+
+global logger
+global CONF
  
 EMAIL = 'shan275@163.com'
 PASSWORD = '0pdfdf3EEREdfdfb'
@@ -30,6 +34,12 @@ INIT_LEFT = 60
  
 class CrackGeetest():
     def __init__(self):
+        self.capabilities = {
+            'chromeOptions': {
+                'androidPackage': 'com.android.chrome',
+                #'args'          : ['--headless'],
+            }
+        }
         self.url = 'https://account.geetest.com/login'
         self.browser = webdriver.Chrome('/Applications/chromedriver')
         self.wait = WebDriverWait(self.browser, 60)
@@ -55,7 +65,9 @@ class CrackGeetest():
         img = self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'geetest_canvas_img')))
         time.sleep(2)
         location = img.location
+        print(location)
         size = img.size
+        print(size)
         top, bottom, left, right = location['y'], location['y'] + size['height'], location['x'], location['x'] + size[
             'width']
         return (top, bottom, left, right)
@@ -216,7 +228,7 @@ class CrackGeetest():
         print('滑动轨迹', track)
         # 拖动滑块
         self.move_to_gap(slider, track)
- 
+        time.sleep(2000)
         success = self.wait.until(
             EC.text_to_be_present_in_element((By.CLASS_NAME, 'geetest_success_radar_tip_content'), u'验证成功'))
         print(success)
@@ -227,7 +239,12 @@ class CrackGeetest():
         else:
             self.login()
  
- 
+
+##初始化获取全局变量
+logger = gl.get_logger()
+CONF   = gl.get_conf()
+
 if __name__ == '__main__':
     crack = CrackGeetest()
     crack.crack()
+

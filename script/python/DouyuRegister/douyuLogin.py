@@ -7,6 +7,7 @@
 
 import sys
 import time
+import random
 from io import BytesIO
 from PIL import Image
 from selenium import webdriver
@@ -24,10 +25,12 @@ class DouyuLogin():
     def __init__(self,nickname,pwd):
         self.url = 'https://passport.douyu.com/member/login?state=https%3A%2F%2Fwww.douyu.com%2Fmember%2Fcp'
         self.browser = webdriver.Chrome('/Applications/chromedriver')
+        self.browser.set_window_size(1200, 733)
         self.wait = WebDriverWait(self.browser, 60)
         self.nickname = nickname
         self.pwd   = pwd
         self.phone = ''
+        self.pngname = 'captcha1.png'
 
     def __del__(self):
         self.browser.close()
@@ -124,9 +127,54 @@ class DouyuLogin():
         logger.info(cookie_str)
         return cookie_str
 
+    def get_position_by_name(self, classname):
+        """
+        获取验证码位置
+        :return: 验证码位置元组
+        """
+        img = self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, classname)))
+        #time.sleep(2)
+        location = img.location
+        size = img.size
+        top, bottom, left, right = location['y'], location['y'] + size['height'], location['x'], location['x'] + size[
+            'width']
+        logger.info("top:%d,bottom:%d,left:%d,right:%d", top,bottom,left,right)
+        return (top, bottom, left, right)
+
+    def get_position(self):
+        top1, bottom1, left1, right1 = self.get_position_by_name('geetest_head')
+        top2, bottom2, left2, right2 = self.get_position_by_name('geetest_table_box')
+        top,bottom,left,right = top1,bottom2,left1,right2
+        logger.info("top:%d,bottom:%d,left:%d,right:%d", top, bottom, left, right)
+        return (top,bottom,left,right)
+
+    def get_screenshot(self):
+        """
+        获取网页截图
+        :return: 截图对象
+        """
+        #screenshot = self.browser.get_screenshot_as_png('screen.png')
+        #screenshot = Image.open(BytesIO(screenshot))
+
+        self.browser.save_screenshot('screenshot.png')
+        screenshot = Image.open('screenshot.png')
+        return screenshot
+
+    def get_geetest_image(self, name='captcha.png'):
+        """
+        获取验证码图片
+        :return: 图片对象
+        """
+        top, bottom, left, right = self.get_position()
+        logger.info("top:%d,bottom:%d,left:%d,right:%d", top, bottom, left, right)
+        screenshot = self.get_screenshot()
+        captcha = screenshot.crop((left*2, top*2, right*2, bottom*2))
+        captcha.save(name)
+        return captcha
+
     def login(self):
         """
-        登陆斗鱼
+        登陆斗鱼，需要手动点击验证码
         :return: True False
         """
         #打开页面
@@ -138,7 +186,6 @@ class DouyuLogin():
         time.sleep(3)
         submit = self.get_submit()
         submit.click()
-
         rv = self.hasgeetest()
         if rv == True:
             logger.debug('已经加载了验证码，需要手动验证')
@@ -157,6 +204,112 @@ class DouyuLogin():
         else:
             logger.debug('登陆失败')
         return False
+
+    def get_png(self):
+        """
+        打开页面，输入用户名和密码，获取验证码，保存验证码为图片，并返回图片名。
+        :return: True False
+        """
+        #打开页面
+        self.open()
+
+        #输入用户名和密码
+        self.inputnickname()
+        self.inputpwd()
+        time.sleep(3)
+        submit = self.get_submit()
+        submit.click()
+        rv = self.hasgeetest()
+        if rv == True:
+            logger.debug('已经加载了验证码，保存验证码')
+            # 获取验证码图片,并保存
+            image1 = self.get_geetest_image(self.pngname)
+            return self.pngname
+        return False
+
+    def translate_location(self, location_str):
+        """
+        翻译坐标为字典形式
+        :param location_str:字符串坐标，形似： 146,242|110,172
+        :return: [{x:val,y:val},{{x:val,y:val}]
+        """
+        logger.debug(location_str)
+        arrays = location_str.split('|')
+        location = list()
+        for array in arrays:
+            xy = array.split(',')
+            x  = int(xy[0])/2
+            y  = int(xy[1])/2
+            t  = dict(x=x, y=y)
+            location.append(t)
+        logger.debug(location)
+        return location
+
+
+    def click_word(self, location_str):
+        """
+        根据坐标点击文字，
+        :param location:（x,y|x,y|x,y）多个文字，2或者3或者4或者5
+        :return:
+        """
+        #翻译坐标，将字符串转成字典
+        location = self.translate_location(location_str)
+
+        #定位鼠标
+        top, bottom, left, right = self.get_position_by_name('geetest_panel_next')
+        x = (right - left  ) / 2
+        y = (bottom  - top ) / 2
+        logger.info("偏移位置：x:%f,y:%f", x, y)
+
+        #产生新的坐标
+        location_new = list()
+        for index in range(len(location)):
+            for i in range(5):
+                x1 = random.randint(1,x*2)
+                y1 = random.randint(1,y*2)
+                t1 = dict(x=x1,y=y1,click=False)
+                location_new.append(t1)
+            x1 = location[index]['x']
+            y1 = location[index]['y']
+            t1 = dict(x=x1,y=y1,click=True)
+            location_new.append(t1)
+        logger.info(location_new)
+
+        for index in range(len(location_new)):
+            x1 = location_new[index]['x']
+            y1 = location_new[index]['y']
+            location_new[index]['x'] = x1 - x
+            location_new[index]['y'] = y1 - y
+            x = x1
+            y = y1
+        logger.info(location_new)
+        menu = self.browser.find_element(By.CLASS_NAME, 'geetest_panel_next')
+        ActionChains(self.browser).move_to_element(menu).perform()
+
+        for array in location_new:
+            x1 = array['x']
+            y1 = array['y']
+            logger.info("相对于上一次的偏移位置：x:%d,y:%d", x1, y1)
+            ActionChains(self.browser).move_by_offset(xoffset=x1, yoffset=y1).perform()
+            if array['click'] == True:
+                logger.info('点击')
+                ActionChains(self.browser).click().perform()
+            b = 0.1
+            logger.info('点击延时：%f秒', b)
+            time.sleep(b)
+
+        #点击确定
+        #button = self.browser.find_element(By.CLASS_NAME, 'geetest_commit_tip')
+        button = self.wait.until(EC.element_to_be_clickable((By.CLASS_NAME, 'geetest_commit_tip')))
+        button.click()
+
+        rv = self.checklogin()
+        if rv == True:
+            logger.info('登陆成功')
+            return True
+        else:
+            logger.debug('登陆失败')
+        return  False
 
     def get_nickname(self):
         """

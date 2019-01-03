@@ -12,6 +12,7 @@ from urllib import urlencode
 from urllib import unquote
 from cmd import Cmd
 import time
+import threading
 import inits
 import douyu as douyu
 import jiema as jiema
@@ -21,17 +22,37 @@ import airtel    as airtel
 import douyuRegister as douyuRegister
 import douyuLogin    as douyuLogin
 import jsyzm         as jsyzm
+import jsdati        as jsdati
+import geetest_login as geetest_login
 
 global CONF
 global logger
-Version = "V0.1.38.c2cd367-2018-12-12"
-"""
-功能：判断手机号码是否有效
-输入参数：phone：手机号码，字符串
-输出参数：False：无效
-         True： 有效
-"""
+Version = "V0.1.39.ea37fd5-2019-1-3"
+
+class tt(threading.Thread):
+    def __init__(self):
+        threading.Thread.__init__(self)
+    def run(self):
+        while True:
+            time.sleep(10)
+            conf = inits.read_yaml()
+            gl.set_conf(conf)
+            CONF = gl.get_conf()
+            if CONF['status']=='P':
+                logger.info('暂停')
+            elif CONF['status'] == 'R':
+                logger.info('恢复执行')
+            elif CONF['status'] == 'Q':
+                logger.info('退出')
+
+
 def PhoneJudge(phone):
+    """
+    功能：判断手机号码是否有效
+    输入参数：phone：手机号码，字符串
+    输出参数：False：无效
+             True： 有效
+    """
     n = phone
     logger.debug(type(n))
     if re.match(r'1[3,4,5,7,8]\d{9}', n):
@@ -61,12 +82,13 @@ def PhoneJudge(phone):
         return False
     return True
 
-"""
-功能：产生随机密码
-输入参数：
-输出参数：str_pass: 字符串8位
-"""
+
 def RandomPasswordGetOne():
+    """
+    功能：产生随机密码
+    输入参数：
+    输出参数：str_pass: 字符串8位
+    """
     src = string.ascii_letters + string.digits
     rpasswd = random.sample(src, 5)  # 从字母和数字中随机取5位
     rpasswd.extend(random.sample(string.digits, 1))  # 让密码中一定包含数字
@@ -77,36 +99,20 @@ def RandomPasswordGetOne():
     logger.info("产生随机密码：%s", str_passwd)
     return str_passwd
 
-
-"""
-功能：打印返回结果
-输入参数：
-        ou  ：字典，包含信息
-           ou['data']['challenge']  :challenge信息
-           ou['data']['validate']   :validate信息
-           ou['msg']                :信息
-           ou['error']              : 0 ok
-                                    : 1 手机号码无效
-                                    : 2 获取gt和challenge失败
-                                    : 3 极验获取challenge和validate失败
-                                    : 4 验证码发送失败
-输出参数：ou_str ：字符串
-"""
-
-"""
-功能: 发送验证码
-输入参数：phone ：手机号码
-输出参数：ou  ：字典，包含信息
-           ou['data']['challenge']  :challenge信息
-           ou['data']['validate']   :validate信息
-           ou['msg']                :信息
-           ou['error']              : 0 ok
-                                    : 1 手机号码无效
-                                    : 2 获取gt和challenge失败
-                                    : 3 极验获取challenge和validate失败
-                                    : 4 验证码发送失败
-"""
 def SendCode(phone):
+    """
+    功能: 发送验证码
+    输入参数：phone ：手机号码
+    输出参数：ou  ：字典，包含信息
+               ou['data']['challenge']  :challenge信息
+               ou['data']['validate']   :validate信息
+               ou['msg']                :信息
+               ou['error']              : 0 ok
+                                        : 1 手机号码无效
+                                        : 2 获取gt和challenge失败
+                                        : 3 极验获取challenge和validate失败
+                                        : 4 验证码发送失败
+    """
     ou=dict(error=0,data=dict(),msg='ok')
     if PhoneJudge(phone) == False:
         ou['error'] = 1
@@ -172,24 +178,24 @@ def SendCode(phone):
     ou['data']['validate']  = validate
     return ou
 
-"""
-功能：注册一个账号，使用api方式，返回账号信息
-输入产生：无
-输出参数：ou：字典，包含账号信息
-            ou['data']['nickname'] : 用户名
-            ou['data']['pwd']      : 密码
-            ou['data']['phone']    : 绑定的手机号码
-            ou['msg']      : 信息
-            ou['error']             : 0 ok
-                                    : 1 手机号码无效
-                                    : 2 获取gt和challenge失败
-                                    : 3 极验获取challenge和validate失败
-                                    : 4 验证码发送失败
-                                    : 5 获取手机号码失败
-                                    : 6 获取验证码失败
-                                    : 7 注册提交失败
-"""
 def RegisterOneAccount():
+    """
+    功能：注册一个账号，使用api方式，返回账号信息
+    输入产生：无
+    输出参数：ou：字典，包含账号信息
+                ou['data']['nickname'] : 用户名
+                ou['data']['pwd']      : 密码
+                ou['data']['phone']    : 绑定的手机号码
+                ou['msg']      : 信息
+                ou['error']             : 0 ok
+                                        : 1 手机号码无效
+                                        : 2 获取gt和challenge失败
+                                        : 3 极验获取challenge和validate失败
+                                        : 4 验证码发送失败
+                                        : 5 获取手机号码失败
+                                        : 6 获取验证码失败
+                                        : 7 注册提交失败
+    """
     ou = dict(error=0,data=dict(),msg='ok')
     ##注册前 重启modem
     airtel.AirtelReboot()
@@ -240,28 +246,30 @@ def RegisterOneAccount():
 
     return ou
 
-
-"""
-功能：注册一个账号，使用浏览器模式，人工参与，返回账号信息
-输入产生：无
-输出参数：ou：字典，包含账号信息
-            ou['data']['nickname'] : 用户名
-            ou['data']['pwd']      : 密码
-            ou['data']['phone']    : 绑定的手机号码
-            ou['msg']      : 信息
-            ou['error']             : 0 ok
-                                    : 1 手机号码无效
-                                    : 2 获取gt和challenge失败
-                                    : 3 极验获取challenge和validate失败
-                                    : 4 验证码发送失败
-                                    : 5 获取手机号码失败
-                                    : 6 获取验证码失败
-                                    : 7 注册提交失败
-"""
-def RegisterOneAccountV5():
+def RegisterOneAccountV5(reset=True):
+    """
+    功能：注册一个账号，使用浏览器模式，人工参与，返回账号信息
+    输入产生：reset
+                    True  重启modem
+                    False 不重启modem
+    输出参数：ou：字典，包含账号信息
+                ou['data']['nickname'] : 用户名
+                ou['data']['pwd']      : 密码
+                ou['data']['phone']    : 绑定的手机号码
+                ou['msg']      : 信息
+                ou['error']             : 0 ok
+                                        : 1 手机号码无效
+                                        : 2 获取gt和challenge失败
+                                        : 3 极验获取challenge和validate失败
+                                        : 4 验证码发送失败
+                                        : 5 获取手机号码失败
+                                        : 6 获取验证码失败
+                                        : 7 注册提交失败
+    """
     ou = dict(error=0,data=dict(),msg='ok')
     ##注册前 重启modem
-    airtel.AirtelReboot()
+    if reset == True:
+        airtel.AirtelReboot()
 
     ##第一步 获取手机号码
     if CONF['useyzm'] == True:
@@ -279,19 +287,38 @@ def RegisterOneAccountV5():
             return ou
     #print('phone: ' + phone)
 
+    #phone = '15915492613'
     ##第二步 产生随机密码
     pwd = RandomPasswordGetOne()
 
     ##第三步 发送验证码
     crack = douyuRegister.DouyuRegister(phone, pwd)
-    rv= crack.sendcode()
-    if rv == True:
-        logger.debug('验证码发送成功，准备接收验证码')
+    if CONF['usedati'] != True:
+        rv= crack.sendcode()
+        if rv == True:
+            logger.debug('验证码发送成功，准备接收验证码')
+        else:
+            ou['error'] = 4
+            ou['msg']   = '验证码发送失败'
+            return ou
     else:
-        ou['error'] = 4
-        ou['msg']   = '验证码发送失败'
-        return ou
-
+        #保存验证码图片
+        png = crack.get_png()
+        if png != False:
+            logger.debug('验证码图片保存成功，准备识别图片')
+        else:
+            ou['error'] = 4
+            ou['msg']   = '验证码图片保存失败'
+            return ou
+        #识别验证码图片
+        dama = jsdati.JSDATI(png)
+        location = dama.verifyPic('word')
+        rv = crack.click_word(location)
+        if rv == False:
+            logger.error('点击验证码失败')
+            ou['error'] = 8
+            ou['msg'] = '点击验证码失败'
+            return ou
     time.sleep(20)
     ##第三步 接收验证码
     if CONF['useyzm'] == True:
@@ -340,44 +367,133 @@ def RegisterOneAccountV5():
 
     return ou
 
-"""
-功能：使用浏览器模拟登陆，获取用户名
-输入参数：nickname ：用户名
-         pwd   ：密码
-输出参数：ou：字典，包含账号信息
-            ou['data']['nickname'] : 用户名
-            ou['data']['pwd']      : 密码
-            ou['data']['phone']    : 绑定的手机号码
-            ou['msg']      : 信息
-            ou['error']             : 0 ok
-                                    : 1 手机号码无效
-                                    : 2 获取gt和challenge失败
-                                    : 3 极验获取challenge和validate失败
-                                    : 4 验证码发送失败
-                                    : 5 获取手机号码失败
-                                    : 6 获取验证码失败
-                                    : 7 注册提交失败
-                                    : 8 登陆失败
-                                    
-"""
 def LoginOneAccountV5(nickname, pwd):
+    """
+    功能：使用浏览器模拟登陆，获取用户名
+    输入参数：nickname ：用户名
+             pwd   ：密码
+    输出参数：ou：字典，包含账号信息
+                ou['data']['nickname'] : 用户名
+                ou['data']['pwd']      : 密码
+                ou['data']['phone']    : 绑定的手机号码
+                ou['msg']      : 信息
+                ou['error']             : 0 ok
+                                        : 1 手机号码无效
+                                        : 2 获取gt和challenge失败
+                                        : 3 极验获取challenge和validate失败
+                                        : 4 验证码发送失败
+                                        : 5 获取手机号码失败
+                                        : 6 获取验证码失败
+                                        : 7 注册提交失败
+                                        : 8 登陆失败
+                                        : 9 获取验证码保存失败
+
+    """
     ou = dict(error=0, data=dict(), msg='ok')
+    logger.info('nickname:%s, pwd:%s', nickname, pwd)
+    logger.info(len(nickname))
+    logger.info(len(pwd))
     crack = douyuLogin.DouyuLogin(nickname,pwd)
-    rv = crack.login()
-    if rv == False:
-        logger.error('登陆失败')
-        ou['error'] = 8
-        ou['msg'] = '登陆失败'
-        return ou
-    cookie = crack.get_cookie()
-    validate = crack.get_umes()
-    ou['error'] = 0
-    ou['msg'] = '登陆成功'
-    ou['data']['nickname'] = nickname
-    ou['data']['pwd']      = pwd
-    ou['data']['cookie']   = cookie
-    ou['data']['validate'] = validate
+    if CONF['usedati'] != True:
+        ##使用手动点击验证码的方式。
+        rv = crack.login()
+        if rv == False:
+            logger.error('登陆失败')
+            ou['error'] = 8
+            ou['msg'] = '登陆失败'
+            return ou
+        cookie = crack.get_cookie()
+        validate = crack.get_umes()
+        ou['error'] = 0
+        ou['msg'] = '登陆成功'
+        ou['data']['nickname'] = nickname
+        ou['data']['pwd']      = pwd
+        ou['data']['cookie']   = cookie
+        ou['data']['validate'] = validate
+    else:
+        #使用打码自动点击验证码的方式
+        png = crack.get_png()
+        if png == False:
+            logger.error('获取验证码保存失败')
+            ou['error'] = 9
+            ou['msg'] = '获取验证码保存失败'
+            return ou
+        dama = jsdati.JSDATI(png)
+        location = dama.verifyPic('word')
+        #rv = crack.click_word('191,302|137,181')
+        rv = crack.click_word(location)
+        if rv == False:
+            logger.error('登陆失败')
+            ou['error'] = 8
+            ou['msg'] = '登陆失败'
+            return ou
+        cookie = crack.get_cookie()
+        validate = crack.get_umes()
+        ou['error'] = 0
+        ou['msg'] = '登陆成功'
+        ou['data']['nickname'] = nickname
+        ou['data']['pwd']      = pwd
+        ou['data']['cookie']   = cookie
+        ou['data']['validate'] = validate
     return ou
+
+def LoginAccountV5(rebootNum, accountFile):
+    """
+    功能：批量登陆账号
+    :param  rebootNum: 多少个账号之后重启modem
+            accountFile: 账号文件，存放用户名和密码 用户名和密码一行，中间tab隔开
+    :return:
+    """
+    account = list()
+    f = open(accountFile, "r")
+    for line in f:
+        if '\xef\xbb\xbf' in line:
+            logger.info('用replace替换掉\\xef\\xbb\\xb')
+            line = line.replace('\xef\xbb\xbf', '')  # 用replace替换掉'\xef\xbb\xbf'
+        line = line.strip('\r\n')
+        str = line.split('\t')
+        t = dict(nickname=str[0],pwd=str[1])
+        account.append(t)
+    f.close()
+    logger.info(account)
+
+    num = len(account)
+    success = 0
+    fail    = 0
+    index   = 0
+    while index < num:
+        num_str     = '%d' %(num)
+        success_str = '%d' %(success)
+        fail_str    = '%d' %(fail)
+        result_str = '需求数量：' + num_str + ' 已获取成功：' + success_str + '失败数量：' + fail_str
+        sys.stdout.write("\r{0}".format(result_str))
+        sys.stdout.flush()
+        #重启modem
+        if index % rebootNum == 0:
+            airtel.AirtelReboot()
+        #获取用户名和密码
+        nickname = account[index]['nickname']
+        pwd      = account[index]['pwd']
+        index = index + 1
+        ou = LoginOneAccountV5(nickname, pwd)
+        if ou['error'] != 0:
+            fail = fail + 1
+            continue
+        #成功
+        acc_str =  ou['data']['nickname']  + "|" + ou['data']['pwd']+ "|" + format(ou['data']['validate'],"d")+"|"+ou['data']['cookie']
+        SaveAccountToFile(acc_str,CONF['ck'])
+        #自加一
+        success = success +1
+    else:
+        num_str     = '%d' %(num)
+        success_str = '%d' %(success)
+        fail_str    = '%d' %(fail)
+        result_str = '需求数量：' + num_str + ' 已获取成功：' + success_str + '失败数量：' + fail_str
+        #result_str = '需求数量：' +str(num) + ' 已获取成功：' + str(success) + '失败数量：' + str(fail)
+        sys.stdout.write("\r{0}".format(result_str))
+        sys.stdout.flush()
+        print('\n')
+
 
 def RegisterAndLoginOneAccount():
     """
@@ -416,16 +532,19 @@ def RegisterAndLoginOneAccount():
         logger.debug('登陆失败：%s', ou['msg'])
     return ou
 
-def SaveAccountToFile(line):
+def SaveAccountToFile(line,file):
     """
     功能：写行内容到文件中
     :param line: 账号内容
     :return: 无
     """
-    if CONF['acc'] == '':
+    if file == '':
         logger.error('输出账号文件为空')
         return
-    f = open(CONF['acc'], 'a+')
+    str = file.split('.')
+    fileName = str[0] + time.strftime('%Y-%m-%d') +'.'+ str[1]
+    logger.info('SaveAccountToFile: %s', fileName)
+    f = open(fileName, 'a+')
     f.writelines(line + '\n')
     f.close()
     logger.debug('账号写入文件：%s',line)
@@ -438,19 +557,28 @@ def RegisterAccount(num):
     """
     success = 0
     fail    = 0
+    reset   = True
     while success < num:
-        result_str = '需求数量：' +str(num) + ' 已注册成功：' + str(success) + '失败数量：' + str(fail)
-        sys.stdout.write("\r{0}".format(result_str))
-        sys.stdout.flush()
-        ou = RegisterOneAccountV5()
-        if ou['error'] != 0:
-            fail = fail + 1
-            continue
-        #成功
-        acc_str =  ou['data']['nickname']  + "|" + ou['data']['pwd']+ "|" + format(ou['data']['validate'],"d")+"|"+ou['data']['cookie']
-        SaveAccountToFile(acc_str)
-        #自加一
-        success = success +1
+        if CONF['status'] == 'R':
+            result_str = '需求数量：' +str(num) + ' 已注册成功：' + str(success) + '失败数量：' + str(fail)
+            sys.stdout.write("\r{0}".format(result_str))
+            sys.stdout.flush()
+            ou = RegisterOneAccountV5(reset)
+            if ou['error'] != 0:
+                fail = fail + 1
+                reset = False
+                continue
+            #成功
+            acc_str =  ou['data']['nickname']  + "|" + ou['data']['pwd']+ "|" + format(ou['data']['validate'],"d")+"|"+ou['data']['cookie']
+            SaveAccountToFile(acc_str, CONF['acc'])
+            #自加一
+            success = success +1
+            reset = True
+        elif CONF['status'] == 'P':
+            time.sleep(2)
+            sys.stdout.write(".")
+        elif CONF['status'] == 'Q':
+            return
     else:
         result_str = '需求数量：' +str(num) + ' 已注册成功：' + str(success) + '失败数量：' + str(fail)
         sys.stdout.write("\r{0}".format(result_str))
@@ -462,7 +590,7 @@ class Cli(Cmd):
     这是doc
      """
     prompt = 'douYu>'
-    intro = 'Welcom!'
+    intro = 'Welcome!'
 
     def __init(self):
         Cmd.__init__(self)
@@ -772,7 +900,7 @@ class Cli(Cmd):
         print('极验平台获取极验码')
 
     def do_v5regoneacc(self,line):
-        ou = RegisterOneAccountV5()
+        ou = RegisterOneAccountV5(reset=False)
         if ou['error'] == 0:
             print "登陆成功，昵称："+ou['data']['nickname']+" 手机号："+ou['data']['phone']+" 密码："+ou['data']['pwd']
         else:
@@ -797,6 +925,17 @@ class Cli(Cmd):
     def help_v5loginoneacc(self):
         print('使用浏览器，模拟登陆，获取用户名,输入参数： nickname  password')
 
+    def do_v5loginacc(self, line):
+        if line == '':
+            print '请输入参数：rebootNum filePath'
+            return
+        arg = line.split()
+        rebootNum = int(arg[0])
+        filePath  = arg[1]
+        LoginAccountV5(rebootNum, filePath)
+    def help_v5loginacc(self):
+        print('使用浏览器，模拟登陆，获取cookie,输入参数： rebootNum filePath')
+
     def do_v5regacc(self,line):
         if line == '':
             print '请输入参数：num'
@@ -806,10 +945,34 @@ class Cli(Cmd):
     def help_v5regacc(self):
         print('批量注册账号，并保存文件，需要输入注册数量，参数：num')
 
+    def do_jsdatipoint(self,line):
+        """
+        获取打码平台点数
+        :param line:
+        :return:
+        """
+        crack = jsdati.JSDATI('ddd')
+        point = crack.getPoints()
+        print(point)
+    def help_jsdatipoint(self):
+        print('获取联众平台点数')
+
+    def do_jsdatiupload(self, line):
+        """
+        上传图片进行打码
+        :param line:
+        :return:
+        """
+        crack = jsdati.JSDATI('captcha1.png')
+        location = crack.verifyPic('word')
+        print(location)
+
 if __name__ == "__main__":
     reload(sys)
     sys.setdefaultencoding('utf8')
     logger = gl.get_logger()
     CONF   = gl.get_conf()
+    #my_t = tt()
+    #my_t.start()
     cli = Cli()
     cli.cmdloop()
