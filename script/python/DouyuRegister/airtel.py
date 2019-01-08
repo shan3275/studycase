@@ -7,7 +7,7 @@
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-
+import platform
 import time
 import globalvar as gl
 global logger
@@ -17,7 +17,10 @@ url = 'http://192.168.8.1/html/reboot.html'
 def login():
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--headless')
-    driver = webdriver.Chrome('/Applications/chromedriver', chrome_options=chrome_options)
+    if platform.system() == 'Darwin':
+        driver = webdriver.Chrome('/Applications/chromedriver', chrome_options=chrome_options)
+    else:
+        driver = webdriver.Chrome(executable_path=r'.\chromedriver.exe', chrome_options=chrome_options)
     driver.get(url)
     time.sleep(2)
     logger.debug("已经登陆4G Modeml")

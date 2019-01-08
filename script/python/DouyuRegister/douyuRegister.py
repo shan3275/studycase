@@ -7,6 +7,7 @@
 
 import time,random
 from io import BytesIO
+import platform
 from PIL import Image
 from selenium import webdriver
 from selenium.webdriver import ActionChains
@@ -21,13 +22,21 @@ global logger
 class DouyuRegister():
     def __init__(self,phone,pwd):
         self.url = 'https://passport.douyu.com/member/regNew?client_id=1&lang=cn'
-        self.browser = webdriver.Chrome('/Applications/chromedriver')
-        self.browser.set_window_size(1200, 733)
+        if platform.system() == 'Darwin':
+            self.browser = webdriver.Chrome('/Applications/chromedriver')
+            self.browser.set_window_size(1200, 733)
+        else:
+            chrome_options = webdriver.ChromeOptions()
+            chrome_options.add_argument('--log-level=3')
+            self.browser = webdriver.Chrome(executable_path=r'.\chromedriver.exe',chrome_options=chrome_options)
+            self.browser.set_window_size(1280, 733)
         self.wait = WebDriverWait(self.browser, 90)
         self.phone = phone
         self.pwd   = pwd
         self.code  = ''
         self.pngname = 'captcha1.png'
+        self.pnglenMax = 1300
+        self.pnglen    = 0
 
     def __del__(self):
         self.browser.close()
@@ -159,7 +168,14 @@ class DouyuRegister():
         top, bottom, left, right = self.get_position()
         logger.info("top:%d,bottom:%d,left:%d,right:%d", top, bottom, left, right)
         screenshot = self.get_screenshot()
-        captcha = screenshot.crop((left*2, top*2, right*2, bottom*2))
+        imgSize = screenshot.size
+        logger.info('图片分辨率' + str(imgSize))
+        self.pnglen = max(imgSize)
+        # 针对mac显示器
+        if self.pnglen > self.pnglenMax:
+            captcha = screenshot.crop((int(left*2), int(top*2), int(right*2), int(bottom*2)))
+        else:
+            captcha = screenshot.crop((int(left), int(top), int(right), int(bottom)))
         captcha.save(name)
         return captcha
 
@@ -243,8 +259,13 @@ class DouyuRegister():
         location = list()
         for array in arrays:
             xy = array.split(',')
-            x  = int(xy[0])/2
-            y  = int(xy[1])/2
+            #针对mac显示器
+            if self.pnglen > self.pnglenMax:
+                x  = int(xy[0])/2
+                y  = int(xy[1])/2
+            else: #针对非mac显示器，显示器分辨率是1920 x 1080
+                x  = int(xy[0])
+                y  = int(xy[1])
             t  = dict(x=x, y=y)
             location.append(t)
         logger.debug(location)

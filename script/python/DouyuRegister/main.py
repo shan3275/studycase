@@ -7,6 +7,7 @@
 
 import re
 import random,string
+import platform,os
 import sys
 from urllib import urlencode
 from urllib import unquote
@@ -19,6 +20,7 @@ import jiema as jiema
 import jiyan as jiyan
 import globalvar as gl
 import airtel    as airtel
+import e8372h as e8372h
 import douyuRegister as douyuRegister
 import douyuLogin    as douyuLogin
 import jsyzm         as jsyzm
@@ -27,7 +29,7 @@ import geetest_login as geetest_login
 
 global CONF
 global logger
-Version = "V0.1.39.ea37fd5-2019-1-3"
+Version = "V0.1.39.ea37fd5-2019-1-8"
 
 class tt(threading.Thread):
     def __init__(self):
@@ -45,6 +47,18 @@ class tt(threading.Thread):
             elif CONF['status'] == 'Q':
                 logger.info('退出')
 
+def ModemReboot():
+    """
+    重启modem
+    :return:
+    """
+    if platform.system() == 'Windows':
+        os.popen("taskkill /im chrome.exe -f")
+    if CONF['e8372h'] == True:
+        modem = e8372h.E8372H155()
+        modem.modem_reboot()
+    else:
+        airtel.AirtelReboot()
 
 def PhoneJudge(phone):
     """
@@ -198,7 +212,7 @@ def RegisterOneAccount():
     """
     ou = dict(error=0,data=dict(),msg='ok')
     ##注册前 重启modem
-    airtel.AirtelReboot()
+    ModemReboot()
 
     ##第一步 获取手机号码
     phone = jiema.RecvCodeGetPhone()
@@ -265,11 +279,13 @@ def RegisterOneAccountV5(reset=True):
                                         : 5 获取手机号码失败
                                         : 6 获取验证码失败
                                         : 7 注册提交失败
+                                        : 8 点击验证码失败
+                                        : 9 验证码打码失败
     """
     ou = dict(error=0,data=dict(),msg='ok')
     ##注册前 重启modem
     if reset == True:
-        airtel.AirtelReboot()
+        ModemReboot()
 
     ##第一步 获取手机号码
     if CONF['useyzm'] == True:
@@ -313,6 +329,11 @@ def RegisterOneAccountV5(reset=True):
         #识别验证码图片
         dama = jsdati.JSDATI(png)
         location = dama.verifyPic('word')
+        if location == False:
+            logger.error('验证码打码失败')
+            ou['error'] = 9
+            ou['msg'] = '验证码打码失败'
+            return ou
         rv = crack.click_word(location)
         if rv == False:
             logger.error('点击验证码失败')
@@ -360,10 +381,11 @@ def RegisterOneAccountV5(reset=True):
     ou['data']['cookie']   = cookie
 
     ##第八步 获取站内信
-    validate = crack.get_umes()
-    ou['data']['validate'] = validate
+    #validate = crack.get_umes()
+    #ou['data']['validate'] = validate
     logger.debug("注册成功")
-    logger.debug('nickname:%s,phone:%s, pwd:%s, validate:%s, cooike:%s', nickname, phone, pwd, format(validate,""), cookie)
+    #logger.debug('nickname:%s,phone:%s, pwd:%s, validate:%s, cooike:%s', nickname, phone, pwd, format(validate,""), cookie)
+    logger.debug('nickname:%s,phone:%s, pwd:%s, cooike:%s', nickname, phone, pwd, cookie)
 
     return ou
 
@@ -404,13 +426,13 @@ def LoginOneAccountV5(nickname, pwd):
             ou['msg'] = '登陆失败'
             return ou
         cookie = crack.get_cookie()
-        validate = crack.get_umes()
+        #validate = crack.get_umes()
         ou['error'] = 0
         ou['msg'] = '登陆成功'
         ou['data']['nickname'] = nickname
         ou['data']['pwd']      = pwd
         ou['data']['cookie']   = cookie
-        ou['data']['validate'] = validate
+        #ou['data']['validate'] = validate
     else:
         #使用打码自动点击验证码的方式
         png = crack.get_png()
@@ -433,13 +455,13 @@ def LoginOneAccountV5(nickname, pwd):
             ou['msg'] = '登陆失败'
             return ou
         cookie = crack.get_cookie()
-        validate = crack.get_umes()
+        #validate = crack.get_umes()
         ou['error'] = 0
         ou['msg'] = '登陆成功'
         ou['data']['nickname'] = nickname
         ou['data']['pwd']      = pwd
         ou['data']['cookie']   = cookie
-        ou['data']['validate'] = validate
+        #ou['data']['validate'] = validate
     return ou
 
 def LoginAccountV5(rebootNum, accountFile):
@@ -470,12 +492,13 @@ def LoginAccountV5(rebootNum, accountFile):
         num_str     = '%d' %(num)
         success_str = '%d' %(success)
         fail_str    = '%d' %(fail)
-        result_str = '需求数量：' + num_str + ' 已获取成功：' + success_str + '失败数量：' + fail_str
+        result_str = 'Needs: ' + num_str + ' Success: ' + success_str + ' Fail: ' + fail_str
         sys.stdout.write("\r{0}".format(result_str))
         sys.stdout.flush()
         #重启modem
         if index % rebootNum == 0:
-            airtel.AirtelReboot()
+            ModemReboot()
+
         #获取用户名和密码
         nickname = account[index]['nickname']
         pwd      = account[index]['pwd']
@@ -485,7 +508,8 @@ def LoginAccountV5(rebootNum, accountFile):
             fail = fail + 1
             continue
         #成功
-        acc_str =  ou['data']['nickname']  + "|" + ou['data']['pwd']+ "|" + format(ou['data']['validate'],"d")+"|"+ou['data']['cookie']
+        #acc_str =  ou['data']['nickname']  + "|" + ou['data']['pwd']+ "|" + format(ou['data']['validate'],"d")+"|"+ou['data']['cookie']
+        acc_str =  ou['data']['nickname']  + "|" + ou['data']['pwd'] + "|"+ou['data']['cookie']
         SaveAccountToFile(acc_str,CONF['ck'])
         #自加一
         success = success +1
@@ -493,7 +517,7 @@ def LoginAccountV5(rebootNum, accountFile):
         num_str     = '%d' %(num)
         success_str = '%d' %(success)
         fail_str    = '%d' %(fail)
-        result_str = '需求数量：' + num_str + ' 已获取成功：' + success_str + '失败数量：' + fail_str
+        result_str = 'Needs: ' + num_str + ' Success: ' + success_str + ' Fail: ' + fail_str
         #result_str = '需求数量：' +str(num) + ' 已获取成功：' + str(success) + '失败数量：' + str(fail)
         sys.stdout.write("\r{0}".format(result_str))
         sys.stdout.flush()
@@ -565,7 +589,7 @@ def RegisterAccount(num):
     reset   = True
     while success < num:
         if CONF['status'] == 'R':
-            result_str = '需求数量：' +str(num) + ' 已注册成功：' + str(success) + '失败数量：' + str(fail)
+            result_str = 'Needs: ' +str(num) + ' Success: ' + str(success) + ' Fail: ' + str(fail)
             sys.stdout.write("\r{0}".format(result_str))
             sys.stdout.flush()
             ou = RegisterOneAccountV5(reset)
@@ -574,7 +598,8 @@ def RegisterAccount(num):
                 reset = False
                 continue
             #成功
-            acc_str =  ou['data']['nickname']  + "|" + ou['data']['pwd']+ "|" + format(ou['data']['validate'],"d")+"|"+ou['data']['cookie']
+            #acc_str =  ou['data']['nickname']  + "|" + ou['data']['pwd']+ "|" + format(ou['data']['validate'],"d")+"|"+ou['data']['cookie']
+            acc_str =  ou['data']['nickname']  + "|" + ou['data']['pwd'] + "|"+ou['data']['cookie']
             SaveAccountToFile(acc_str, CONF['acc'])
             #自加一
             success = success +1
@@ -585,7 +610,7 @@ def RegisterAccount(num):
         elif CONF['status'] == 'Q':
             return
     else:
-        result_str = '需求数量：' +str(num) + ' 已注册成功：' + str(success) + '失败数量：' + str(fail)
+        result_str = 'Needs: ' + str(num) + ' Success: ' + str(success) + ' Fail: ' + str(fail)
         sys.stdout.write("\r{0}".format(result_str))
         sys.stdout.flush()
         print('\n')
@@ -859,7 +884,7 @@ class Cli(Cmd):
 
     ##重启4G无线网卡
     def do_modemreboot(self,line):
-        airtel.AirtelReboot()
+        ModemReboot()
     def help_modemreboot(self):
         print('重启4G无线网卡')
 
@@ -907,9 +932,9 @@ class Cli(Cmd):
     def do_v5regoneacc(self,line):
         ou = RegisterOneAccountV5(reset=False)
         if ou['error'] == 0:
-            print "登陆成功，昵称："+ou['data']['nickname']+" 手机号："+ou['data']['phone']+" 密码："+ou['data']['pwd']
+            print "Reg成功，昵称："+ou['data']['nickname']+" 手机号："+ou['data']['phone']+" 密码："+ou['data']['pwd']
         else:
-            print '登陆失败：%s' %(ou['msg'])
+            print 'reg失败：%s' %(ou['msg'])
     def help_v5regoneacc(self):
         print('使用浏览器模拟，注册一个账号,并登陆')
 
@@ -922,10 +947,14 @@ class Cli(Cmd):
         pwd  = arg[1]
         ou = LoginOneAccountV5(nickname, pwd)
         if ou['error'] == 0:
-            print "登陆成功，昵称：" +nickname + " 密码：" +pwd + ' cookie:' + ou['data']['cookie']
-            print "账号有效：" + format(ou['data']['validate'],"")
+            if platform.system() == 'Darwin':
+                print "登陆成功，昵称：" +nickname + " 密码：" +pwd + ' cookie:' + ou['data']['cookie']
+                #print "账号有效：" + format(ou['data']['validate'],"")
+            else:
+                print "登陆成功，昵称：" +nickname.decode('gbk') + " 密码：" +pwd.decode('gbk') + ' cookie:' + ou['data']['cookie'].decode('gbk')
+                #print "Effective：" + format(ou['data']['validate'],"")
         else:
-            print '登陆失败：%s' % (ou['msg'])
+            print 'Fail：%s' % (ou['msg'])
             return
     def help_v5loginoneacc(self):
         print('使用浏览器，模拟登陆，获取用户名,输入参数： nickname  password')

@@ -8,6 +8,7 @@
 import sys
 import time
 import random
+import platform
 from io import BytesIO
 from PIL import Image
 from selenium import webdriver
@@ -24,13 +25,21 @@ global logger
 class DouyuLogin():
     def __init__(self,nickname,pwd):
         self.url = 'https://passport.douyu.com/member/login?state=https%3A%2F%2Fwww.douyu.com%2Fmember%2Fcp'
-        self.browser = webdriver.Chrome('/Applications/chromedriver')
-        self.browser.set_window_size(1200, 733)
+        if platform.system() == 'Darwin':
+            self.browser = webdriver.Chrome('/Applications/chromedriver')
+            self.browser.set_window_size(1200, 733)
+        else:
+            chrome_options = webdriver.ChromeOptions()
+            chrome_options.add_argument('--log-level=3')
+            self.browser = webdriver.Chrome(executable_path=r'.\chromedriver.exe',chrome_options=chrome_options)
+            self.browser.set_window_size(1280, 733)
         self.wait = WebDriverWait(self.browser, 60)
         self.nickname = nickname
         self.pwd   = pwd
         self.phone = ''
         self.pngname = 'captcha1.png'
+        self.pnglenMax = 1300
+        self.pnglen    = 0
 
     def __del__(self):
         self.browser.close()
@@ -60,7 +69,10 @@ class DouyuLogin():
 
     def inputnickname(self):
         nickname = self.wait.until(EC.presence_of_element_located((By.XPATH, "//input[@name='username' and @placeholder='输入昵称']")))
-        nickname.send_keys(self.nickname.decode())
+        if platform.system() == 'Darwin':
+            nickname.send_keys(self.nickname.decode())
+        else:
+            nickname.send_keys(self.nickname.decode('gbk'))
         logger.debug('已输入昵称')
 
     def get_submit(self):
@@ -168,7 +180,14 @@ class DouyuLogin():
         top, bottom, left, right = self.get_position()
         logger.info("top:%d,bottom:%d,left:%d,right:%d", top, bottom, left, right)
         screenshot = self.get_screenshot()
-        captcha = screenshot.crop((left*2, top*2, right*2, bottom*2))
+        imgSize = screenshot.size
+        logger.info('图片分辨率' + str(imgSize))
+        self.pnglen = max(imgSize)
+        # 针对mac显示器
+        if self.pnglen > self.pnglenMax:
+            captcha = screenshot.crop((int(left*2), int(top*2), int(right*2), int(bottom*2)))
+        else:
+            captcha = screenshot.crop((int(left), int(top), int(right), int(bottom)))
         captcha.save(name)
         return captcha
 
@@ -238,8 +257,13 @@ class DouyuLogin():
         location = list()
         for array in arrays:
             xy = array.split(',')
-            x  = int(xy[0])/2
-            y  = int(xy[1])/2
+            #针对mac显示器
+            if self.pnglen > self.pnglenMax:
+                x  = int(xy[0])/2
+                y  = int(xy[1])/2
+            else: #针对非mac显示器，显示器分辨率是1920 x 1080
+                x  = int(xy[0])
+                y  = int(xy[1])
             t  = dict(x=x, y=y)
             location.append(t)
         logger.debug(location)
