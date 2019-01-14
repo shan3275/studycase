@@ -298,6 +298,12 @@ class DouyuRegister():
             y1 = location[index]['y']
             t1 = dict(x=x1,y=y1,click=True)
             location_new.append(t1)
+
+        for i in range(10):
+            x1 = random.randint(1, x * 2)
+            y1 = random.randint(1, y * 2)
+            t1 = dict(x=x1, y=y1, click=False)
+            location_new.append(t1)
         logger.info(location_new)
 
         for index in range(len(location_new)):

@@ -14,6 +14,8 @@ from urllib import unquote
 from cmd import Cmd
 import time
 import threading
+import base64
+import json
 import inits
 import douyu as douyu
 import jiema as jiema
@@ -25,27 +27,12 @@ import douyuRegister as douyuRegister
 import douyuLogin    as douyuLogin
 import jsyzm         as jsyzm
 import jsdati        as jsdati
+import dyconsole     as dyconsole
 import geetest_login as geetest_login
 
 global CONF
 global logger
-Version = "V0.1.39.ea37fd5-2019-1-8"
-
-class tt(threading.Thread):
-    def __init__(self):
-        threading.Thread.__init__(self)
-    def run(self):
-        while True:
-            time.sleep(10)
-            conf = inits.read_yaml()
-            gl.set_conf(conf)
-            CONF = gl.get_conf()
-            if CONF['status']=='P':
-                logger.info('暂停')
-            elif CONF['status'] == 'R':
-                logger.info('恢复执行')
-            elif CONF['status'] == 'Q':
-                logger.info('退出')
+Version = "V0.1.39.ea37fd5-2019-1-14"
 
 def ModemReboot():
     """
@@ -479,7 +466,7 @@ def LoginAccountV5(rebootNum, accountFile):
             line = line.replace('\xef\xbb\xbf', '')  # 用replace替换掉'\xef\xbb\xbf'
         line = line.strip('\r\n')
         str = line.split('\t')
-        t = dict(nickname=str[0],pwd=str[1])
+        t = dict(nickname=str[0], pwd=str[1])
         account.append(t)
     f.close()
     logger.info(account)
@@ -585,11 +572,12 @@ def RegisterAccount(num):
     :return:
     """
     success = 0
+    send    = 0
     fail    = 0
     reset   = True
     while success < num:
         if CONF['status'] == 'R':
-            result_str = 'Needs: ' +str(num) + ' Success: ' + str(success) + ' Fail: ' + str(fail)
+            result_str = 'Needs: ' +str(num) + ' Success: ' + str(success) + ' Send: ' + str(send)+ ' Fail: ' + str(fail)
             sys.stdout.write("\r{0}".format(result_str))
             sys.stdout.flush()
             ou = RegisterOneAccountV5(reset)
@@ -600,6 +588,11 @@ def RegisterAccount(num):
             #成功
             #acc_str =  ou['data']['nickname']  + "|" + ou['data']['pwd']+ "|" + format(ou['data']['validate'],"d")+"|"+ou['data']['cookie']
             acc_str =  ou['data']['nickname']  + "|" + ou['data']['pwd'] + "|"+ou['data']['cookie']
+            if dyconsole.DYConApi().insertOne(acc_str) == True:
+                acc_str = acc_str + '|' + '1'
+                send = send + 1
+            else:
+                acc_str = acc_str + '|' + '0'
             SaveAccountToFile(acc_str, CONF['acc'])
             #自加一
             success = success +1
@@ -610,10 +603,127 @@ def RegisterAccount(num):
         elif CONF['status'] == 'Q':
             return
     else:
-        result_str = 'Needs: ' + str(num) + ' Success: ' + str(success) + ' Fail: ' + str(fail)
+        result_str = 'Needs: ' + str(num) + ' Success: ' + str(success) + ' Send: ' + str(send) + ' Fail: ' + str(fail)
         sys.stdout.write("\r{0}".format(result_str))
         sys.stdout.flush()
         print('\n')
+
+def UpdateOneAccount(day):
+    """
+    更新账号的cookies，自动上报到服务器。
+    :param day:
+    输出参数：ou：字典，包含账号信息
+                ou['data']['nickname'] : 用户名
+                ou['data']['pwd']      : 密码
+                ou['data']['phone']    : 绑定的手机号码
+                ou['msg']      : 信息
+                ou['error']             : 0 ok
+                                        : 1 手机号码无效
+                                        : 2 获取gt和challenge失败
+                                        : 3 极验获取challenge和validate失败
+                                        : 4 验证码发送失败
+                                        : 5 获取手机号码失败
+                                        : 6 获取验证码失败
+                                        : 7 注册提交失败
+                                        : 8 点击验证码失败
+                                        : 9 验证码打码失败
+                                        :10 根据日期获取账号表项失败
+                                        :11 没有需求更新的内容
+                                        :12 cookie更新到后台失败，保存账号到文件中
+                                        :13 账号登陆失败后，更新后台update_fail字段成功
+
+    """
+    #第一步，从后台取出一条
+    ou = dict(error=0, data=dict(), msg='ok')
+    ck = dyconsole.DYConApi().queryOneByDate(day)
+    if ck == None:
+        ou['error'] = 10
+        ou['msg']   = '根据日期获取账号表项失败'
+        logger.error('根据日期获取账号表项失败')
+        return ou
+    logger.debug(ck)
+    str = ck.split('|')
+    logger.debug(str)
+    num = int(str[0])
+    if num == 0:
+        logger.error('没有需要更新的内容')
+        ou['msg'] = '没有需要更新的内容'
+        ou['error'] = 11
+        return ou
+    #获取账号和密码
+    nickname = str[1]
+    pwd      = str[2]
+
+    #第二步，登陆获取新的cookie
+    ac = LoginOneAccountV5(nickname,pwd)
+    if ac['error'] != 0:
+        #获取cookie失败，然后更新状态到后台
+        data = nickname + '|' + 'update_fail'
+        logger.debug(data)
+        if dyconsole.DYConApi().updateOne(data) == True:
+            ou['error'] = 13
+            ou['msg']   = '账号登陆失败后,更新后台update_fail字段成功'
+            logger.debug('账号登陆失败后,更新后台update_fail字段成功')
+            return ou
+        else:
+            #失败状态如果更新失败，就把账号保存到文件中
+            acc_str = nickname + '|' +pwd + '|' + 'update_Fail'
+            SaveAccountToFile(acc_str, CONF['up'])
+            logger.error('更新失败字段失败，保存账号到文件中')
+        ou['error'] = ac['error']
+        ou['msg']   = ac['msg'] + '更新失败字段失败，保存账号到文件中'
+        return ou
+    cookie = ac['data']['cookie']
+
+    #第三步，更新一条到后台
+    data = nickname + '|' + pwd+ '|' + cookie
+    if dyconsole.DYConApi().updateOne(data) == True:
+        ou['msg']   = '更新账号成功'
+        ou['error'] = 0
+        logger.debug('更新账号成功')
+        return ou
+    #更新到后台失败，就保存到文件中,需要关注
+    SaveAccountToFile(data, CONF['up'])
+    logger.debug('cookie更新到后台失败，保存账号到文件中')
+    ou['msg'] = 'cookie更新到后台失败，保存账号到文件中'
+    ou['error'] = 12
+    return ou
+
+def UpdateAccount(day):
+    """
+    更新指定某天的账号
+    :param day:
+    :return:
+    """
+    index = 0
+    success = 0
+    fail    = 0
+    rebootNum = int(CONF['rebootNum'])
+    while True:
+        result_str = ' Success: ' + str(success) + ' Fail: ' + str(fail)
+        sys.stdout.write("\r{0}".format(result_str))
+        sys.stdout.flush()
+        #重启modem
+        if index % rebootNum == 0:
+            ModemReboot()
+        ou = UpdateOneAccount(day)
+        error = ou['error']
+        if error == 0:
+            logger.debug('更新一条成功')
+            success = success + 1
+            continue
+        elif error ==11:
+            logger.debug('没有可以更新的了')
+            break
+        else:
+            logger.error('UpdateAccount：'+ json.dumps(ou))
+            fail = fail + 1
+            time.sleep(5)
+        index = index + 1
+
+    result_str = ' Success: ' + str(success) + ' Fail: ' + str(fail)
+    sys.stdout.write("\r{0}".format(result_str))
+    sys.stdout.flush()
 
 class Cli(Cmd):
     u"""help
@@ -626,12 +736,17 @@ class Cli(Cmd):
         Cmd.__init__(self)
 
     def preloop(self):
-        print "欢迎进入斗鱼注册程序命令行"
+        if platform.system() == 'Darwin':
+            print "欢迎进入斗鱼注册程序命令行"
+        else:
+            print "Welcom into Douyu Register Program Cmd"
 
     def postloop(self):
         print 'Bye!'
-        print "退出程序"
-
+        if platform.system() == 'Darwin':
+            print "退出程序"
+        else:
+            print  'Exit Program'
     def do_exit(self, arg):
         return True  # 返回True，直接输入exit命令将会退出
     def help_exit(self):
@@ -943,8 +1058,11 @@ class Cli(Cmd):
             print '请输入参数：nickname pwd'
             return
         arg = line.split()
-        nickname = arg[0]
-        pwd  = arg[1]
+        if platform.system() == 'Darwin':
+            nickname = arg[0]
+        else:
+            nickname = arg[0].decode('gbk').encode()
+        pwd = arg[1]
         ou = LoginOneAccountV5(nickname, pwd)
         if ou['error'] == 0:
             if platform.system() == 'Darwin':
@@ -964,6 +1082,7 @@ class Cli(Cmd):
             print '请输入参数：rebootNum filePath'
             return
         arg = line.split()
+
         rebootNum = int(arg[0])
         filePath  = arg[1]
         LoginAccountV5(rebootNum, filePath)
@@ -1001,12 +1120,88 @@ class Cli(Cmd):
         location = crack.verifyPic('word')
         print(location)
 
+    def do_dyinsert(self,line):
+        """
+        测试发送cookie到后台
+        :param line:
+        :return:
+        """
+        str= '用户12345678|pwd123|cookie=123'
+        if dyconsole.DYConApi().insertOne(str) == True:
+            print('测试成功')
+        else:
+            print('测试失败')
+    def help_dyinsert(self):
+        print('Test send cookie account to console')
+
+    def do_dyqueryOneByDate(self,line):
+        """
+        测试接收cookie从后台
+        :param line:
+        :return:
+        """
+        ck = dyconsole.DYConApi().queryOneByDate(line)
+        logger.debug(ck)
+        if ck == None:
+            print('None')
+            return
+
+        str = ck.split('|')
+        logger.debug(str)
+        if len(str) > 2:
+            print 'num     : ' + str[0]
+            print 'nickmake: ' + str[1]
+            print 'password: ' + str[2]
+            print 'cookie  : ' + str[3]
+        else:
+            print 'num     : ' + str[0]
+            print 'nickmake: ' + str[1]
+
+    def help_dyqueryOneByDate(self):
+        print('Test rcv cookie account from console by date')
+
+    def do_dyqueryOneByNickname(self, line):
+        nick = line
+        ck   = dyconsole.DYConApi().queryOneByNickname(nick)
+        if ck == None:
+            print('None')
+        else:
+            print(ck)
+    def help_dyqueryOneByNickname(self):
+        print('Test rcv cookie account from console by nickname')
+
+    def do_dyupdateOne(self,line):
+        str= '用户12345678|pwd124|cookie=123'
+        if dyconsole.DYConApi().updateOne(str) == True:
+            print('测试成功')
+        else:
+            print('测试失败')
+    def help_dyupdateOne(self):
+        print('Test update cookie to console')
+
+    def do_updateacc(self,line):
+        if line == '':
+            print '请输入日期参数,例如：2019-1-8'
+            return
+        day = line
+        ou = UpdateAccount(day)
+    def help_updateacc(self):
+        print('Update Accounts cookies')
+
+    def do_updateoneacc(self,line):
+        if line == '':
+            print '请输入日期参数,例如：2019-1-8'
+            return
+        day = line
+        ou = UpdateOneAccount(day)
+        print(ou)
+    def help_updateoneacc(self):
+        print('Update Accounts cookies')
+
 if __name__ == "__main__":
     reload(sys)
     sys.setdefaultencoding('utf8')
     logger = gl.get_logger()
     CONF   = gl.get_conf()
-    #my_t = tt()
-    #my_t.start()
     cli = Cli()
     cli.cmdloop()

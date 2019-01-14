@@ -72,7 +72,8 @@ class DouyuLogin():
         if platform.system() == 'Darwin':
             nickname.send_keys(self.nickname.decode())
         else:
-            nickname.send_keys(self.nickname.decode('gbk'))
+            #nickname.send_keys(self.nickname.decode('gbk'))
+            nickname.send_keys(self.nickname.decode())
         logger.debug('已输入昵称')
 
     def get_submit(self):
@@ -296,6 +297,13 @@ class DouyuLogin():
             x1 = location[index]['x']
             y1 = location[index]['y']
             t1 = dict(x=x1,y=y1,click=True)
+            location_new.append(t1)
+        logger.info(location_new)
+
+        for i in range(10):
+            x1 = random.randint(1, x * 2)
+            y1 = random.randint(1, y * 2)
+            t1 = dict(x=x1, y=y1, click=False)
             location_new.append(t1)
         logger.info(location_new)
 
