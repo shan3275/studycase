@@ -22,7 +22,8 @@ class JSJM():
             logger.error('极速接码平台未配置用户名和密码')
         self.phone = ''
         self.token = ''
-        self.xmid  = '3557'
+        self.xmid  = '3557'  #斗鱼
+        #self.xmid  = '392'  #京东
         if self.login() != True:
             logger.error('极速接码平台登陆获取Token失败')
 

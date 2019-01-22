@@ -408,7 +408,9 @@ def RecvCodeGetPhone():
     #if location == False:
     #    logger.error('获取本机位置失败')
     #    return False
-    phone = JieMaGetPhone(user, token, '3737', location)
+    pid = '3737' #斗鱼
+    #pid = '1867' #京东
+    phone = JieMaGetPhone(user, token, pid, location)
     if phone == False:
         logger.error('获取手机号码失败')
         return False

@@ -29,10 +29,11 @@ import jsyzm         as jsyzm
 import jsdati        as jsdati
 import dyconsole     as dyconsole
 import geetest_login as geetest_login
+import cookieLogin   as cookieLogin
 
 global CONF
 global logger
-Version = "V0.1.39.ea37fd5-2019-1-14"
+Version = "V0.1.39.ea37fd5-2019-1-16"
 
 def ModemReboot():
     """
@@ -368,8 +369,8 @@ def RegisterOneAccountV5(reset=True):
     ou['data']['cookie']   = cookie
 
     ##第八步 获取站内信
-    #validate = crack.get_umes()
-    #ou['data']['validate'] = validate
+    validate = crack.get_umes()
+    ou['data']['validate'] = validate
     logger.debug("注册成功")
     #logger.debug('nickname:%s,phone:%s, pwd:%s, validate:%s, cooike:%s', nickname, phone, pwd, format(validate,""), cookie)
     logger.debug('nickname:%s,phone:%s, pwd:%s, cooike:%s', nickname, phone, pwd, cookie)
@@ -565,7 +566,7 @@ def SaveAccountToFile(line,file):
     f.close()
     logger.debug('账号写入文件：%s',line)
 
-def RegisterAccount(num):
+def RegisterAccount(num=2000):
     """
     功能：注册多个账号，并记录日志文件
     :param num:
@@ -608,7 +609,7 @@ def RegisterAccount(num):
         sys.stdout.flush()
         print('\n')
 
-def UpdateOneAccount(day):
+def UpdateOneAccount(day='1970-1-1'):
     """
     更新账号的cookies，自动上报到服务器。
     :param day:
@@ -635,7 +636,12 @@ def UpdateOneAccount(day):
     """
     #第一步，从后台取出一条
     ou = dict(error=0, data=dict(), msg='ok')
-    ck = dyconsole.DYConApi().queryOneByDate(day)
+    #按照日期获取一条
+    if day != '1970-1-1':
+        ck = dyconsole.DYConApi().queryOneByDate(day)
+    else:
+        #七天之前，过期的获取一条
+        ck = dyconsole.DYConApi().queryOneOutDate()
     if ck == None:
         ou['error'] = 10
         ou['msg']   = '根据日期获取账号表项失败'
@@ -689,7 +695,7 @@ def UpdateOneAccount(day):
     ou['error'] = 12
     return ou
 
-def UpdateAccount(day):
+def UpdateAccount(day='1970-1-1'):
     """
     更新指定某天的账号
     :param day:
@@ -725,6 +731,102 @@ def UpdateAccount(day):
     sys.stdout.write("\r{0}".format(result_str))
     sys.stdout.flush()
 
+def CookieLogin():
+    """
+    从后台获取一条cookie，然后使用cookie登陆，发送弹幕
+    返回参数：ou：字典，包含账号信息
+                ou['data']['nickname'] : 用户名
+                ou['data']['pwd']      : 密码
+                ou['data']['phone']    : 绑定的手机号码
+                ou['msg']      : 信息
+                ou['error']             : 0 ok
+                                        : 1 手机号码无效
+                                        : 2 获取gt和challenge失败
+                                        : 3 极验获取challenge和validate失败
+                                        : 4 验证码发送失败
+                                        : 5 获取手机号码失败
+                                        : 6 获取验证码失败
+                                        : 7 注册提交失败
+                                        : 8 点击验证码失败
+                                        : 9 验证码打码失败
+                                        :10 根据日期获取账号表项失败
+                                        :11 没有需求更新的内容
+                                        :12 cookie更新到后台失败，保存账号到文件中
+                                        :13 账号登陆失败后，更新后台update_fail字段成功
+                                        :14 获取一条表项失败
+    """
+    # 第一步，从后台取出一条
+    ou = dict(error=0, data=dict(), msg='ok')
+    ck = dyconsole.DYConApi().queryOne()
+    if ck == None:
+        ou['error'] = 14
+        ou['msg'] = '获取一条表项失败'
+        logger.error('获取一条表项失败')
+        return ou
+    logger.debug(ck)
+    str = ck.split('|')
+    logger.debug(str)
+    num = int(str[0])
+    if num == 0:
+        logger.error('没有cookie可以获取到')
+        ou['msg'] =  '没有cookie可以获取到'
+        ou['error'] = 11
+        return ou
+    # 获取账号和密码，及cookie
+    #nickname = str[1]
+    #pwd = str[2]
+    cookie_str = str[3]
+
+    #登陆
+    cl = cookieLogin.CookieLogin(cookie_str).login()
+    if cl == True:
+        ou['error'] = 0
+        ou['msg']   = 'cookie登陆成功'
+
+
+def CookieLoginByName(nickname):
+    """
+    从后台获取一条cookie，然后使用cookie登陆，发送弹幕
+    返回参数：ou：字典，包含账号信息
+                ou['data']['nickname'] : 用户名
+                ou['data']['pwd']      : 密码
+                ou['data']['phone']    : 绑定的手机号码
+                ou['msg']      : 信息
+                ou['error']             : 0 ok
+                                        : 1 手机号码无效
+                                        : 2 获取gt和challenge失败
+                                        : 3 极验获取challenge和validate失败
+                                        : 4 验证码发送失败
+                                        : 5 获取手机号码失败
+                                        : 6 获取验证码失败
+                                        : 7 注册提交失败
+                                        : 8 点击验证码失败
+                                        : 9 验证码打码失败
+                                        :10 根据日期获取账号表项失败
+                                        :11 没有需求更新的内容
+                                        :12 cookie更新到后台失败，保存账号到文件中
+                                        :13 账号登陆失败后，更新后台update_fail字段成功
+                                        :14 获取一条表项失败
+    """
+    # 第一步，从后台取出一条
+    ou = dict(error=0, data=dict(), msg='ok')
+    ck = dyconsole.DYConApi().queryOneByNickname(nickname)
+    if ck == None:
+        ou['error'] = 14
+        ou['msg'] = '获取一条表项失败'
+        logger.error('获取一条表项失败')
+        return ou
+    logger.debug(ck)
+    # 获取账号和密码，及cookie
+    cookie_str = ck['cookie'].encode('utf-8')
+
+    #登陆
+    cl = cookieLogin.CookieLogin(cookie_str).login()
+    if cl == True:
+        ou['error'] = 0
+        ou['msg']   = 'cookie登陆成功'
+
+
 class Cli(Cmd):
     u"""help
     这是doc
@@ -740,6 +842,14 @@ class Cli(Cmd):
             print "欢迎进入斗鱼注册程序命令行"
         else:
             print "Welcom into Douyu Register Program Cmd"
+        if CONF.has_key('accupdate') == True:
+            if CONF['accupdate'] == True:
+                logger.info('更新账号自动开始')
+                UpdateAccount()
+        if CONF.has_key('accreg') == True:
+            if CONF['accreg'] == True:
+                logger.info('注册账号自动开始')
+                RegisterAccount()
 
     def postloop(self):
         print 'Bye!'
@@ -1091,10 +1201,10 @@ class Cli(Cmd):
 
     def do_v5regacc(self,line):
         if line == '':
-            print '请输入参数：num'
-            return
-        num = int(line)
-        RegisterAccount(num)
+            RegisterAccount()
+        else:
+            num = int(line)
+            RegisterAccount(num)
     def help_v5regacc(self):
         print('批量注册账号，并保存文件，需要输入注册数量，参数：num')
 
@@ -1181,22 +1291,33 @@ class Cli(Cmd):
 
     def do_updateacc(self,line):
         if line == '':
-            print '请输入日期参数,例如：2019-1-8'
-            return
-        day = line
-        ou = UpdateAccount(day)
+            UpdateAccount()
+        else:
+            day = line
+            UpdateAccount(day)
+
     def help_updateacc(self):
-        print('Update Accounts cookies')
+        print('Update Accounts cookies,若需指定日期，请输入日期参数，例如：2019-1-8')
 
     def do_updateoneacc(self,line):
         if line == '':
-            print '请输入日期参数,例如：2019-1-8'
-            return
-        day = line
-        ou = UpdateOneAccount(day)
+            ou = UpdateOneAccount()
+        else:
+            day = line
+            ou = UpdateOneAccount(day)
         print(ou)
     def help_updateoneacc(self):
-        print('Update Accounts cookies')
+        print('Update one Accounts cookies,若需指定日期，请输入日期参数，例如：2019-1-8')
+
+    def do_cklogin(self,line):
+        CookieLogin()
+    def help_cklogin(self):
+        print('Cookie 登陆，发送弹幕')
+
+    def do_ckloginbyname(self,line):
+        CookieLoginByName(line)
+    def help_ckloginbyname(self):
+        print('Cookie 登陆，发送弹幕')
 
 if __name__ == "__main__":
     reload(sys)

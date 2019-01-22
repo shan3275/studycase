@@ -113,13 +113,14 @@ def cookie_append(records):
         t['ftc']      = ''
         t['loc']      = ''
         t['cnt']      = 0
-        logger.debug('cts: %s', t['cts'])
+        #logger.debug('cts: %s', t['cts'])
         g_records.append(t)
         g_stat['take_out_cks'] += 1
 
 def TakeOutCksFromDB(cks_num):
     #先取出DB中表项数目
-    count = libdb.LibDB().query_count(CONF['database']['table'])
+    condition = 'lastdate>%d' %(int(time.time()-3600*24*6))
+    count = libdb.LibDB().query_count_by_condition(condition, CONF['database']['table'])
     if count != False:
         total = count[0]
     else:
@@ -132,7 +133,7 @@ def TakeOutCksFromDB(cks_num):
         take_num = total
 
     logger.debug('准备从数据库取出cookies数量：%d', take_num)
-    records = libdb.LibDB().query_num(take_num,CONF['database']['table'])
+    records = libdb.LibDB().query_num_by_condition(take_num,condition, CONF['database']['table'])
     return records
 
 def cookie_del_by_date(dstr):
@@ -291,7 +292,7 @@ def fetch_record(ip):
 def get_record(ip):
     global g_records;
     for record in g_records:
-        logger.debug("record['ip']:%s, ip:%s", record['ip'], ip)
+        #logger.debug("record['ip']:%s, ip:%s", record['ip'], ip)
         if record['ip'] == ip:
             return record
 
@@ -317,7 +318,7 @@ def cookie():
         g_stat['asigned'] += 1
 
     rep = {'ip':ip, 'cookie': cookie}
-
+    #logger.debug(rep)
     return jsonify(rep)
 
 

@@ -17,6 +17,7 @@ import random
 import chardet
 
 from werkzeug.utils import secure_filename
+from werkzeug.contrib.fixers import ProxyFix
 import inits
 import globalvar as gl
 from strapi   import  strapi_bp
@@ -44,5 +45,5 @@ if __name__ == '__main__':
     CUR_PORT = CONF['port']
     if len(sys.argv) > 1:
         CUR_PORT = sys.argv[1]
-
-    app.run(debug=True,host='0.0.0.0', port=CUR_PORT)
+    #app.wsgi_app = ProxyFix(app.wsgi_app)
+    app.run(debug=False,host='0.0.0.0', port=CUR_PORT)

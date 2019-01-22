@@ -180,6 +180,52 @@ def http_do_action(action):
         data_encryed  = base64.b64encode(data_str)
         ou['msg'] = '获取成功'
         ou['data']['acc'] = data_encryed
+    elif action == 'queryOneOutDate':
+        #测试命令：curl -d "action=queryOneOutDate" -X POST http://localhost:8889/strapi/http.do
+        timestamp = int(time.time()-3600*24*6)
+        conditon = 'lastdate <= %d and update_fail <= 5' %(timestamp)
+        sql = libdb.LibDB().query_one_by_condition(conditon,CONF['database']['table'])
+        if sql == False:
+            ou['error'] = 4
+            ou['msg']   = '读账号信息从数据库失败'
+            return ou
+        count = libdb.LibDB().query_count_by_condition(conditon, CONF['database']['table'])
+        if count == False:
+            ou['error'] = 4
+            ou['msg']   = '读账号数量从数据库失败'
+            return ou
+        total = count[0]
+        if total == 0:
+            data_str = '%d|none' % (total)
+        else:
+            data_str = '%d|%s|%s|%s' %(total, sql[2], sql[3], sql[9])
+        logger.debug('账号信息：%s',data_str)
+        data_encryed  = base64.b64encode(data_str)
+        ou['msg'] = '获取成功'
+        ou['data']['acc'] = data_encryed
+    elif action == 'queryOne':
+        #测试命令：curl -d "action=queryOneOutDate" -X POST http://localhost:8889/strapi/http.do
+        timestamp = int(time.time()-3600*24*6)
+        conditon = 'lastdate >= %d and update_fail <= 5' %(timestamp)
+        sql = libdb.LibDB().query_one_by_condition(conditon,CONF['database']['table'])
+        if sql == False:
+            ou['error'] = 4
+            ou['msg']   = '读账号信息从数据库失败'
+            return ou
+        count = libdb.LibDB().query_count_by_condition(conditon, CONF['database']['table'])
+        if count == False:
+            ou['error'] = 4
+            ou['msg']   = '读账号数量从数据库失败'
+            return ou
+        total = count[0]
+        if total == 0:
+            data_str = '%d|none' % (total)
+        else:
+            data_str = '%d|%s|%s|%s' %(total, sql[2], sql[3], sql[9])
+        logger.debug('账号信息：%s',data_str)
+        data_encryed  = base64.b64encode(data_str)
+        ou['msg'] = '获取成功'
+        ou['data']['acc'] = data_encryed
     elif action == 'insertOne':
         #测试命令：curl -d "action=insertOne&entry=xxxx" -X POST http://localhost:8889/strapi/http.do
         entry = request.form.get('entry')

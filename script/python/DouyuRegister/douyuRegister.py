@@ -21,8 +21,10 @@ global logger
 """
 class DouyuRegister():
     def __init__(self,phone,pwd):
-        self.url = 'https://passport.douyu.com/member/regNew?client_id=1&lang=cn'
+        #self.url = 'https://passport.douyu.com/member/regNew?client_id=1&lang=cn'
+        self.url = 'https://passport.douyu.com/member/regNew?client_id=1&lang=cn&state=https%3A%2F%2Fwww.douyu.com%2Fmember%2Fcp'
         if platform.system() == 'Darwin':
+            #self.browser = webdriver.Firefox()
             self.browser = webdriver.Chrome('/Applications/chromedriver')
             self.browser.set_window_size(1200, 733)
         else:
@@ -30,6 +32,7 @@ class DouyuRegister():
             chrome_options.add_argument('--log-level=3')
             self.browser = webdriver.Chrome(executable_path=r'.\chromedriver.exe',chrome_options=chrome_options)
             self.browser.set_window_size(1280, 733)
+        self.browser.delete_all_cookies()
         self.wait = WebDriverWait(self.browser, 90)
         self.phone = phone
         self.pwd   = pwd
@@ -373,7 +376,8 @@ class DouyuRegister():
         time.sleep(3)
         self.switch_window(self.browser, self.browser.current_window_handle)
         try:
-            hadsend = self.browser.find_element(By.CLASS_NAME, "l-txt")
+            #hadsend = self.browser.find_element(By.CLASS_NAME, "l-txt")
+            hadsend = self.browser.find_element(By.XPATH, "//span[@class='user_top js_nickname']")
             logger.debug('元素已找到，登陆成功')
             return True
         except:
@@ -385,7 +389,8 @@ class DouyuRegister():
         获取登陆之后的用户名
         :return: 用户名
         """
-        nickname = self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, "l-txt")))
+        #nickname = self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, "l-txt")))
+        nickname = self.wait.until(EC.presence_of_element_located((By.XPATH, "//span[@class='user_top js_nickname']")))
         username =  nickname.text
         logger.debug("username: " + username)
         logger.debug(type(username))

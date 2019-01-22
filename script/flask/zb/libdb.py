@@ -66,6 +66,19 @@ class LibDB():
 
         return sql_rows
 
+    def query_num_by_condition(self, num,condition, db_table):
+        sql = "select * from %s  where %s limit %d" % (db_table, condition, num)
+        logger.info("%s",sql)
+        try:
+            self.curg.execute(sql)
+            sql_rows = self.curg.fetchall()
+        except:
+            logger.exception('Insert operation error')
+            return False
+        logger.debug(sql_rows)
+
+        return sql_rows
+
     def query_all(self, key, value, db_table):
         sql = "select * from %s where %s='%s'" % (db_table, key, value)
         logger.info("%s",sql)

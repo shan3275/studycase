@@ -17,7 +17,9 @@ cookies = {'acf_did':'5e33581fbb6a925255e20e8c00041501', 'acf_uid':'126078070', 
 def login():
     '''先定义一个正常登录的方法，获取登录前和登录后的cookie'''
 
-    driver = webdriver.Chrome('/Applications/chromedriver')
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_experimental_option("debuggerAddress", "localhost:9222")
+    driver = webdriver.Chrome('/Applications/chromedriver', chrome_options=chrome_options)
 
     driver.get(url)
     driver.maximize_window()
