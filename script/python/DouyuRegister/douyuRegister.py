@@ -14,6 +14,9 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.keys import Keys
+
 import globalvar as gl
 global logger
 """
@@ -24,8 +27,11 @@ class DouyuRegister():
         #self.url = 'https://passport.douyu.com/member/regNew?client_id=1&lang=cn'
         self.url = 'https://passport.douyu.com/member/regNew?client_id=1&lang=cn&state=https%3A%2F%2Fwww.douyu.com%2Fmember%2Fcp'
         if platform.system() == 'Darwin':
+            chrome_options = webdriver.ChromeOptions()
+            chrome_options.add_experimental_option('excludeSwitches', ['enable-automation'])
             #self.browser = webdriver.Firefox()
-            self.browser = webdriver.Chrome('/Applications/chromedriver')
+            self.browser = webdriver.Chrome(executable_path='/Applications/chromedriver',chrome_options=chrome_options)
+            #self.browser = webdriver.Chrome("/STR/chromedriver/chromedriver")
             self.browser.set_window_size(1200, 733)
         else:
             chrome_options = webdriver.ChromeOptions()
@@ -285,8 +291,8 @@ class DouyuRegister():
 
         #定位鼠标
         top, bottom, left, right = self.get_position_by_name('geetest_panel_next')
-        x = (right - left ) / 2
-        y = (bottom - top ) / 2
+        x = int((right - left  ) / 2)
+        y = int((bottom  - top ) / 2)
         logger.info("偏移位置：x:%d,y:%d", x, y)
 
         #产生新的坐标

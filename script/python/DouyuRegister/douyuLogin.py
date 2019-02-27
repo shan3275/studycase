@@ -26,7 +26,10 @@ class DouyuLogin():
     def __init__(self,nickname,pwd):
         self.url = 'https://passport.douyu.com/member/login?state=https%3A%2F%2Fwww.douyu.com%2Fmember%2Fcp'
         if platform.system() == 'Darwin':
-            self.browser = webdriver.Chrome('/Applications/chromedriver')
+            chrome_options = webdriver.ChromeOptions()
+            chrome_options.add_experimental_option('excludeSwitches', ['enable-automation'])
+            self.browser = webdriver.Chrome('/Applications/chromedriver',chrome_options=chrome_options)
+            #self.browser = webdriver.Chrome("/STR/chromedriver/chromedriver")
             self.browser.set_window_size(1200, 733)
         else:
             chrome_options = webdriver.ChromeOptions()
@@ -52,6 +55,7 @@ class DouyuLogin():
         self.browser.get(self.url)
         logger.debug('已经打开页面:%s', self.url)
         login = self.wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='scanicon-toLogin js-qrcode-switch']")))
+        #login = self.browser.find_element_by_xpath("//div[@class='scanicon-toLogin js-qrcode-switch']")
         login.click()
 
         nicklogin = self.wait.until(EC.element_to_be_clickable((By.XPATH, "//span[@data-i18n='Login.Subtype.nickname' and @data-subtype='login-by-nickname']")))
@@ -282,8 +286,8 @@ class DouyuLogin():
 
         #定位鼠标
         top, bottom, left, right = self.get_position_by_name('geetest_panel_next')
-        x = (right - left  ) / 2
-        y = (bottom  - top ) / 2
+        x = int((right - left  ) / 2)
+        y = int((bottom  - top ) / 2)
         logger.info("偏移位置：x:%f,y:%f", x, y)
 
         #产生新的坐标

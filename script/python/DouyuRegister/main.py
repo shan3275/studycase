@@ -23,8 +23,8 @@ import jiyan as jiyan
 import globalvar as gl
 import airtel    as airtel
 import e8372h as e8372h
-import douyuRegister as douyuRegister
-import douyuLogin    as douyuLogin
+import douyuRegister  as douyuRegister
+import douyuLogin     as douyuLogin
 import jsyzm         as jsyzm
 import jsdati        as jsdati
 import dyconsole     as dyconsole
@@ -589,11 +589,14 @@ def RegisterAccount(num=2000):
             #成功
             #acc_str =  ou['data']['nickname']  + "|" + ou['data']['pwd']+ "|" + format(ou['data']['validate'],"d")+"|"+ou['data']['cookie']
             acc_str =  ou['data']['nickname']  + "|" + ou['data']['pwd'] + "|"+ou['data']['cookie']
-            if dyconsole.DYConApi().insertOne(acc_str) == True:
-                acc_str = acc_str + '|' + '1'
-                send = send + 1
+            if CONF['upload'] == True:
+                if dyconsole.DYConApi().insertOne(acc_str) == True:
+                    acc_str = acc_str + '|' + '1'
+                    send = send + 1
+                else:
+                    acc_str = acc_str + '|' + '0'
             else:
-                acc_str = acc_str + '|' + '0'
+                logger.info('reg acc direct save to file')
             SaveAccountToFile(acc_str, CONF['acc'])
             #自加一
             success = success +1
@@ -826,6 +829,17 @@ def CookieLoginByName(nickname):
         ou['error'] = 0
         ou['msg']   = 'cookie登陆成功'
 
+def AutoDoSomething():
+    if CONF.has_key('accupdate') == True:
+        if CONF['accupdate'] == True:
+            logger.info('更新账号自动开始')
+            UpdateAccount()
+            sys.exit()
+    if CONF.has_key('accreg') == True:
+        if CONF['accreg'] == True:
+            logger.info('注册账号自动开始')
+            RegisterAccount()
+            sys.exit()
 
 class Cli(Cmd):
     u"""help
@@ -842,14 +856,6 @@ class Cli(Cmd):
             print "欢迎进入斗鱼注册程序命令行"
         else:
             print "Welcom into Douyu Register Program Cmd"
-        if CONF.has_key('accupdate') == True:
-            if CONF['accupdate'] == True:
-                logger.info('更新账号自动开始')
-                UpdateAccount()
-        if CONF.has_key('accreg') == True:
-            if CONF['accreg'] == True:
-                logger.info('注册账号自动开始')
-                RegisterAccount()
 
     def postloop(self):
         print 'Bye!'
@@ -1324,5 +1330,6 @@ if __name__ == "__main__":
     sys.setdefaultencoding('utf8')
     logger = gl.get_logger()
     CONF   = gl.get_conf()
+    AutoDoSomething()
     cli = Cli()
     cli.cmdloop()
